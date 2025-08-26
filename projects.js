@@ -89,6 +89,12 @@ window.PROJECTS["rl-balance"] = {
       `
     },
     {
+      heading: "Controller (Teensy 4.1 Version Only)",
+      content: `
+            <img src="src/sbr/remote.jpg" alt="LilyGO T-Display Controller" loading="lazy" decoding="async">
+      `
+    },
+    {
       heading: "Demo Video",
       videos: [
         "https://www.youtube.com/embed/ZISe_C3mYUs",
