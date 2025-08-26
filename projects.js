@@ -38,7 +38,8 @@ window.PROJECTS["rl-balance"] = {
           <li>AT8236 2-Channel Motor Driver</li>
           <li>Adafruit BNO085 9-DOF IMU</li>
           <li>Geekworm X1201 UPS Shield (for Raspberry Pi 5)</li>
-          <li>12V Li-ion rechargeable battery</li>
+          <li>11.1V Li-ion rechargeable battery</li>
+          <li>ESP-01S (Teensy 4.1 version only)</li>
         </ul>
       `
     },
