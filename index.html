@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kyaw Linn Khant — Portfolio</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header class="navwrap">
+    <div class="nav container">
+      <div class="brand">Kyaw Linn Khant Portfolio</div>
+      <button class="hamburger" aria-label="Menu">☰</button>
+      <nav class="links">
+        <a class="linkpill" href="#about">About</a>
+        <a class="linkpill" href="#skills">Skills</a>
+        <a class="linkpill" href="#projects">Projects</a>
+        <a class="linkpill" href="#education">Education</a>
+        <a class="linkpill" href="#co-curricular">Co-Curricular</a>
+        <a class="linkpill" href="#contact">Contact</a>
+        <a class="linkpill" href="#resume">Resume</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero container">
+    <img class="pfp" src="assets/profile.jpg" alt="Profile photo (replace assets/profile.jpg)">
+    <div class="intro">
+      <h1>Kyaw Linn Khant</h1>
+      <p>Robotics and AI Engineer</p>
+      <div class="cta">
+        <a class="btn neutral" href="#projects">View Projects</a>
+        <a class="btn ghost" href="#contact">Contact Me</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="container">
+    <h2>About Me</h2>
+    <div class="card">
+      <p>
+        Hi, I’m <strong>Kyaw Linn Khant</strong>, a robotics and AI enthusiast. I have successfully accomplished my 
+        <em>Bachelor of Engineering (Honours)</em> in Robotics and Artificial Intelligence 
+        at the <a href="https://www.herts.ac.uk/" target="_blank" style="color: white; font-weight: bold; text-decoration: underline;">
+          University of Hertfordshire
+        </a> <span style="color: white; font-weight: bold;"> [Aug 2025]</span>.
+      </p>
+      <p>
+        My fascination with robotics began when I was a kid playing with an Optimus Prime transformable figure. 
+        That early spark grew into a passion for designing and programming intelligent robots that can interact 
+        with the world in meaningful ways.
+      </p>
+      <p>
+        Over the years, I’ve expanded my interests into computer vision, reinforcement learning, and machine learning 
+        applications across robotics and AI. I enjoy exploring new ideas, building projects, and continuously improving my skills.
+      </p>
+      <p>
+        You can find more about me and my work here:  
+        <a href="https://github.com/KyawLinnKhant" target="_blank" class="profile-link">GitHub</a> | 
+        <a href="https://www.linkedin.com/in/kyaw-linn-khant-137200266/" target="_blank" class="profile-link">LinkedIn</a>
+      </p>
+    </div>
+  </section>
+
+  <section id="skills" class="container">
+    <div class="section-header">
+      <h2>Technical Skills</h2>
+      <div class="legend">
+        <button class="pillfilter on" data-level="all">All</button>
+        <button class="pillfilter" data-level="adv"><span class="dot adv"></span> Advanced</button>
+        <button class="pillfilter" data-level="int"><span class="dot int"></span> Intermediate</button>
+        <button class="pillfilter" data-level="beg"><span class="dot beg"></span> Beginner</button>
+      </div>
+    </div>
+
+    <div class="card chips" id="skill-chips">
+
+      <!-- Advanced -->
+      <a class="chip adv" href="https://www.python.org/" target="_blank" rel="noopener">Python</a>
+      <a class="chip adv" href="https://isocpp.org/" target="_blank" rel="noopener">C++</a>
+      <a class="chip adv" href="https://git-scm.com/" target="_blank" rel="noopener">Git & GitHub</a>
+      <a class="chip adv" href="https://www.gnu.org/software/bash/" target="_blank" rel="noopener">Linux & Bash</a>
+      <a class="chip adv" href="https://www.raspberrypi.com/" target="_blank" rel="noopener">Raspberry Pi</a>
+      <a class="chip adv" href="https://en.wikipedia.org/wiki/Embedded_system" target="_blank" rel="noopener">Embedded Systems</a>
+      <a class="chip adv" href="https://www.arduino.cc/" target="_blank" rel="noopener">Arduino</a>
+      <a class="chip adv" href="https://opencv.org/" target="_blank" rel="noopener">OpenCV</a>
+      <a class="chip adv" href="https://www.st.com/en/evaluation-tools/stm32-nucleo-boards.html" target="_blank" rel="noopener">STM32</a>
+      <a class="chip adv" href="https://www.mathworks.com/products/matlab.html" target="_blank" rel="noopener">MATLAB</a>
+
+      <!-- Intermediate -->
+      <a class="chip int" href="https://www.ros.org/" target="_blank" rel="noopener">Robot Operating System (ROS)</a>
+      <a class="chip int" href="https://www.coppeliarobotics.com/" target="_blank" rel="noopener">CoppeliaSim</a>
+      <a class="chip int" href="https://cyberbotics.com/" target="_blank" rel="noopener">Webots</a>
+      <a class="chip int" href="https://mujoco.org/" target="_blank" rel="noopener">MuJoCo</a>
+      <a class="chip int" href="https://pybullet.org/" target="_blank" rel="noopener">PyBullet</a>
+      <a class="chip int" href="https://spinningup.openai.com/en/latest/" target="_blank" rel="noopener">Reinforcement Learning</a>
+      <a class="chip int" href="https://en.wikipedia.org/wiki/Computer_vision" target="_blank" rel="noopener">Computer Vision</a>
+      <a class="chip int" href="https://en.wikipedia.org/wiki/Sensor_fusion" target="_blank" rel="noopener">Sensor Integration</a>
+      <a class="chip int" href="https://www.digi.com/lp/xbee" target="_blank" rel="noopener">Zigbee Communication</a>
+      <a class="chip int" href="https://en.wikipedia.org/wiki/3D_reconstruction" target="_blank" rel="noopener">3D Vision</a>
+      <a class="chip int" href="https://en.wikipedia.org/wiki/Machine_learning" target="_blank" rel="noopener">Machine Learning</a>
+      <a class="chip int" href="https://www.autodesk.com/products/fusion-360" target="_blank" rel="noopener">CAD (Fusion 360)</a>
+      <a class="chip int" href="https://en.wikipedia.org/wiki/Technical_writing" target="_blank" rel="noopener">Technical Writing</a>
+      <a class="chip int" href="https://en.wikipedia.org/wiki/Speech_recognition" target="_blank" rel="noopener">Visual & Spoken Interfaces</a>
+      <a class="chip int" href="https://www.riverbankcomputing.com/software/pyqt/" target="_blank" rel="noopener">PyQt5</a>
+
+      <!-- Beginner -->
+      <a class="chip beg" href="https://en.wikipedia.org/wiki/Graphical_user_interface" target="_blank" rel="noopener">GUI Design</a>
+      <a class="chip beg" href="https://www.multisim.com/" target="_blank" rel="noopener">Multisim</a>
+      <a class="chip beg" href="https://www.kicad.org/" target="_blank" rel="noopener">KiCad</a>
+      <a class="chip beg" href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank" rel="noopener">HTML</a>
+      <a class="chip beg" href="https://developer.mozilla.org/en-US/docs/Web/CSS" target="_blank" rel="noopener">CSS</a>
+      <a class="chip beg" href="https://www.typescriptlang.org/" target="_blank" rel="noopener">TypeScript</a>
+      <a class="chip beg" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noopener">JavaScript</a>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="container">
+    <h2>Projects</h2>
+
+    <div class="grid" id="projects-grid">
+      <!-- Order of these <a> blocks no longer matters -->
+      <a class="proj" data-title="AI Self-Balancing Robot" href="project.html?id=rl-balance">
+        <div class="thumbwrap">
+          <img class="thumb" src="src/sbr/v1.jpg" alt="RL">
+        </div>
+        <div class="caption">
+          <div class="meta">
+            <div class="title">AI Self-Balancing Robot</div>
+            <p class="desc">Reinforcement learning-based self-balancing robot.</p>
+          </div>
+          <span class="badge">Sim2Real</span>
+        </div>
+      </a>
+
+      <a class="proj" data-title="Autonomous Microcontroller Vehicle" href="project.html?id=esd">
+        <div class="thumbwrap">
+          <img class="thumb" src="src/esd/car.jpg" alt="ESD">
+        </div>
+        <div class="caption">
+          <div class="meta">
+            <div class="title">Autonomous Microcontroller Vehicle</div>
+            <p class="desc">Built an autonomous vehicle using embedded systems and sensor integration.</p>
+          </div>
+          <span class="badge">STM32</span>
+        </div>
+      </a>
+
+      <a class="proj" data-title="Naruto Jutsu Detection with Facial Recognition" href="project.html?id=handsign">
+        <div class="thumbwrap">
+          <img class="thumb" src="src/naruto/naruto-shippuden-manga-cover.jpg" alt="Hand-sign recognition">
+        </div>
+        <div class="caption">
+          <div class="meta">
+            <div class="title">Naruto Jutsu Detection with Facial Recognition</div>
+            <p class="desc">Face + hand-gesture fusion to trigger actions.</p>
+          </div>
+          <span class="badge">CV</span>
+        </div>
+      </a>
+
+      <a class="proj" data-title="Search and Rescue Operation" href="project.html?id=searchrescue">
+        <div class="thumbwrap">
+          <img class="thumb" src="src/mrnd/cover.png" alt="Search and Rescue Operation">
+        </div>
+        <div class="caption">
+          <div class="meta">
+            <div class="title">Search and Rescue Operation</div>
+            <p class="desc">Coordinated quadcopter–ground robot system for flood recovery missions.</p>
+          </div>
+          <span class="badge">CoppeliaSim</span>
+          <span class="badge">PyQt5</span>
+        </div>
+      </a>
+
+      <a class="proj" data-title="Dobot Magician Pick and Place Simulation"
+        href="project.html?id=dobot-pickplace">
+        <div class="thumbwrap">
+          <img class="thumb"
+              src="src/dobot/dcover.png"
+              alt="Dobot Magician pick-and-place simulation"
+              loading="lazy" decoding="async" width="1200" height="800">
+        </div>
+        <div class="caption">
+          <div class="meta">
+            <div class="title">Dobot Magician Pick and Place Simulation</div>
+            <p class="desc">Simulated an automated pick-and-place process using the Dobot Magician robotic arm in CoppeliaSim.</p>
+          </div>
+          <span class="badge">CoppeliaSim</span>
+        </div>
+      </a>
+    
+      <a class="proj" data-title="AlphaMini Bricklaying Robot"
+        href="project.html?id=alphamini-bricklaying">
+        <div class="thumbwrap">
+          <img class="thumb"
+              src="src/alphamini/minicover.jpg"
+              alt="AlphaMini Bricklaying Robot prototype"
+              loading="lazy" decoding="async" width="1200" height="800">
+        </div>
+        <div class="caption">
+          <div class="meta">
+            <div class="title">AlphaMini Bricklaying Robot</div>
+            <p class="desc">A voice-controlled bricklaying robot prototype with precise manipulation capabilities.</p>
+          </div>
+          <span class="badge">Robotics</span>
+        </div>
+      </a>
+
+      <a class="proj" data-title="Wireless Zigbee Communication"
+        href="project.html?id=zigbee-communication">
+        <div class="thumbwrap">
+          <img class="thumb"
+              src="src/zb/zbc.jpg"
+              alt="Wireless Zigbee Communication"
+              loading="lazy" decoding="async" width="1200" height="800">
+        </div>
+        <div class="caption">
+          <div class="meta">
+            <div class="title">Wireless Zigbee Communication</div>
+            <p class="desc">Implemented secure wireless communication between STM32 microcontrollers using Zigbee modules.</p>
+          </div>
+          <span class="badge">IoT</span>
+        </div>
+      </a>
+
+      <a class="proj" data-title="Sensor and Signal Processing"
+        href="project.html?id=sensor-signal-processing">
+        <div class="thumbwrap">
+          <img class="thumb"
+              src="src/rssp/pi.jpg"
+              alt="Sensor and Signal Processing"
+              loading="lazy" decoding="async" width="1200" height="800">
+        </div>
+        <div class="caption">
+          <div class="meta">
+            <div class="title">Sensor and Signal Processing</div>
+            <p class="desc">A Raspberry Pi–based system that processes sensor inputs to control an actuator in real time.</p>
+          </div>
+          <span class="badge">Embedded</span>
+        </div>
+      </a>
+
+      <a class="proj" data-title="Shibuya Traffic Light System"
+        href="project.html?id=shibuya-traffic-light">
+        <div class="thumbwrap">
+          <img class="thumb"
+              src="src/de/stl.jpg"
+              alt="Shibuya Traffic Light System"
+              loading="lazy" decoding="async" width="1200" height="800">
+        </div>
+        <div class="caption">
+          <div class="meta">
+            <div class="title">Shibuya Traffic Light System</div>
+            <p class="desc">A microcontroller-based simulation of the Shibuya Crossing traffic light system with state-driven control.</p>
+          </div>
+          <span class="badge">Simulation</span>
+        </div>
+      </a>
+    </div>
+    <!-- See More button -->
+    <div class="center" style="margin-top:20px;">
+      <button id="see-more-btn" class="btn neutral">See More ↓</button>
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section id="education" class="container">
+    <h2>Education</h2>
+    <div class="card">
+
+      <p>
+        <strong>Diploma in Infocomm Technology</strong><br>
+        <a href="https://www.psb-academy.edu.sg/" target="_blank" style="color: inherit; text-decoration: none;"><em>PSB Academy</em></a><br>
+        <span style="font-size: smaller;">Jul 2022 – Mar 2023</span>
+      </p>
+
+      <p>
+        <strong>Bachelor of Engineering (Honours) in Robotics and Artificial Intelligence</strong><br>
+        <a href="https://www.herts.ac.uk/" target="_blank" style="color: inherit; text-decoration: none;"><em>University of Hertfordshire</em></a><br>
+        <span style="font-size: smaller;">Sep 2023 – Aug 2025</span>
+      </p>
+
+    </div>
+  </section>
+
+
+  <!-- Co-Curricular -->
+  <section id="co-curricular" class="container">
+    <h2>Co-Curricular</h2>
+    <div class="card">
+      <p>
+        <strong><a href="https://www.ies.org.sg/" target="_blank" style="color: inherit; text-decoration: none;">IES-PSBA Student Chapter</a></strong><br>
+        Vice President<br>
+        <span style="font-size: smaller;">2023 – 2024</span>
+      </p>
+    </div>
+  </section>
+
+  <section id="contact" class="container">
+    <h2>Contact Info</h2>
+    <div class="card contactcard">
+      <p>Email: <a href="mailto:klkhant707@gmail.com">klkhant707@gmail.com</a></p>
+      <p>LinkedIn: <a href="https://linkedin.com/in/kyaw-linn-khant-137200266" target="_blank" rel="noopener">linkedin.com/KyawLinnKhant</a></p>
+      <p>GitHub: <a href="https://github.com/KyawLinnKhant" target="_blank" rel="noopener">github.com/KyawLinnKhant</a></p>
+    </div>
+  </section>
+
+  <section id="resume" class="container">
+    <h2>Download Latest Resume</h2>
+    <div class="card center">
+      <p class="resume-sub">Grab the most up-to-date copy of my resume.</p>
+      <div class="cta">
+        <a class="btn neutral" href="assets/Kyaw_Linn_Khant_Resume.pdf" target="_blank" rel="noopener">View Resume ↗</a>
+        <a class="btn ghost" href="assets/Kyaw_Linn_Khant_Resume.pdf" download>Download PDF ↓</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>© <span id="y"></span> Kyaw Linn Khant</footer>
+
+  <script src="projects.js"></script>
+  <script>
+    document.documentElement.style.scrollBehavior='smooth';
+    document.getElementById('y').textContent=new Date().getFullYear();
+    const ham = document.querySelector('.hamburger');
+    const links = document.querySelector('.links');
+    ham.addEventListener('click',()=>{ links.classList.toggle('open'); });
+
+    const buttons = document.querySelectorAll('.pillfilter');
+    const chips = document.querySelectorAll('#skill-chips .chip');
+    buttons.forEach(btn => btn.addEventListener('click', () => {
+      buttons.forEach(b=>b.classList.remove('on'));
+      btn.classList.add('on');
+      const lvl = btn.dataset.level;
+      chips.forEach(c => { c.style.display = (lvl==='all' || c.classList.contains(lvl)) ? 'inline-flex' : 'none'; });
+    }));
+  </script>
+
+  <script>
+    (function () {
+      const grid = document.getElementById('projects-grid');
+      const btn  = document.getElementById('see-more-btn');
+      if (!grid || !btn) return;
+
+      const cards = Array.from(grid.querySelectorAll('.proj'));
+      const INITIAL_VISIBLE = 6;
+
+      // Hide everything after the first 6 on load
+      cards.forEach((card, i) => {
+        if (i >= INITIAL_VISIBLE) card.classList.add('hidden');
+      });
+
+      // If 6 or fewer, hide the button
+      if (cards.length <= INITIAL_VISIBLE) {
+        btn.style.display = 'none';
+        return;
+      }
+
+      // Toggle expand/collapse
+      btn.addEventListener('click', () => {
+        const hiddenNow = grid.querySelector('.proj.hidden') !== null;
+
+        if (hiddenNow) {
+          // Expand
+          grid.querySelectorAll('.proj.hidden').forEach(el => el.classList.remove('hidden'));
+          btn.textContent = 'See Less ↑';
+        } else {
+          // Collapse back to first 6
+          cards.forEach((card, i) => {
+            if (i >= INITIAL_VISIBLE) card.classList.add('hidden');
+          });
+          btn.textContent = 'See More ↓';
+
+          // Optional: scroll back to the grid top
+          const headerOffset = 80;
+          const y = grid.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Project — Kyaw Linn Khant</title>
+  <link rel="stylesheet" href="./style.css" />
+  <style>
+    /* --- Page-only polish --- */
+    .p-meta{display:flex;gap:10px;align-items:center;margin:8px 0 14px;flex-wrap:wrap}
+    .p-status{
+      font-size:12px;padding:6px 9px;border-radius:999px;
+      background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#ecf2ff
+    }
+    .p-status.complete{ background:rgba(34,197,94,.14); border-color:rgba(34,197,94,.55); }
+    .p-status.inprogress{ background:rgba(96,165,250,.14); border-color:rgba(96,165,250,.55); }
+    .p-status.draft{ background:rgba(250,204,21,.14); border-color:rgba(250,204,21,.55); }
+
+    .p-section{margin:18px 0}
+    .p-section h3{margin:0 0 8px}
+    .p-section img{width:100%;height:auto;border-radius:12px;margin:8px 0;border:1px solid rgba(255,255,255,.12)}
+
+    /* --- Media (YouTube + gallery) --- */
+    .media{margin-top:16px}
+    .media h3{margin:12px 0 8px}
+    .yt-wrap{
+      position:relative;width:100%;padding-top:56.25%; /* 16:9 */
+      border-radius:12px;overflow:hidden;background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);box-shadow:0 10px 30px rgba(0,0,0,.35)
+    }
+    .yt-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    .gallery{display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr));margin-top:10px}
+    @media (min-width:860px){ .gallery{grid-template-columns:repeat(3,minmax(0,1fr))} }
+    .gallery img{width:100%;height:auto;display:block;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04)}
+  </style>
+</head>
+<body>
+  <header class="navwrap">
+    <div class="nav container">
+      <a class="back-btn" href="index.html">← Back</a>
+      <nav class="links">
+        <a class="linkpill" href="index.html#projects">All Projects</a>
+        <a class="linkpill" href="index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container project-detail">
+    <h1 id="p-title">Project</h1>
+
+    <div class="p-meta">
+      <div id="p-status" class="p-status" style="display:none;"></div>
+      <div id="p-tags" class="tagrow"></div>
+    </div>
+
+    <img id="p-img" alt="" class="p-hero" style="display:none;" />
+
+    <div class="card">
+      <p id="p-desc"></p>
+      <div id="p-sections"></div>
+      <!-- Optional media (YouTube + images) -->
+      <div id="p-media" class="media" style="display:none;"></div>
+    </div>
+  </main>
+
+  <footer>© <span id="y"></span> Kyaw Linn Khant</footer>
+
+  <script src="projects.js"></script>
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    /* ---------- YouTube helpers ---------- */
+    function getYouTubeId(url){
+      try{
+        const u = new URL(url);
+        if (u.hostname.includes('youtu.be')) return u.pathname.slice(1);      // youtu.be/<id>
+        const v = u.searchParams.get('v'); if (v) return v;                   // youtube.com/watch?v=<id>
+        const parts = u.pathname.split('/').filter(Boolean);                  // shorts/embed
+        const iShorts = parts.indexOf('shorts'); if (iShorts >= 0 && parts[iShorts+1]) return parts[iShorts+1];
+        const iEmbed  = parts.indexOf('embed');  if (iEmbed  >= 0 && parts[iEmbed+1])  return parts[iEmbed+1];
+        return null;
+      }catch{ return null; }
+    }
+
+    function createYouTubeIframe(id){
+      const d = document.createElement('div');
+      d.className = 'yt-wrap';
+      d.innerHTML = `
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1"
+          title="YouTube video player"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen loading="lazy"></iframe>`;
+      return d;
+    }
+
+    /* ---------- Page population ---------- */
+    const id = new URLSearchParams(location.search).get('id');
+    const p  = (window.PROJECTS || {})[id];
+
+    if (p) {
+      // Title
+      document.title = (p.title || 'Project') + ' — Kyaw Linn Khant';
+      document.getElementById('p-title').textContent = p.title || 'Project';
+
+      // Status (with color)
+      if (p.status) {
+        const st = document.getElementById('p-status');
+        st.textContent = p.status;
+        st.style.display = 'inline-block';
+        const k = p.status.trim().toLowerCase();
+        if (k.includes('complete')) st.classList.add('complete');
+        else if (k.includes('progress')) st.classList.add('inprogress');
+        else if (k.includes('draft') || k.includes('wip')) st.classList.add('draft');
+      }
+
+      // Tags
+      const tagsEl = document.getElementById('p-tags');
+      (p.tags || []).forEach(t => {
+        const s = document.createElement('span');
+        s.className = 'badge';
+        s.textContent = t;
+        tagsEl.appendChild(s);
+      });
+
+      // Cover image
+      if (p.cover || p.img) {
+        const img = document.getElementById('p-img');
+        img.src = p.cover || p.img;
+        img.alt = p.title || 'project cover';
+        img.style.display = 'block';
+      }
+
+      // Short intro
+      document.getElementById('p-desc').textContent = p.desc || '';
+
+      // Sections (conditional ordering)
+      const wrap = document.getElementById('p-sections');
+      (p.sections || []).forEach(sec => {
+        const d = document.createElement('div');
+        d.className = 'p-section';
+
+        // Heading always first
+        if (sec.heading) {
+          const h = document.createElement('h3');
+          h.textContent = sec.heading;
+          d.appendChild(h);
+        }
+
+        // Normalize videos to an array; detect if this section has any video
+        const vids = sec.video ? [sec.video] : (Array.isArray(sec.videos) ? sec.videos : []);
+        const hasVideo = vids.length > 0;
+
+        // Helper to add a single video (auto-embed if possible)
+        const addVideo = (url) => {
+          const vidId = getYouTubeId(url);
+          if (vidId) {
+            const w = createYouTubeIframe(vidId);
+            w.style.marginBottom = '16px';
+            d.appendChild(w);
+          } else {
+            const i = document.createElement('iframe');
+            i.src = url;
+            i.width = '100%';
+            i.height = '400';
+            i.frameBorder = '0';
+            i.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+            i.allowFullscreen = true;
+            i.loading = 'lazy';
+            i.style.marginBottom = '16px';
+            d.appendChild(i);
+          }
+        };
+
+        if (hasVideo) {
+          /* VIDEO FIRST → TEXT → IMAGE */
+          vids.forEach(addVideo);
+
+          if (sec.content) {
+            const c = document.createElement('div');
+            c.className = 'project-description';
+            c.innerHTML = sec.content;
+            d.appendChild(c);
+          }
+
+          if (sec.img) {
+            const im = document.createElement('img');
+            im.src = sec.img;
+            im.alt = sec.heading || '';
+            d.appendChild(im);
+          }
+        } else {
+          /* NO VIDEO: TEXT FIRST → IMAGE */
+          if (sec.content) {
+            const c = document.createElement('div');
+            c.className = 'project-description';
+            c.innerHTML = sec.content;
+            d.appendChild(c);
+          }
+
+          if (sec.img) {
+            const im = document.createElement('img');
+            im.src = sec.img;
+            im.alt = sec.heading || '';
+            d.appendChild(im);
+          }
+        }
+
+        wrap.appendChild(d);
+      });
+
+      // Optional bottom media block (YouTube + gallery)
+      if (p.media && (p.media.youtube || (p.media.images && p.media.images.length))) {
+        const mediaEl = document.getElementById('p-media');
+        mediaEl.style.display = 'block';
+
+        const h = document.createElement('h3');
+        h.textContent = 'Media';
+        mediaEl.appendChild(h);
+
+        if (p.media.youtube) {
+          const vid = getYouTubeId(p.media.youtube);
+          if (vid) mediaEl.appendChild(createYouTubeIframe(vid));
+        }
+
+        if (Array.isArray(p.media.images) && p.media.images.length) {
+          const g = document.createElement('div');
+          g.className = 'gallery';
+          p.media.images.forEach(src => {
+            const im = document.createElement('img');
+            im.loading = 'lazy';
+            im.decoding = 'async';
+            im.src = src;
+            im.alt = (p.title || 'project') + ' image';
+            g.appendChild(im);
+          });
+          mediaEl.appendChild(g);
+        }
+      }
+    }
+  </script>
+</body>
+</html>
