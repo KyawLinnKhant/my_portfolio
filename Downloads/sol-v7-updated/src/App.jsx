@@ -271,6 +271,26 @@ export default function SOL() {
     }
   };
 
+  const checkSpotifyConnection = async () => {
+    try {
+      const response = await fetch('/api/spotify/check');
+      const data = await response.json();
+      setSpotifyConnected(data.connected);
+      
+      if (data.connected) {
+        alert('✅ Spotify is connected!');
+      } else {
+        // Redirect to Spotify login
+        window.location.href = '/api/spotify/login';
+      }
+    } catch (error) {
+      console.log('Spotify check error:', error);
+      setSpotifyConnected(false);
+      // Redirect to Spotify login anyway
+      window.location.href = '/api/spotify/login';
+    }
+  };
+
   const handleSelectSpotifyTrack = (track) => {
     setNewPost({ ...newPost, spotifyTrack: track });
     setShowSpotifySearch(false);
@@ -497,9 +517,9 @@ export default function SOL() {
 
         <div className="header-actions">
           <button 
-            onClick={() => setShowSpotifySearch(true)} 
+            onClick={checkSpotifyConnection}
             className={`header-icon-button ${spotifyConnected ? 'spotify-connected' : 'spotify-disconnected'}`}
-            title={spotifyConnected ? "Spotify Connected" : "Connect Spotify"}
+            title={spotifyConnected ? "Spotify Connected ✓" : "Connect to Spotify"}
           >
             <Music className="header-icon" />
           </button>
@@ -624,7 +644,7 @@ export default function SOL() {
                 setNewPost({ ...newPost, type: 'photo', content: '' });
                 setShowUpload(true);
               }}
-              className="messenger-icon-button"
+              className="messenger-icon-button messenger-purple"
               title="Add photo"
             >
               <ImageIcon size={24} />
@@ -636,10 +656,18 @@ export default function SOL() {
                 setShowUpload(true);
                 setTimeout(() => startCamera(), 100);
               }}
-              className="messenger-icon-button"
+              className="messenger-icon-button messenger-purple"
               title="Take photo"
             >
               <Camera size={24} />
+            </button>
+            
+            <button 
+              onClick={() => setShowSpotifySearch(true)}
+              className="messenger-icon-button messenger-spotify"
+              title="Add song"
+            >
+              <Music size={20} />
             </button>
             
             <input
@@ -655,16 +683,6 @@ export default function SOL() {
           </div>
         ) : (
           <div className="compose-container">
-            <div className="compose-header">
-              <h3>Create Memory</h3>
-              <button onClick={() => {
-                setShowUpload(false);
-                stopCamera();
-              }} className="compose-close">
-                <X />
-              </button>
-            </div>
-
             <div className="compose-type-selector">
               <button
                 onClick={() => {
@@ -685,6 +703,16 @@ export default function SOL() {
               >
                 <MessageSquare className="type-icon" />
                 Message
+              </button>
+              <button
+                onClick={() => {
+                  setShowUpload(false);
+                  stopCamera();
+                }}
+                className="type-button type-close"
+              >
+                <X className="type-icon" />
+                Close
               </button>
             </div>
 

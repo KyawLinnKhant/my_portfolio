@@ -127,8 +127,8 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(2px);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(3px);
   z-index: 0;
   pointer-events: none;
 }
@@ -642,6 +642,22 @@ label.header-icon-button {
   flex-shrink: 0;
 }
 
+.messenger-icon-button.messenger-purple {
+  color: #8b5cf6;
+}
+
+.messenger-icon-button.messenger-purple:hover {
+  background: rgba(139, 92, 246, 0.1);
+}
+
+.messenger-icon-button.messenger-spotify {
+  color: #1db954;
+}
+
+.messenger-icon-button.messenger-spotify:hover {
+  background: rgba(29, 185, 84, 0.1);
+}
+
 .messenger-icon-button:hover {
   background: rgba(0, 132, 255, 0.1);
 }
@@ -767,6 +783,17 @@ label.header-icon-button {
   background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
   border-color: transparent;
   color: white;
+}
+
+.type-close {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+}
+
+.type-close:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: #ef4444;
 }
 
 .type-icon {
