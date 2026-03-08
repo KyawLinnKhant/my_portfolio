@@ -1,29 +1,30 @@
 window.PROJECTS = window.PROJECTS || {};
 
-// AI Self-Balancing Robot
+/* ─────────────────────────────────────────────────────────
+   1. AI Self-Balancing Robot
+───────────────────────────────────────────────────────── */
 window.PROJECTS["rl-balance"] = {
   title: "AI Self-Balancing Robot",
-  status: "Completed", // shows green badge automatically
-  cover:
-    "src/sbr/v1.jpg",
-  tags: ["Sim2Real", "RL", "MuJoCo", "Raspberry Pi"],
-  desc:
-    "A self-balancing robot trained with reinforcement learning. It maintains balance via continuous sensor-driven control and sim-to-real transfer.",
+  status: "Completed",
+  cover: "src/sbr/v1.jpg",
+  tags: ["Sim2Real", "PPO", "MuJoCo", "TFLite", "Teensy 4.1", "Raspberry Pi"],
+  desc: "Reinforcement learning-based self-balancing robot with 85% Sim2Real transfer efficiency. PPO policy trained in MuJoCo, quantised to int8 TFLite, and deployed on a Teensy 4.1 microcontroller achieving <10 ms real-time control — zero GPU required.",
 
   sections: [
     {
       heading: "Project Overview",
       content: `
         <p>
-          This robot demonstrates the integration of reinforcement learning with real-world robotics. 
-          The system continuously adjusts motor actuation to keep the robot upright, adapting to external 
-          disturbances and dynamic environments.
+          This project benchmarks five RL algorithms (A2C, TD3, SAC, DDPG, PPO) in MuJoCo with
+          domain randomisation to identify the best candidate for embedded microcontroller deployment.
+          PPO was selected for its small model size, training stability, and full microcontroller
+          compatibility — inspired by BDX/Open Duck Mini bipedal locomotion research.
         </p>
         <ul>
-          <li>Real-time sensor data processing</li>
-          <li>Reinforcement learning control (PPO)</li>
-          <li>Precise motor actuation for balance</li>
-          <li>Adaptive response to disturbances</li>
+          <li>Benchmarked 5 RL algorithms under domain randomisation — eliminated SAC (unsupported Exp op in int8 TFLite) and DDPG (unstable delta wheel speed oscillation)</li>
+          <li>Converted PPO policy: ONNX → onnx2tf → int8 TFLite, validated inference parity on hardware</li>
+          <li>85% Sim2Real transfer via Kalman-filtered IMU + encoder fusion</li>
+          <li>&lt;10 ms real-time control loop on Teensy 4.1 — zero GPU required</li>
         </ul>
       `
     },
@@ -31,15 +32,14 @@ window.PROJECTS["rl-balance"] = {
       heading: "Components",
       content: `
         <ul>
-          <li>Raspberry Pi 5 (main controller option)</li>
-          <li>Raspberry Pi Zero 2 W (lightweight option)</li>
-          <li>Teensy 4.1 (high-performance microcontroller option)</li>
+          <li>Teensy 4.1 (primary deployment microcontroller)</li>
+          <li>Raspberry Pi 5 / Raspberry Pi Zero 2W (alternative controller options)</li>
+          <li>Adafruit BNO085 9-DOF IMU (Kalman-filtered)</li>
           <li>12V 520-geared DC motors (1:30, ~333 rpm)</li>
           <li>AT8236 2-Channel Motor Driver</li>
-          <li>Adafruit BNO085 9-DOF IMU</li>
-          <li>Geekworm X1201 UPS Shield (for Raspberry Pi 5)</li>
+          <li>Geekworm X1201 UPS Shield (RPi5 version)</li>
+          <li>ESP-01S WiFi module (Teensy version)</li>
           <li>11.1V Li-ion rechargeable battery</li>
-          <li>ESP-01S (Teensy 4.1 version only)</li>
         </ul>
       `
     },
@@ -48,10 +48,9 @@ window.PROJECTS["rl-balance"] = {
       video: "https://www.youtube.com/embed/Rddmhgkn35E",
       content: `
         <p>
-          A simplified MuJoCo model captured the robot’s core dynamics. Training 
-          with PPO reinforcement learning developed a robust balancing policy by 
-          minimizing falls and reacting to perturbations. The policy was then 
-          deployed to the physical robot for reliable self-balancing behavior.
+          A simplified MuJoCo model captured the robot's core dynamics. PPO training with domain
+          randomisation developed a robust balancing policy by minimising falls and reacting to
+          perturbations. The policy was then converted ONNX → int8 TFLite for microcontroller deployment.
         </p>
       `
     },
@@ -60,15 +59,15 @@ window.PROJECTS["rl-balance"] = {
       content: `
         <div class="cad-grid">
           <figure>
-            <img src="src/sbr/v1.jpg" alt="Self-balancing robot — Raspberry Pi version" loading="lazy" decoding="async">
+            <img src="src/sbr/v1.jpg" alt="Raspberry Pi version" loading="lazy" decoding="async">
             <figcaption><strong>Raspberry Pi Version</strong></figcaption>
           </figure>
           <figure>
-            <img src="src/sbr/v2.jpg" alt="Self-balancing robot — Pi Zero version" loading="lazy" decoding="async">
+            <img src="src/sbr/v2.jpg" alt="Pi Zero version" loading="lazy" decoding="async">
             <figcaption><strong>Pi Zero Version</strong></figcaption>
           </figure>
           <figure>
-            <img src="src/sbr/v3.jpg" alt="Self-balancing robot — Teensy version" loading="lazy" decoding="async">
+            <img src="src/sbr/v3.jpg" alt="Teensy version" loading="lazy" decoding="async">
             <figcaption><strong>Teensy Version</strong></figcaption>
           </figure>
         </div>
@@ -79,53 +78,184 @@ window.PROJECTS["rl-balance"] = {
       content: `
         <div class="cad-grid">
           <figure>
-            <img src="src/sbr/pizero.PNG" alt="Custom PCB — Pi Zero" loading="lazy" decoding="async">
+            <img src="src/sbr/pizero.PNG" alt="Pi Zero Custom PCB" loading="lazy" decoding="async">
             <figcaption><strong>Pi Zero Custom PCB</strong></figcaption>
           </figure>
           <figure>
-            <img src="src/sbr/teensy.PNG" alt="Custom PCB — Teensy" loading="lazy" decoding="async">
+            <img src="src/sbr/teensy.PNG" alt="Teensy Custom PCB" loading="lazy" decoding="async">
             <figcaption><strong>Teensy Custom PCB</strong></figcaption>
           </figure>
         </div>
       `
     },
     {
-      heading: "Controller (Teensy 4.1 Version Only)",
-      content: `
-            <img src="src/sbr/remote.jpg" alt="LilyGO T-Display Controller" loading="lazy" decoding="async">
-      `
+      heading: "Controller (Teensy 4.1 Version)",
+      content: `<img src="src/sbr/remote.jpg" alt="LilyGO T-Display Controller" loading="lazy" decoding="async">`
     },
     {
-      heading: "Demo Video",
+      heading: "Demo Videos",
       videos: [
         "https://www.youtube.com/embed/ZISe_C3mYUs",
         "https://www.youtube.com/embed/6jLbrzNLcS4"
       ]
     }
-  ],
+  ]
 };
 
-// Autonomous Microcontroller Vehicle
-window.PROJECTS["esd"] = {
-  title: "Autonomous Microcontroller Vehicle",
+/* ─────────────────────────────────────────────────────────
+   2. Smart Waste Sorting System
+───────────────────────────────────────────────────────── */
+window.PROJECTS["smart-waste"] = {
+  title: "Smart Waste Sorting System",
   status: "Completed",
-  cover:
-    "src/esd/car.jpg",
-  tags: ["STM32", "Ultrasonic", "IR Sensors", "Path Planning"],
-  desc:
-    "This project demonstrates the development of an autonomous vehicle using embedded systems and sensor integration. The vehicle navigates while avoiding obstacles and following predefined paths.",
+  cover: "src/waste/cover.jpg",
+  tags: ["Computer Vision", "CNN", "Raspberry Pi", "Continual Learning", "Edge AI"],
+  desc: "Full Physical AI system: self-trained CNN classifies waste in real time and triggers servo-controlled bin lid sorting — 95%+ accuracy at 30 FPS on a single Raspberry Pi with no GPU. Includes a zero-downtime continual learning redeployment pipeline.",
 
   sections: [
     {
       heading: "Project Overview",
       content: `
-        The autonomous vehicle combines low-level embedded control with on-board sensing to
-        achieve self-navigation. Key features include:
+        <p>
+          This project unifies perception, decision-making, and actuation on a single Raspberry Pi —
+          a complete Physical AI pipeline with no cloud dependency and no GPU.
+          A custom CNN classifies waste type in real time; servo-actuated bin lids then sort
+          the item into the correct compartment automatically.
+        </p>
+        <ul>
+          <li>95%+ classification accuracy at 30 FPS on Raspberry Pi (CPU only)</li>
+          <li>Real-time perception → decision → servo actuation loop</li>
+          <li>Continual learning: misclassifications are collected, model retrained and redeployed with zero downtime</li>
+          <li>Self-contained edge deployment — no internet, no GPU required</li>
+        </ul>
+      `
+    },
+    {
+      heading: "System Architecture",
+      content: `
+        <p>
+          The pipeline runs entirely on-device:
+        </p>
+        <ul>
+          <li><strong>Perception:</strong> Camera feed → CNN inference (TFLite int8 quantised model)</li>
+          <li><strong>Classification:</strong> Waste categories (plastic, paper, metal, organic, general)</li>
+          <li><strong>Actuation:</strong> GPIO → servo driver → correct bin lid opens</li>
+          <li><strong>Feedback loop:</strong> Misclassified samples flagged → batch retrain → hot-swap model without downtime</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Components",
+      content: `
+        <ul>
+          <li>Raspberry Pi 4B (primary compute)</li>
+          <li>Raspberry Pi Camera Module v2</li>
+          <li>SG90 / MG996R servo motors (bin lid actuation)</li>
+          <li>Custom 3D-printed bin housing (FDM)</li>
+          <li>TFLite int8 quantised CNN model</li>
+          <li>Python · OpenCV · TensorFlow Lite · RPi.GPIO</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Demo Video",
+      video: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   3. PiCar Autonomous Navigation (Vision-Guided)
+───────────────────────────────────────────────────────── */
+window.PROJECTS["picar"] = {
+  title: "Vision-Guided Autonomous Vehicle",
+  status: "Completed",
+  cover: "src/picar/cover.jpg",
+  tags: ["CNN", "TensorFlow", "Raspberry Pi", "GTSRB", "Edge AI", "Autonomous"],
+  desc: "Custom dual-block CNN trained on the GTSRB 43-class dataset and deployed entirely on Raspberry Pi for on-device real-time traffic sign recognition and autonomous motor control. Full perception-to-action pipeline — commissioned and delivered as a client system.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          A complete perception-to-action autonomous vehicle pipeline running on a Raspberry Pi with
+          no external GPU. The CNN classifies traffic signs in real time and directly commands
+          the vehicle's motor controller — autonomous decision-making at the edge.
+        </p>
+        <ul>
+          <li>Custom dual-block CNN in TensorFlow/Keras — trained on GTSRB 43-class dataset</li>
+          <li>Early stopping + best-checkpoint callbacks for optimal model selection</li>
+          <li>Compressed and deployed to Raspberry Pi for fully on-device real-time inference</li>
+          <li>CNN sign classification → autonomous motor control pipeline</li>
+          <li>Commissioned and handed over as a functioning client system</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Model Architecture",
+      content: `
+        <p>
+          The dual-block CNN processes 32×32 RGB images from the camera stream. Each block applies
+          two convolutional layers followed by batch normalisation, ReLU activation, and max-pooling
+          for progressive feature extraction. The classifier head uses dropout regularisation to
+          prevent overfitting on the 43-class GTSRB distribution.
+        </p>
+        <ul>
+          <li>Input: 32×32×3 RGB — resized on-device from camera stream</li>
+          <li>Block 1: Conv2D(32) × 2 → BN → ReLU → MaxPool</li>
+          <li>Block 2: Conv2D(64) × 2 → BN → ReLU → MaxPool</li>
+          <li>Head: Flatten → Dense(128) → Dropout(0.4) → Dense(43, softmax)</li>
+          <li>Training: Adam optimiser, early stopping, best-checkpoint saving</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Components",
+      content: `
+        <ul>
+          <li>SunFounder PiCar-X platform</li>
+          <li>Raspberry Pi 4B</li>
+          <li>Raspberry Pi Camera Module v2</li>
+          <li>TensorFlow / Keras (training) · TFLite (deployment)</li>
+          <li>Python · OpenCV · RPi motor control library</li>
+          <li>GTSRB Dataset (43 traffic sign classes)</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Demo Video",
+      video: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   4. Autonomous Microcontroller Vehicle
+───────────────────────────────────────────────────────── */
+window.PROJECTS["esd"] = {
+  title: "Autonomous Microcontroller Vehicle",
+  status: "Completed",
+  cover: "src/esd/car.jpg",
+  tags: ["STM32", "Ultrasonic", "IR Sensors", "Embedded C", "Path Planning"],
+  desc: "Autonomous vehicle built on STM32 Nucleo using fused ultrasonic and IR sensor data for real-time obstacle avoidance and waypoint navigation. PID-stabilised heading with BLE telemetry.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          The autonomous vehicle combines low-level embedded control with on-board sensor fusion to
+          achieve self-navigation. Ultrasonic and IR readings are filtered and fused for stable
+          range estimates; a local planner selects steering commands that maximise clearance while
+          progressing toward the current waypoint.
+        </p>
         <ul>
           <li>Real-time obstacle detection and avoidance</li>
-          <li>Path-planning / waypoint navigation</li>
-          <li>Sensor fusion for more reliable distance estimates</li>
-          <li>Autonomous decision-making for route selection</li>
+          <li>Waypoint / path-following navigation</li>
+          <li>Sensor fusion (ultrasonic + IR) for reliable distance estimates</li>
+          <li>PID heading control via PWM motor commands</li>
+          <li>BLE telemetry (HM-10) for parameter adjustment</li>
         </ul>
       `
     },
@@ -135,13 +265,11 @@ window.PROJECTS["esd"] = {
         <ul>
           <li>STM32 Nucleo-F411RE</li>
           <li>L298N motor driver</li>
-          <li>12V Li-ion rechargeable battery</li>
           <li>3× HC-SR04 ultrasonic sensors</li>
           <li>3× Sharp GP2Y0A21YK IR distance sensors</li>
-          <li>2× TT motors + 1 castor wheel</li>
-          <li>4× SG90 servos</li>
-          <li>BLE 4.0 HM-10</li>
-          <li>Push button, resistors, jumper wires, breadboard</li>
+          <li>4× SG90 servos, 2× TT motors + 1 castor wheel</li>
+          <li>BLE 4.0 HM-10 module</li>
+          <li>12V Li-ion rechargeable battery</li>
         </ul>
       `
     },
@@ -149,14 +277,14 @@ window.PROJECTS["esd"] = {
       heading: "Implementation",
       content: `
         <p>
-          The STM32 runs the real-time control loop. Ultrasonic and IR readings are filtered and
-          fused to obtain stable range estimates. A simple local planner selects steering commands
-          that maximize clearance while progressing toward the current waypoint. Motor speeds are
-          driven with PWM, with a PID term to keep heading stable during maneuvers.
+          The STM32 runs the real-time control loop. Sensor readings are filtered and fused to obtain
+          stable range estimates. A simple local planner selects steering commands that maximise
+          clearance while progressing toward the current waypoint. Motor speeds are driven with PWM,
+          with a PID term to keep heading stable during maneuvers.
         </p>
         <p>
-          Modes supported: <em>Obstacle Avoidance</em> and <em>Waypoint/Path Following</em>.
-          Telemetry/parameters can be adjusted over BLE using the HM-10 module.
+          Modes supported: <em>Obstacle Avoidance</em> and <em>Waypoint / Path Following</em>.
+          Telemetry and parameters adjustable over BLE via the HM-10 module.
         </p>
       `
     },
@@ -165,7 +293,7 @@ window.PROJECTS["esd"] = {
       img: "src/esd/arm.jpg"
     },
     {
-      heading: "Demo Video",
+      heading: "Demo Videos",
       videos: [
         "https://www.youtube.com/embed/ghL9OhbhNL4",
         "https://www.youtube.com/embed/reB1dbGUm5w",
@@ -174,63 +302,97 @@ window.PROJECTS["esd"] = {
     }
   ]
 };
-window.PROJECTS = window.PROJECTS || {};
 
-window.PROJECTS["searchrescue"] = {
-  title: "Search and Rescue Operation with BoomBot and Quadcopter",
+/* ─────────────────────────────────────────────────────────
+   5. Naruto Jutsu Detection
+───────────────────────────────────────────────────────── */
+window.PROJECTS["handsign"] = {
+  title: "Naruto Jutsu Detection with Facial Recognition",
   status: "Completed",
-  cover: "src/mrnd/cover.png",
-  tags: ["CoppeliaSim", "PyQt5", "Quadcopter", "Ground Robot", "Multi-Agent"],
-  desc:
-    "A coordinated aerial–ground system: a quadcopter scans and flags targets; BoomBot autonomously navigates fastest paths to each point for flood-recovery missions.",
+  cover: "src/naruto/naruto-shippuden-manga-cover.jpg",
+  tags: ["Computer Vision", "MediaPipe", "CNN", "Facial Recognition", "PyQt5"],
+  desc: "Multimodal interface combining Naruto hand-sign detection and facial expression recognition. Actions trigger only when both signals match simultaneously — built with MediaPipe landmarks + pretrained CNN and a live PyQt5 control interface.",
 
   sections: [
     {
       heading: "Project Overview",
       content: `
         <p>
-          This system integrates aerial scanning, autonomous ground navigation, and a remote
-          operator interface to support efficient, safe post-disaster response.
-          The quadcopter performs live reconnaissance and marks points of interest with
-          coordinates; BoomBot then plans and drives the fastest route to each site.
+          A fusion of hand-sign detection (Naruto-style gestures) and facial expression recognition
+          to trigger actions via a live PyQt5 interface. Actions are only triggered when both hand
+          sign and facial expression match — reducing false positives and enabling inclusive,
+          intuitive multi-modal control.
         </p>
         <ul>
-          <li>Real-time aerial scanning and target marking (GPS + depth + timestamp)</li>
-          <li>Autonomous ground navigation with obstacle avoidance and fast path planning</li>
-          <li>Operator oversight via PyQt5 GUI with video, depth, and logs</li>
-          <li>Multi-target allocation for broad coverage in one mission</li>
+          <li>Recognises Naruto hand signs (Bird, Snake, Shadow Clone, etc.)</li>
+          <li>Detects facial expressions (smile, surprise, neutral)</li>
+          <li>Dual-signal requirement for robust command triggering</li>
+          <li>PyQt5 live interface with video feed and status display</li>
         </ul>
       `
     },
     {
-      heading: "Simulation Software",
+      heading: "Hand Seals",
+      img: "src/naruto/Hand.jpg"
+    },
+    {
+      heading: "Implementation",
       content: `
         <p>
-          Development and testing were performed in <strong>CoppeliaSim</strong>,
-          validating quadcopter flight patterns, BoomBot navigation algorithms,
-          and inter-agent coordination in a safe, repeatable environment prior to deployment.
+          MediaPipe detects 21 hand landmarks per frame; a classifier maps landmark geometry to
+          sign poses. Facial expressions are analysed using a pretrained CNN on FER-2013.
+          When both gesture and expression match pre-defined triggers, the GUI executes an action
+          (zoom, snapshot, custom command).
         </p>
+      `
+    },
+    {
+      heading: "Demo Video",
+      video: "https://youtu.be/sXeTo-7n7YI"
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   6. Multi-Robot Search and Rescue
+───────────────────────────────────────────────────────── */
+window.PROJECTS["searchrescue"] = {
+  title: "Multi-Robot Search and Rescue Operation",
+  status: "Completed",
+  cover: "src/mrnd/cover.png",
+  tags: ["ROS2", "CoppeliaSim", "Swarm Autonomy", "PyQt5", "Multi-Agent"],
+  desc: "Swarm autonomy system in CoppeliaSim + ROS2: coordinated task allocation across quadcopters, drone-arm platforms, and ground robots for fully autonomous search-and-rescue. PyQt5 ground control interface with real-time mission planning and manual override.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          This system integrates aerial scanning, autonomous ground navigation, and a remote operator
+          interface to support efficient post-disaster response. The quadcopter performs live
+          reconnaissance and marks points of interest; BoomBot plans and drives the fastest route
+          to each site.
+        </p>
+        <ul>
+          <li>Real-time aerial scanning and target marking (GPS + depth + timestamp)</li>
+          <li>Autonomous ground navigation with obstacle avoidance and fast path planning</li>
+          <li>ROS2 node/topic architecture across 5+ robot types</li>
+          <li>Operator oversight via PyQt5 GUI with video, depth feeds, and mission logs</li>
+          <li>Extended to TurtleBot nav, robotic arm control, and differential-drive robots</li>
+        </ul>
       `
     },
     {
       heading: "GUI Interface (PyQt5)",
       img: "src/mrnd/gui.png",
       content: `
-        <p>
-          A custom <strong>PyQt5</strong> application serves as the central control hub:
-        </p>
+        <p>A custom PyQt5 application serves as the central control hub:</p>
         <ul>
-          <li>Live quadcopter video feed and depth visualization</li>
-          <li>GPS coordinate tracking and logging of detections</li>
-          <li>Robot status/telemetry monitoring</li>
-          <li>Mission management (assign, reorder, clear targets)</li>
+          <li>Live quadcopter video feed and depth visualisation</li>
+          <li>GPS coordinate tracking and detection logging</li>
+          <li>Mission management: assign, reorder, clear targets</li>
           <li>Speed control: manual slider and automatic adaptive mode</li>
         </ul>
-        <p>
-          In <em>manual</em> mode, operators set speed with a slider for precise maneuvers.
-          In <em>automatic</em> mode, BoomBot adjusts speed from environmental feedback
-          (e.g., proximity, terrain) to balance speed and safety.
-        </p>
       `
     },
     {
@@ -239,47 +401,42 @@ window.PROJECTS["searchrescue"] = {
     }
   ]
 };
-window.PROJECTS = window.PROJECTS || {};
 
+/* ─────────────────────────────────────────────────────────
+   7. Dobot Magician Pick and Place
+───────────────────────────────────────────────────────── */
 window.PROJECTS["dobot-pickplace"] = {
   title: "Dobot Magician Pick and Place Simulation",
   status: "Completed",
-  cover:
-    "src/dobot/dcover.png",
-  tags: ["CoppeliaSim", "Dobot", "Pick-and-Place"],
-  desc:
-    "Automated pick-and-place pipeline using the Dobot Magician in CoppeliaSim with precise end-effector control and collision-aware path planning.",
+  cover: "src/dobot/dcover.png",
+  tags: ["CoppeliaSim", "Dobot", "Kinematics", "Pick-and-Place"],
+  desc: "Automated pick-and-place pipeline using the Dobot Magician in CoppeliaSim — precise end-effector control, collision-aware path planning, and physics-accurate object interactions.",
 
   sections: [
     {
       heading: "Project Overview",
       content: `
         <p>
-          The <strong>Dobot Magician</strong> is a compact, versatile robotic arm suited for
-          teaching and light industrial tasks. This project builds a CoppeliaSim scene to
-          showcase a complete pick-and-place routine with:
+          The <strong>Dobot Magician</strong> is a compact robotic arm suited for teaching and light
+          industrial tasks. This project builds a full CoppeliaSim scene with a complete pick-and-place
+          routine including:
         </p>
         <ul>
           <li>Precise end-effector control for grasping and placement</li>
-          <li>Path planning with collision avoidance</li>
+          <li>Collision-aware path planning</li>
           <li>Physics-accurate object interactions (grasp, carry, release)</li>
-          <li>Clear visualization of the workspace and motion profile</li>
+          <li>Workspace visualisation and motion profile analysis</li>
         </ul>
       `
     },
     {
-      heading: "Simulation Software",
+      heading: "Simulation Details",
       content: `
         <p>
-          <strong>CoppeliaSim</strong> (V-REP) was chosen for its rich API and realistic
-          dynamics. The setup includes:
+          <strong>CoppeliaSim</strong> was chosen for its rich API and realistic dynamics. The setup includes
+          an accurate kinematic model of the Dobot Magician, custom Lua scripts for motion control and task
+          sequencing, and scene rendering for debugging and cycle-time verification.
         </p>
-        <ul>
-          <li>Accurate kinematic model of the Dobot Magician</li>
-          <li>Custom scripts for motion control and task sequencing</li>
-          <li>Scene rendering and sensor feedback for debugging</li>
-          <li>Performance checks for cycle-time and reachability</li>
-        </ul>
       `
     },
     {
@@ -288,16 +445,16 @@ window.PROJECTS["dobot-pickplace"] = {
     }
   ]
 };
-window.PROJECTS = window.PROJECTS || {};
 
+/* ─────────────────────────────────────────────────────────
+   8. AlphaMini Bricklaying Robot
+───────────────────────────────────────────────────────── */
 window.PROJECTS["alphamini-bricklaying"] = {
   title: "AlphaMini Bricklaying Robot",
   status: "Completed",
-  cover:
-    "src/alphamini/minicover.jpg",
-  tags: ["Robotics", "Voice Control", "Manipulation", "CAD"],
-  desc:
-    "A voice-controlled bricklaying robot prototype demonstrating precise end-effector control and repeatable placement patterns.",
+  cover: "src/alphamini/minicover.jpg",
+  tags: ["Robotics", "Voice Control", "Manipulation", "Fusion 360", "CAD"],
+  desc: "Voice-controlled bricklaying robot prototype with precise end-effector positioning and repeatable placement patterns. Multiple CAD iterations optimised for reach, stiffness, and payload.",
 
   sections: [
     {
@@ -305,7 +462,7 @@ window.PROJECTS["alphamini-bricklaying"] = {
       content: `
         <p>
           This prototype combines speech recognition with accurate robotic manipulation to automate
-          brick placement in structured patterns—reducing manual effort and improving consistency.
+          brick placement in structured patterns — reducing manual effort and improving consistency.
         </p>
         <ul>
           <li>Voice command interface for intuitive operator control</li>
@@ -316,35 +473,33 @@ window.PROJECTS["alphamini-bricklaying"] = {
       `
     },
     {
-      heading: "CAD Models",
+      heading: "CAD Design Iterations",
       content: `
         <p>
-          The mechanical design went through multiple CAD iterations to optimize reach, stiffness,
-          and payload for a typical brick. Selected views:
+          Multiple CAD iterations in Fusion 360 to optimise reach, stiffness, and payload capacity:
         </p>
-
         <div class="cad-grid">
           <figure>
-            <img src="src/alphamini/vone.PNG" alt="CAD Model 1 — Base and linear guide" loading="lazy" decoding="async" width="1200" height="900">
-            <figcaption>CAD Model 1 — Base and linear guide</figcaption>
+            <img src="src/alphamini/vone.PNG" alt="CAD v1" loading="lazy" decoding="async">
+            <figcaption>Base and linear guide</figcaption>
           </figure>
           <figure>
-            <img src="src/alphamini/vtwo.PNG" alt="CAD Model 2 — Wrist + gripper assembly" loading="lazy" decoding="async" width="1200" height="900">
-            <figcaption>CAD Model 2 — Wrist + gripper assembly</figcaption>
+            <img src="src/alphamini/vtwo.PNG" alt="CAD v2" loading="lazy" decoding="async">
+            <figcaption>Wrist + gripper assembly</figcaption>
           </figure>
           <figure>
-            <img src="src/alphamini/vthree.PNG" alt="CAD Model 3 — Cable routing and guards" loading="lazy" decoding="async" width="1200" height="900">
-            <figcaption>CAD Model 3 — Cable routing and guards</figcaption>
+            <img src="src/alphamini/vthree.PNG" alt="CAD v3" loading="lazy" decoding="async">
+            <figcaption>Cable routing and guards</figcaption>
           </figure>
           <figure>
-            <img src="src/alphamini/vfour.PNG" alt="CAD Model 4 — Full assembly and workspace envelope" loading="lazy" decoding="async" width="1200" height="900">
-            <figcaption>CAD Model 4 — Full assembly and workspace envelope</figcaption>
+            <img src="src/alphamini/vfour.PNG" alt="CAD v4" loading="lazy" decoding="async">
+            <figcaption>Full assembly and workspace envelope</figcaption>
           </figure>
         </div>
       `
     },
     {
-      heading: "Demo Video",
+      heading: "Demo Videos",
       videos: [
         "https://www.youtube.com/embed/_xXYHWuNsXk",
         "https://www.youtube.com/embed/HHGH923CYmc"
@@ -352,95 +507,92 @@ window.PROJECTS["alphamini-bricklaying"] = {
     }
   ]
 };
-window.PROJECTS = window.PROJECTS || {};
 
+/* ─────────────────────────────────────────────────────────
+   9. Wireless Zigbee Communication
+───────────────────────────────────────────────────────── */
 window.PROJECTS["zigbee-communication"] = {
   title: "Wireless Zigbee Communication",
   status: "Completed",
-  cover:
-    "src/zb/zbc.jpg",
-  tags: ["IoT", "STM32", "Zigbee", "AES-128"],
-  desc:
-    "Secure, low-power Zigbee (XBee-S2C) link for real-time control and sensor telemetry between STM32 nodes, using AES-128 encryption.",
+  cover: "src/zb/zbc.jpg",
+  tags: ["IoT", "STM32", "Zigbee", "AES-128", "Embedded C"],
+  desc: "Secure, low-power Zigbee (XBee-S2C) link for real-time control and sensor telemetry between STM32 nodes. AES-128 encrypted communication suitable for distributed robotics and remote embedded control.",
 
   sections: [
     {
       heading: "Project Overview",
       content: `
         <p>
-          Two <strong>Zigbee (XBee-S2C)</strong> modules paired with <strong>STM32 Nucleo</strong> boards (F411RE and F401RE)
-          exchange data in real time. Each node interfaces with sensors/actuators—an LDR and potentiometer for inputs,
-          and an SG90 continuous-rotation servo for actuation. Traffic is protected with <strong>AES-128</strong> using Zigbee’s
-          built-in security, making it suitable for distributed robotics, remote sensing, and embedded control.
+          Two <strong>Zigbee (XBee-S2C)</strong> modules paired with <strong>STM32 Nucleo</strong> boards
+          exchange data in real time. Each node interfaces with sensors and actuators, with traffic protected
+          by <strong>AES-128</strong> encryption using Zigbee's built-in security layer.
         </p>
+        <ul>
+          <li>Real-time bidirectional sensor/actuator telemetry over Zigbee mesh</li>
+          <li>AES-128 hardware encryption via XBee built-in security</li>
+          <li>LDR + potentiometer inputs; SG90 servo actuation output</li>
+          <li>Suitable for distributed robotics, remote sensing, and embedded control</li>
+        </ul>
       `
     },
     {
       heading: "Components",
       content: `
         <ul>
-          <li>2× Zigbee (XBee-S2C) radios</li>
-          <li>STM32 Nucleo-F411RE</li>
-          <li>STM32 Nucleo-F401RE</li>
-          <li>Light Dependent Resistor (LDR)</li>
-          <li>Potentiometer</li>
+          <li>2× Zigbee XBee-S2C radios</li>
+          <li>STM32 Nucleo-F411RE + STM32 Nucleo-F401RE</li>
+          <li>Light Dependent Resistor (LDR), Potentiometer</li>
           <li>SG90 continuous-rotation servo</li>
           <li>Resistors, jumper wires, breadboard</li>
         </ul>
       `
     },
     {
-      heading: "Wiring Diagrams",
+      heading: "Wiring — Transmitter Node",
       content: `
-        <p>The following diagrams illustrate TX/RX wiring for both Zigbee nodes.</p>
         <ul>
           <li>UART: STM32 <code>TX</code> ⇄ XBee <code>DIN</code>, STM32 <code>RX</code> ⇄ XBee <code>DOUT</code></li>
-          <li>Power: 3.3V supply per XBee module, common GND across both nodes</li>
-          <li>Servo powered from a suitable 5V rail (separate from logic), GND commoned</li>
+          <li>Power: 3.3V per XBee, common GND across both nodes</li>
         </ul>
       `,
       img: "src/zb/t.png"
     },
     {
-      heading: "Wiring Diagrams (Receiver Node)",
-      content: `
-        <p>Receiver connects Zigbee to MCU UART and drives the SG90 based on incoming setpoints.</p>
-      `,
+      heading: "Wiring — Receiver Node",
+      content: `<p>Receiver drives SG90 servo based on incoming setpoints from the transmitter node.</p>`,
       img: "src/zb/r.png"
     },
     {
       heading: "Demo Video",
-      videos: [
-        "https://www.youtube.com/embed/2xWlMc2PTuc"
-      ]
+      video: "https://www.youtube.com/embed/2xWlMc2PTuc"
     }
   ]
 };
-window.PROJECTS = window.PROJECTS || {};
 
+/* ─────────────────────────────────────────────────────────
+   10. Sensor and Signal Processing
+───────────────────────────────────────────────────────── */
 window.PROJECTS["sensor-signal-processing"] = {
   title: "Sensor and Signal Processing",
   status: "Completed",
-  cover:
-    "src/rssp/pi.jpg",
-  tags: ["Raspberry Pi", "MCP3008", "Ultrasonic", "Servo"],
-  desc:
-    "Raspberry Pi–based system that fuses analog + distance readings to command a servo motor in real time, illustrating core embedded control concepts.",
+  cover: "src/rssp/pi.jpg",
+  tags: ["Raspberry Pi", "MCP3008", "ADC", "Ultrasonic", "Embedded"],
+  desc: "Raspberry Pi system fusing analog (potentiometer via MCP3008 ADC) and ultrasonic distance readings to command a servo motor in real time. Limit-switch homing, obstacle detection, and LED state indicators.",
 
   sections: [
     {
       heading: "Project Overview",
       content: `
         <p>
-          A Raspberry Pi reads an analog potentiometer (via MCP3008) and an HC-SR04 ultrasonic sensor,
-          then drives an SG90 servo with real-time logic. A limit switch provides homing/restart, and LEDs
-          indicate system states. Behavior is verified across repeated cycles for consistent operation.
+          A Raspberry Pi reads an analog potentiometer via MCP3008 ADC and an HC-SR04 ultrasonic
+          sensor, then drives an SG90 servo with real-time control logic. A limit switch provides
+          homing and restart capability; LEDs indicate system state throughout.
         </p>
         <ul>
           <li>Homing with limit switch, then manual angle control via potentiometer</li>
-          <li>Obstacle detection within ~15&nbsp;cm pauses/restricts servo motion</li>
+          <li>Obstacle detection within ~15 cm pauses / restricts servo motion</li>
           <li>LED feedback for status and error conditions</li>
-          <li>Clean re-initialization on restart</li>
+          <li>Clean re-initialisation on restart</li>
         </ul>
       `
     },
@@ -449,7 +601,7 @@ window.PROJECTS["sensor-signal-processing"] = {
       content: `
         <ul>
           <li>Raspberry Pi 4B</li>
-          <li>MCP3008 ADC</li>
+          <li>MCP3008 8-channel 10-bit ADC (SPI)</li>
           <li>SG90 servo motor</li>
           <li>HC-SR04 ultrasonic sensor</li>
           <li>Potentiometer, limit switch</li>
@@ -459,36 +611,34 @@ window.PROJECTS["sensor-signal-processing"] = {
     },
     {
       heading: "Demo Video",
-      videos: [
-        "https://www.youtube.com/embed/Ezl3cftk74o"
-      ]
+      video: "https://www.youtube.com/embed/Ezl3cftk74o"
     }
   ]
 };
-window.PROJECTS = window.PROJECTS || {};
 
+/* ─────────────────────────────────────────────────────────
+   11. Shibuya Traffic Light System
+───────────────────────────────────────────────────────── */
 window.PROJECTS["shibuya-traffic-light"] = {
   title: "Shibuya Traffic Light System",
   status: "Completed",
-  cover:
-    "src/de/stl.jpg",
-  tags: ["STM32", "State Machine", "Embedded", "Simulation"],
-  desc:
-    "Microcontroller-based simulation of Shibuya Crossing using LEDs and button inputs, showcasing a real-time state machine with pedestrian phases and system open/close.",
+  cover: "src/de/stl.jpg",
+  tags: ["STM32", "State Machine", "Embedded C", "Real-Time"],
+  desc: "Microcontroller-based simulation of Shibuya Crossing using LEDs and button inputs. Real-time state machine with vehicle and pedestrian phases, debounced inputs, and manual system open/close override.",
 
   sections: [
     {
       heading: "Project Overview",
       content: `
         <p>
-          A state-driven traffic controller inspired by Shibuya Crossing. The system coordinates vehicle
-          and pedestrian LEDs through explicit phases, with button presses governing transitions and
-          manual overrides. Core focus: real-time logic, debounced inputs, and clear user feedback.
+          A state-driven traffic controller inspired by Shibuya Crossing. The system coordinates
+          vehicle and pedestrian LEDs through explicit phases, with button presses governing
+          transitions and manual overrides.
         </p>
         <ul>
           <li><strong>DEFAULT</strong> — Idle layout (Green/Red); safe reset landing state</li>
-          <li><strong>TRAFFIC_LIGHT_SEQUENCE</strong> — Synchronized vehicle lights; ends with blinking amber</li>
-          <li><strong>BLINK_PG</strong> — Pedestrian crossing (Red→Green); onboard LED indicates crossing window</li>
+          <li><strong>TRAFFIC_LIGHT_SEQUENCE</strong> — Synchronised vehicle lights; ends with blinking amber</li>
+          <li><strong>BLINK_PG</strong> — Pedestrian crossing (Red → Green); onboard LED indicates crossing window</li>
           <li><strong>CLOSE</strong> — Powers down all LEDs; halts operation</li>
           <li><strong>OPEN</strong> — Reactivates system and returns to DEFAULT</li>
         </ul>
@@ -500,65 +650,14 @@ window.PROJECTS["shibuya-traffic-light"] = {
         <ul>
           <li>STM32 Nucleo-F401RE</li>
           <li>5× Red LEDs, 5× Green LEDs, 4× Yellow LEDs</li>
-          <li>14× resistors (LED current-limiting)</li>
-          <li>Jumper wires, breadboard</li>
+          <li>14× current-limiting resistors</li>
+          <li>Push buttons, jumper wires, breadboard</li>
         </ul>
       `
     },
     {
       heading: "Demo Video",
-      videos: [
-        "https://www.youtube.com/embed/o-3O5DQ864w"
-      ]
-    }
-  ]
-};
-window.PROJECTS = window.PROJECTS || {};
-
-// Naruto Jutsu Detection with Facial Recognition
-window.PROJECTS["handsign"] = {
-  title: "Naruto Jutsu Detection with Facial Recognition",
-  status: "Completed", // shows green badge automatically
-  cover:
-    "src/naruto/naruto-shippuden-manga-cover.jpg",
-  tags: ["Computer Vision", "Hand Gesture", "Facial Recognition", "PyQt5", "MediaPipe"],
-  desc:
-    "A fusion of hand-sign detection (Naruto-style gestures) and facial expression recognition to trigger actions via a playful PyQt5 interface.",
-
-  sections: [
-    {
-      heading: "Project Overview",
-      content: `
-        <p>
-          We developed a multimodal interface that recognizes Naruto hand signs alongside facial expressions.
-          Actions are triggered when both are detected simultaneously, enabling inclusive and intuitive control.
-        </p>
-        <ul>
-          <li>Recognizes hand signs (e.g. Bird, Snake, Shadow Clone)</li>
-          <li>Detects facial expressions (smile, surprise, neutral)</li>
-          <li>Combines signals for robust command triggering</li>
-          <li>PyQt5 interface showing status and live video feed</li>
-        </ul>
-      `
-    },
-    {
-      heading: "Hand Seals",
-      img: "src/naruto/Hand.jpg"
-
-    },
-    {
-      heading: "Implementation Details",
-      content: `
-        <p>
-          The pipeline uses MediaPipe to detect hand landmarks, then classifies sign poses.
-          Facial expressions are analysed using a pretrained CNN. When both gesture and expression
-          match pre-defined triggers, the GUI executes an action like zoom, snapshot, or other commands.
-        </p>
-      `
-    },
-    {
-      heading: "Demo Video",
-      video: "https://youtu.be/sXeTo-7n7YI"
+      video: "https://www.youtube.com/embed/o-3O5DQ864w"
     }
   ]
 };
