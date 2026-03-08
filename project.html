@@ -504,8 +504,8 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
 .back-btn:hover { background: rgba(125,211,252,.12); border-color: rgba(125,211,252,.45); }
 
 .linkpill {
-  font-size: 12px; font-weight: 600; color: var(--muted);
-  text-decoration: none; padding: 5px 12px;
+  font-size: 13px; font-weight: 600; color: var(--muted);
+  text-decoration: none; padding: 7px 16px;
   border: 1px solid var(--border); border-radius: 20px;
   background: var(--surface);
   transition: color .2s, border-color .2s;
@@ -633,6 +633,55 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
       border-radius:4px; padding:1px 5px; font-size:12px; color:var(--sky);
     }
 
+    /* ─── Uiverse Back Button (pill-sized, themed) ── */
+    .uiv-back {
+      background: var(--surface);
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 0;
+      width: 96px;
+      height: 34px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      flex-shrink: 0;
+      letter-spacing: .01em;
+      transition: border-color .2s;
+      display: inline-flex;
+      align-items: center;
+    }
+    .uiv-back:hover { border-color: rgba(125,211,252,.35); }
+    .uiv-back__slide {
+      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+      border-radius: 20px;
+      height: 100%;
+      width: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      left: 0; top: 0;
+      z-index: 10;
+      transition: width 0.4s cubic-bezier(.4,0,.2,1);
+    }
+    .uiv-back:hover .uiv-back__slide { width: 100% }
+    .uiv-back__slide svg { width: 14px; height: 14px }
+    .uiv-back__slide svg path { fill: #e8f0ff }
+    .uiv-back__label {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      padding-left: 32px;
+      pointer-events: none;
+      color: var(--muted);
+      transition: color .2s;
+      white-space: nowrap;
+    }
+    .uiv-back:hover .uiv-back__label { color: var(--sky) }
+
     /* Detail layout */
     .project-detail { padding-top:36px; padding-bottom:80px; max-width:800px }
     .project-detail h1 {
@@ -646,11 +695,20 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
 
   <header class="navwrap">
     <div class="nav container">
-      <a class="brand" href="index.html">Kyaw Linn Khant</a>
-      <nav class="links" style="display:flex;gap:8px;align-items:center">
-        <a class="back-btn" href="index.html">← Back</a>
+      <button
+          class="uiv-back"
+          type="button"
+          onclick="history.length > 1 ? history.back() : (window.location.href='index.html')"
+        >
+          <div class="uiv-back__slide">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" height="25px" width="25px">
+              <path d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z" fill="#000000"></path>
+              <path d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z" fill="#000000"></path>
+            </svg>
+          </div>
+          <p class="uiv-back__label">Back</p>
+        </button>
         <a class="linkpill" href="index.html#projects">All Projects</a>
-      </nav>
     </div>
   </header>
 
