@@ -663,6 +663,147 @@ window.PROJECTS["shibuya-traffic-light"] = {
 };
 
 
+/* ─────────────────────────────────────────────────────────
+   12. Chameleon-SRE
+───────────────────────────────────────────────────────── */
+window.PROJECTS["chameleon-sre"] = {
+  title: "Chameleon-SRE",
+  status: "In Progress",
+  tags: ["Python", "LangGraph", "Ollama", "Kubernetes", "RAG", "ChromaDB", "Docker", "LLM"],
+  desc: "Autonomous Site Reliability Engineer — a Compound AI System that monitors, diagnoses, and self-heals Kubernetes clusters. Runs 100% locally on Apple Silicon via Ollama with a LangGraph state machine, RAG knowledge base, and direct kubectl access.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          Chameleon-SRE operates as a stateful agent using a Think → Act → Observe → Correct reasoning
+          loop, rather than a linear chain. It autonomously detects cluster anomalies, queries a RAG
+          knowledge base for resolution playbooks, and applies fixes — all without human intervention.
+        </p>
+        <ul>
+          <li><strong>100% Local</strong> — Runs on Apple Silicon via Ollama (zero cloud costs)</li>
+          <li><strong>Self-Healing</strong> — Autonomous error detection and correction loops</li>
+          <li><strong>RAG-Powered</strong> — ChromaDB knowledge base of K8s docs and incident logs</li>
+          <li><strong>Kubernetes Native</strong> — Direct cluster access via kubectl on Minikube</li>
+          <li><strong>Observable</strong> — Full LangSmith tracing for debugging agent decisions</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Architecture",
+      content: `
+        <ul>
+          <li><strong>Cognitive Engine</strong> — Llama 3.2 (3B) on Ollama</li>
+          <li><strong>Orchestrator</strong> — LangGraph State Machine</li>
+          <li><strong>Tools</strong> — kubectl, RAG Search, Voice Alerts</li>
+          <li><strong>Knowledge Base</strong> — ChromaDB with K8s docs, error playbooks, incident logs</li>
+          <li><strong>Infrastructure</strong> — Minikube cluster (Pods, Services, Deployments, ConfigMaps)</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Tech Stack",
+      content: `
+        <ul>
+          <li>Python 3.10+, LangGraph, LangChain</li>
+          <li>Ollama (Llama 3.2) — local LLM inference</li>
+          <li>ChromaDB — vector store for RAG</li>
+          <li>kubectl + Minikube — Kubernetes cluster management</li>
+          <li>Docker + docker-compose — containerised deployment</li>
+          <li>LangSmith — agent observability and tracing</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Roadmap",
+      content: `
+        <ul>
+          <li>✅ Phase 1 — Core agent with LangGraph</li>
+          <li>✅ Phase 2 — RAG knowledge base</li>
+          <li>✅ Phase 3 — Kubernetes deployment</li>
+          <li>🔄 Phase 4 — Prometheus metrics integration</li>
+          <li>🔄 Phase 5 — Slack / PagerDuty notifications</li>
+          <li>⬜ Phase 6 — Multi-cluster support</li>
+          <li>⬜ Phase 7 — Predictive failure detection</li>
+        </ul>
+      `
+    },
+    {
+      heading: "GitHub",
+      content: `
+        <p>
+          <a href="https://github.com/KyawLinnKhant/Chameleon_SRE" target="_blank" rel="noopener">
+            github.com/KyawLinnKhant/Chameleon_SRE
+          </a>
+        </p>
+      `
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   13. FC Barcelona Matches Prediction — ML
+───────────────────────────────────────────────────────── */
+window.PROJECTS["fcb-prediction"] = {
+  title: "FC Barcelona Match Prediction — ML",
+  status: "Completed",
+  tags: ["Python", "Machine Learning", "Jupyter", "EDA", "La Liga", "Scikit-learn"],
+  desc: "Machine learning pipeline to predict La Liga match outcomes (Win / Draw / Loss) using 6 seasons of data (2019–2025). Covers EDA, feature engineering, and comparison of Logistic Regression, Ensemble methods, and Neural Networks.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          Explores Spanish La Liga match data from 2019 to 2025 to uncover performance patterns and
+          build predictive models. The study identifies which factors — home advantage, possession,
+          expected goals, form — most influence match results.
+        </p>
+        <ul>
+          <li>4,318 team-match records across 2,159 unique fixtures from 27 La Liga teams</li>
+          <li>Features: goals (gf/ga), xG/xGA, possession, shots, venue, referee, attendance</li>
+          <li>80/20 train-test split on historical data</li>
+          <li>Algorithms compared: Logistic Regression, Ensemble methods, Neural Networks</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Key Findings",
+      content: `
+        <ul>
+          <li><strong>Home Advantage</strong> — 44.6% win rate at home vs 27.9% away</li>
+          <li><strong>Top Teams</strong> — Real Madrid led with 67.6% win rate; Barcelona at 65.7%</li>
+          <li><strong>xG Correlation</strong> — Expected Goals show a strong positive correlation with actual goals</li>
+          <li><strong>Attendance</strong> — Sunday matches averaged the highest attendance (~32,400)</li>
+          <li><strong>Possession</strong> — Winners averaged 51.2% possession vs 48.8% for losers — not the sole driver</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Methodology",
+      content: `
+        <ul>
+          <li><strong>Data Quality</strong> — Handled 22.6% missing attendance values; removed empty columns</li>
+          <li><strong>EDA</strong> — Temporal trends, win rates by day of week, team efficiency analysis</li>
+          <li><strong>Feature Engineering</strong> — Form streaks, efficiency ratios, venue encoding</li>
+          <li><strong>Modelling</strong> — Randomised 80/20 split; evaluated across multiple classifiers</li>
+        </ul>
+      `
+    },
+    {
+      heading: "GitHub",
+      content: `
+        <p>
+          <a href="https://github.com/KyawLinnKhant/FC-Barcelona-Matches-Prediction-ML" target="_blank" rel="noopener">
+            github.com/KyawLinnKhant/FC-Barcelona-Matches-Prediction-ML
+          </a>
+        </p>
+      `
+    }
+  ]
+};
+
 /* ═══════════════════════════════════════════════════════════
    RENDER — reads ?id= from the URL and populates the page
    project.html?id=rl-balance  →  loads PROJECTS["rl-balance"]
