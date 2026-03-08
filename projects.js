@@ -661,3 +661,122 @@ window.PROJECTS["shibuya-traffic-light"] = {
     }
   ]
 };
+
+
+/* ═══════════════════════════════════════════════════════════
+   RENDER — reads ?id= from the URL and populates the page
+   project.html?id=rl-balance  →  loads PROJECTS["rl-balance"]
+═══════════════════════════════════════════════════════════ */
+(function () {
+  /* Only run on project.html (page must have #p-title) */
+  if (!document.getElementById('p-title')) return;
+
+  /* ── Set footer year ── */
+  const yEl = document.getElementById('y');
+  if (yEl) yEl.textContent = new Date().getFullYear();
+
+  /* ── YouTube helpers ── */
+  function getYouTubeId(url) {
+    try {
+      const u = new URL(url);
+      if (u.hostname.includes('youtu.be')) return u.pathname.slice(1);
+      const v = u.searchParams.get('v'); if (v) return v;
+      const parts = u.pathname.split('/').filter(Boolean);
+      const iS = parts.indexOf('shorts'); if (iS >= 0 && parts[iS + 1]) return parts[iS + 1];
+      const iE = parts.indexOf('embed');  if (iE >= 0 && parts[iE + 1]) return parts[iE + 1];
+      return null;
+    } catch { return null; }
+  }
+  function makeYT(id) {
+    const d = document.createElement('div');
+    d.className = 'yt-wrap';
+    d.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1"
+      title="YouTube video" allow="accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture"
+      allowfullscreen loading="lazy"></iframe>`;
+    return d;
+  }
+
+  /* ── Read project ID from URL: project.html?id=rl-balance ── */
+  const params = new URLSearchParams(window.location.search);
+  const projectId = params.get('id') || 'rl-balance'; // fallback just in case
+  const p = (window.PROJECTS || {})[projectId];
+
+  if (!p) {
+    document.getElementById('p-title').textContent = 'Project not found';
+    return;
+  }
+
+  /* ── Populate page ── */
+  document.title = (p.title || 'Project') + ' — Kyaw Linn Khant';
+  document.getElementById('p-title').textContent = p.title || 'Project';
+
+  if (p.status) {
+    const st = document.getElementById('p-status');
+    st.textContent = p.status; st.style.display = 'inline-block';
+    const k = p.status.trim().toLowerCase();
+    if (k.includes('complete'))             st.classList.add('complete');
+    else if (k.includes('progress'))        st.classList.add('inprogress');
+    else if (k.includes('draft') || k.includes('wip')) st.classList.add('draft');
+  }
+
+  const tagsEl = document.getElementById('p-tags');
+  (p.tags || []).forEach(t => {
+    const s = document.createElement('span');
+    s.className = 'badge'; s.textContent = t; tagsEl.appendChild(s);
+  });
+
+  if (p.cover || p.img) {
+    const img = document.getElementById('p-img');
+    img.src = p.cover || p.img; img.alt = p.title || ''; img.style.display = 'block';
+  }
+
+  document.getElementById('p-desc').textContent = p.desc || '';
+
+  const wrap = document.getElementById('p-sections');
+  (p.sections || []).forEach(sec => {
+    const d = document.createElement('div');
+    d.className = 'p-section';
+
+    if (sec.heading) {
+      const h = document.createElement('h3'); h.textContent = sec.heading; d.appendChild(h);
+    }
+
+    const vids = sec.video ? [sec.video] : (Array.isArray(sec.videos) ? sec.videos : []);
+
+    const addVid = url => {
+      const vid = getYouTubeId(url);
+      if (vid) {
+        d.appendChild(makeYT(vid));
+      } else {
+        const i = document.createElement('iframe');
+        Object.assign(i, { src: url, width: '100%', height: '400', frameBorder: '0', allowFullscreen: true, loading: 'lazy' });
+        i.style.marginBottom = '16px'; d.appendChild(i);
+      }
+    };
+
+    if (vids.length) {
+      vids.forEach(addVid);
+      if (sec.content) { const c = document.createElement('div'); c.className = 'project-description'; c.innerHTML = sec.content; d.appendChild(c); }
+      if (sec.img)     { const im = document.createElement('img'); im.src = sec.img; im.alt = sec.heading || ''; d.appendChild(im); }
+    } else {
+      if (sec.content) { const c = document.createElement('div'); c.className = 'project-description'; c.innerHTML = sec.content; d.appendChild(c); }
+      if (sec.img)     { const im = document.createElement('img'); im.src = sec.img; im.alt = sec.heading || ''; d.appendChild(im); }
+    }
+
+    wrap.appendChild(d);
+  });
+
+  if (p.media && (p.media.youtube || (p.media.images && p.media.images.length))) {
+    const mediaEl = document.getElementById('p-media');
+    mediaEl.style.display = 'block';
+    const h = document.createElement('h3'); h.textContent = 'Media'; mediaEl.appendChild(h);
+    if (p.media.youtube) { const vid = getYouTubeId(p.media.youtube); if (vid) mediaEl.appendChild(makeYT(vid)); }
+    if (Array.isArray(p.media.images) && p.media.images.length) {
+      const g = document.createElement('div'); g.className = 'gallery';
+      p.media.images.forEach(src => {
+        const im = document.createElement('img'); im.loading = 'lazy'; im.src = src; im.alt = p.title || ''; g.appendChild(im);
+      });
+      mediaEl.appendChild(g);
+    }
+  }
+})();
