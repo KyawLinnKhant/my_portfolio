@@ -278,7 +278,6 @@ h2 .accent { color: var(--blue) }
   0%   { transform: translateX(10px) }
   100% { transform: translateX(0px) }
 }
-
 /* ─── BUTTONS — exact Uiverse silver, blue-tinted ─ */
 .btn {
   display: inline-flex;
@@ -382,6 +381,10 @@ h2 .accent { color: var(--blue) }
 .cat-devops .skill-cat-label { color: var(--c-devops) }
 .cat-design .skill-cat-label { color: var(--c-design) }
 .cat-soft   .skill-cat-label { color: var(--c-soft) }
+.cat-spoken { border-top-color: #fbbf24 }
+.cat-spoken .skill-cat-label { color: #fbbf24 }
+.cat-spoken .chip { color: #fbbf24; border-color: rgba(251,191,36,.22); background: rgba(251,191,36,.06) }
+.cat-spoken .chip em { font-style: normal; opacity: 0.6; font-size: 10px; margin-left: 4px }
 
 .cat-lang   .chip { color: var(--c-lang);   border-color: rgba(125,211,252,.22);  background: rgba(125,211,252,.06) }
 .cat-ai     .chip { color: var(--c-ai);     border-color: rgba(167,139,250,.22);  background: rgba(167,139,250,.06) }
@@ -593,12 +596,12 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
         </label>
         <label class="nav-label" data-target="experience">
           <div class="back-side"></div>
-          <span class="key-text">Experience</span>
+          <span class="key-text">Exp</span>
           <span class="bottom-line"></span>
         </label>
         <label class="nav-label" data-target="education">
           <div class="back-side"></div>
-          <span class="key-text">Education</span>
+          <span class="key-text">Edu</span>
           <span class="bottom-line"></span>
         </label>
         <label class="nav-label" data-target="certifications">
@@ -635,17 +638,18 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
   <section id="about" class="container">
     <h2>About <span class="accent">Me</span></h2>
     <div class="card">
-      <p>Hi, I'm <strong>Kyaw Linn Khant</strong>, a robotics and AI enthusiast. I have successfully accomplished my
-        <em>Bachelor of Engineering (Honours)</em> in Robotics and Artificial Intelligence
-        at the <a href="https://www.herts.ac.uk/" target="_blank" style="color:var(--blue);font-weight:bold;text-decoration:underline;">University of Hertfordshire</a>
-        <span style="color:#eef2ff;font-weight:bold;">[Aug 2025]</span>.
+      <p>I'm <strong>Kyaw Linn Khant</strong> — a Physical AI &amp; Robotics Engineer with a
+        <em>BEng (Hons) in Robotics and Artificial Intelligence</em> from the
+        <a href="https://www.herts.ac.uk/" target="_blank" style="color:var(--blue);font-weight:bold;text-decoration:underline;">University of Hertfordshire</a>.
+        I build systems that sit at the intersection of embodied intelligence and real-world deployment — from
+        Sim2Real RL policies running on microcontrollers to autonomous agents managing Kubernetes clusters.
       </p>
-      <p>My fascination with robotics began when I was a kid playing with an Optimus Prime transformable figure.
-        That early spark grew into a passion for designing and programming intelligent robots that can interact
-        with the world in meaningful ways.</p>
-      <p>Over the years, I've expanded my interests into computer vision, reinforcement learning, and machine learning
-        applications across robotics and AI. I enjoy exploring new ideas, building projects, and continuously improving my skills.</p>
-      <p>You can find more about me and my work here:
+      <p>My work spans the full stack: training RL and ML models, deploying them at the edge with TFLite and TensorRT,
+        integrating LiDAR SLAM and sensor fusion pipelines in ROS2, and building LLM-powered agentic systems with
+        LangChain, LangGraph, and RAG. I care about systems that actually work outside the lab.</p>
+      <p>I've delivered projects for clients across Singapore as a freelance R&amp;D consultant, covering physical AI,
+        robotics prototyping, and embedded systems — working independently from brief to deployment.</p>
+      <p>
         <a href="https://github.com/KyawLinnKhant" target="_blank" class="profile-link">GitHub</a> |
         <a href="https://www.linkedin.com/in/kyaw-linn-khant-137200266/" target="_blank" class="profile-link">LinkedIn</a>
       </p>
@@ -664,6 +668,8 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
           <a class="chip" href="https://www.gnu.org/software/bash/" target="_blank" rel="noopener">Bash</a>
           <a class="chip" href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank" rel="noopener">HTML / CSS</a>
           <a class="chip" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noopener">JavaScript</a>
+          <a class="chip" href="https://docs.microsoft.com/en-us/dotnet/csharp/" target="_blank" rel="noopener">C#</a>
+          <a class="chip" href="https://www.lua.org/" target="_blank" rel="noopener">Lua</a>
         </div>
       </div>
 
@@ -677,6 +683,11 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
           <a class="chip" href="https://en.wikipedia.org/wiki/Computer_vision" target="_blank" rel="noopener">Computer Vision</a>
           <a class="chip" href="https://en.wikipedia.org/wiki/Large_language_model" target="_blank" rel="noopener">Foundation Models (VLA/SLM)</a>
           <a class="chip" href="https://www.langchain.com/langgraph" target="_blank" rel="noopener">LangGraph Agentic AI</a>
+          <a class="chip" href="https://www.langchain.com/" target="_blank" rel="noopener">LangChain</a>
+          <a class="chip" href="https://ollama.com/" target="_blank" rel="noopener">Ollama</a>
+          <a class="chip" href="https://en.wikipedia.org/wiki/Retrieval-augmented_generation" target="_blank" rel="noopener">RAG Systems</a>
+          <a class="chip" href="https://www.trychroma.com/" target="_blank" rel="noopener">ChromaDB</a>
+          <a class="chip" href="https://en.wikipedia.org/wiki/Prompt_engineering" target="_blank" rel="noopener">Prompt Engineering</a>
           <a class="chip" href="https://onnx.ai/" target="_blank" rel="noopener">ONNX / TFLite / TensorRT</a>
           <a class="chip" href="https://pandas.pydata.org/" target="_blank" rel="noopener">Pandas</a>
           <a class="chip" href="https://jupyter.org/" target="_blank" rel="noopener">Jupyter</a>
@@ -722,7 +733,6 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
         <div class="skill-cat-label">Simulation</div>
         <div class="chip-row">
           <a class="chip" href="https://gazebosim.org/" target="_blank" rel="noopener">Gazebo</a>
-          <a class="chip" href="https://carla.org/" target="_blank" rel="noopener">CARLA</a>
           <a class="chip" href="https://mujoco.org/" target="_blank" rel="noopener">MuJoCo</a>
           <a class="chip" href="https://pybullet.org/" target="_blank" rel="noopener">PyBullet</a>
           <a class="chip" href="https://www.coppeliarobotics.com/" target="_blank" rel="noopener">CoppeliaSim</a>
@@ -768,6 +778,15 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
           <span class="chip">Stakeholder Reporting</span>
           <span class="chip">Problem Decomposition</span>
           <span class="chip">Precision &amp; Reliability</span>
+        </div>
+      </div>
+
+      <div class="skill-cat cat-spoken">
+        <div class="skill-cat-label">Spoken Languages</div>
+        <div class="chip-row">
+          <span class="chip">Burmese <em>Native</em></span>
+          <span class="chip">English <em>Professional</em></span>
+          <span class="chip">Japanese <em>Beginner</em></span>
         </div>
       </div>
 
@@ -843,6 +862,20 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
         </div>
       </a>
 
+
+      <a class="proj" data-title="Multi-Agent RL TurtleBot" href="project.html?id=turtlebot3-lidar">
+        <div class="thumbwrap"><div class="thumb-placeholder" style="background:linear-gradient(135deg,#071420,#0e2a1a);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" opacity="0.5">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"></path>
+          </svg>
+        </div></div>
+        <div class="caption">
+          <div class="meta"><div class="title">Multi-Agent RL TurtleBot</div>
+          <p class="desc">ROS2 multi-agent reinforcement learning on TurtleBot3 with LiDAR SLAM, EKF localisation, and custom simulation environment.</p></div>
+          <span class="badge">ROS2</span><span class="badge">SLAM</span><span class="badge">LiDAR</span><span class="badge">C++</span>
+        </div>
+      </a>
       <a class="proj" data-title="Autonomous Microcontroller Vehicle" href="project.html?id=esd">
         <div class="thumbwrap"><img class="thumb" src="src/esd/car.jpg" alt="ESD"></div>
         <div class="caption">
@@ -993,36 +1026,67 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
   <section id="certifications" class="container">
     <h2>Certifications</h2>
     <div class="cert-grid">
+
       <div class="cert-card">
         <div class="cert-icon-badge">IBM</div>
         <div class="cert-body">
-          <div class="cert-title">IBM ML Professional Certificate</div>
-          <div class="cert-sub">Deep Learning · Reinforcement Learning · Supervised/Unsupervised ML · EDA · ML Capstone</div>
-          <a href="#" class="cert-verify">Verify ↗</a>
+          <div class="cert-title">IBM Machine Learning</div>
+          <div class="cert-sub">Specialization · 6 Courses · EDA · Supervised/Unsupervised ML · Deep Learning · RL · Capstone</div>
+          <div class="cert-meta">IBM · Jan 2026</div>
+          <a href="https://coursera.org/share/38373e5c7ebd1494f4434439b3967690" target="_blank" rel="noopener" class="cert-verify">Verify ↗</a>
         </div>
       </div>
+
+      <div class="cert-card">
+        <div class="cert-icon-badge">EI</div>
+        <div class="cert-body">
+          <div class="cert-title">Introduction to Embedded Machine Learning</div>
+          <div class="cert-sub">TinyML · On-device Inference · Edge Impulse · Microcontroller Deployment</div>
+          <div class="cert-meta">Edge Impulse · Feb 2026</div>
+          <a href="https://coursera.org/share/2ec0369d239e46c126c5c35bd73cf0f7" target="_blank" rel="noopener" class="cert-verify">Verify ↗</a>
+        </div>
+      </div>
+
+      <div class="cert-card">
+        <div class="cert-icon-badge">ASU</div>
+        <div class="cert-body">
+          <div class="cert-title">Rapid Prototyping Materials and Tooling</div>
+          <div class="cert-sub">3D Printing · Manufacturing Methods · Materials Selection · Tooling Design</div>
+          <div class="cert-meta">Arizona State University · Jan 2026</div>
+          <a href="https://coursera.org/share/2ee481fa2a2f2caebec78c95dea2bc81" target="_blank" rel="noopener" class="cert-verify">Verify ↗</a>
+        </div>
+      </div>
+
       <div class="cert-card">
         <div class="cert-icon-badge">NX</div>
         <div class="cert-body">
-          <div class="cert-title">Siemens NX Mastery</div>
-          <div class="cert-sub">Advanced CAD · Parametric Modelling · Engineering Workflows</div>
-          <a href="#" class="cert-verify">Verify ↗</a>
+          <div class="cert-title">Siemens NX Mastery: Advanced Design &amp; Applications</div>
+          <div class="cert-sub">Mechanical Design · Technical Drawing · CAD · Engineering Analysis · Simulation</div>
+          <div class="cert-meta">Siemens · Jan 2026</div>
+          <a href="https://coursera.org/share/26933ee3cb4fc0b260198ce06af1c3a4" target="_blank" rel="noopener" class="cert-verify">Verify ↗</a>
         </div>
       </div>
+
       <div class="cert-card">
-        <div class="cert-icon-badge">ROS</div>
+        <div class="cert-icon-badge">UM</div>
         <div class="cert-body">
-          <div class="cert-title">ROS2 &amp; Navigation Stack</div>
-          <div class="cert-sub">ROS2 Nav2 · SLAM · Motion Planning · Multi-Robot Coordination</div>
+          <div class="cert-title">Introduction to Thermodynamics</div>
+          <div class="cert-sub">Energy Transfer · Thermodynamic Systems · Engineering Thermodynamics</div>
+          <div class="cert-meta">University of Michigan · Dec 2025</div>
+          <a href="https://coursera.org/share/d2528fa3671769fba760b62291c58ac9" target="_blank" rel="noopener" class="cert-verify">Verify ↗</a>
         </div>
       </div>
+
       <div class="cert-card">
-        <div class="cert-icon-badge">NV</div>
+        <div class="cert-icon-badge">CFD</div>
         <div class="cert-body">
-          <div class="cert-title">NVIDIA Deep Learning Institute</div>
-          <div class="cert-sub">Edge AI · TensorRT · Jetson Deployment · Model Optimisation</div>
+          <div class="cert-title">Applied Computational Fluid Dynamics</div>
+          <div class="cert-sub">Mathematical Modelling · Engineering Analysis · Numerical Methods · Scientific Visualisation</div>
+          <div class="cert-meta">Siemens · Dec 2025</div>
+          <a href="https://coursera.org/share/2a11f126815124f9ea2d5f427a59faaf" target="_blank" rel="noopener" class="cert-verify">Verify ↗</a>
         </div>
       </div>
+
     </div>
   </section>
 

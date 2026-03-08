@@ -804,6 +804,63 @@ window.PROJECTS["fcb-prediction"] = {
   ]
 };
 
+/* ─────────────────────────────────────────────────────────
+   14. Multi-Agent RL TurtleBot
+───────────────────────────────────────────────────────── */
+window.PROJECTS["turtlebot3-lidar"] = {
+  title: "Multi-Agent RL TurtleBot",
+  status: "Completed",
+  tags: ["ROS2", "SLAM", "LiDAR", "EKF", "TurtleBot3", "C++", "Nav2"],
+  desc: "ROS2-based autonomous navigation system for TurtleBot3 using LiDAR SLAM and Extended Kalman Filter localisation. Implements full navigation stack including mapping, localisation, path planning, and multi-robot exploration — validated in both simulation and real hardware.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          Built from scratch on ROS2, this project implements the full autonomous navigation pipeline
+          for TurtleBot3: custom simulation environment, LiDAR-based SLAM, EKF feature-based
+          localisation, and a multi-robot exploration framework. Closely mirrors real-robot behaviour
+          through a custom sim-to-real workflow.
+        </p>
+        <ul>
+          <li>Custom ROS2 simulation environment (nusim) replicating real TurtleBot3 dynamics</li>
+          <li>Extended Kalman Filter (EKF) feature-based SLAM — landmark detection and map building</li>
+          <li>Full Nav2 integration: costmaps, path planning, obstacle avoidance</li>
+          <li>Multi-robot SLAM via <code>slam_toolbox</code> — centralised map merging</li>
+          <li>Reinforcement Learning framework (MARL) for multi-agent exploration</li>
+          <li>Validated on real TurtleBot3 hardware and in simulation</li>
+        </ul>
+      `
+    },
+    {
+      heading: "ROS2 Packages",
+      content: `
+        <ul>
+          <li><strong>nuturtle_description</strong> — 3D URDF models for simulation and RViz visualisation</li>
+          <li><strong>turtlelib</strong> — CMake library for differential drive kinematics and SLAM maths</li>
+          <li><strong>nusim</strong> — Custom world simulator: arena, obstacles, sensor simulation</li>
+          <li><strong>nuturtle_control</strong> — Wheel odometry, velocity control, encoder feedback</li>
+          <li><strong>nuslam</strong> — EKF SLAM node: landmark association, filter update, map publishing</li>
+          <li><strong>multisim / multicontrol / multislam</strong> — Multi-robot exploration pipeline</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Tech Stack",
+      content: `
+        <ul>
+          <li>ROS2 (Humble), Nav2, slam_toolbox</li>
+          <li>C++ (core nodes), Python (utilities)</li>
+          <li>LiDAR (RPLiDAR / simulated scan), wheel encoders</li>
+          <li>RViz2 for visualisation</li>
+          <li>TurtleBot3 Burger (real hardware + Gazebo simulation)</li>
+        </ul>
+      `
+    }
+  ]
+};
+
 /* ═══════════════════════════════════════════════════════════
    RENDER — reads ?id= from the URL and populates the page
    project.html?id=rl-balance  →  loads PROJECTS["rl-balance"]
