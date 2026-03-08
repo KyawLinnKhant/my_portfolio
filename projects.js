@@ -165,48 +165,28 @@ window.PROJECTS["smart-waste"] = {
 };
 
 /* ─────────────────────────────────────────────────────────
-   3. PiCar Autonomous Navigation (Vision-Guided)
+   3. PiCar-X F1 — Autonomous Racing
 ───────────────────────────────────────────────────────── */
-window.PROJECTS["picar"] = {
-  title: "Vision-Guided Autonomous Vehicle",
-  status: "Completed",
-  cover: "src/picar/cover.jpg",
-  tags: ["CNN", "TensorFlow", "Raspberry Pi", "GTSRB", "Edge AI", "Autonomous"],
-  desc: "Custom dual-block CNN trained on the GTSRB 43-class dataset and deployed entirely on Raspberry Pi for on-device real-time traffic sign recognition and autonomous motor control. Full perception-to-action pipeline — commissioned and delivered as a client system.",
+window.PROJECTS["picar-x-f1"] = {
+  title: "PiCar-X F1 — Autonomous Racing",
+  status: "In Progress",
+  tags: ["Raspberry Pi", "Computer Vision", "OpenCV", "Python", "Autonomous", "Lane Detection", "Edge AI"],
+  desc: "F1-inspired autonomous racing on a SunFounder PiCar-X — real-time lane detection, adaptive speed control through corners, and obstacle handling running entirely on-device on Raspberry Pi.",
 
   sections: [
     {
       heading: "Project Overview",
       content: `
         <p>
-          A complete perception-to-action autonomous vehicle pipeline running on a Raspberry Pi with
-          no external GPU. The CNN classifies traffic signs in real time and directly commands
-          the vehicle's motor controller — autonomous decision-making at the edge.
+          An autonomous racing system built on the SunFounder PiCar-X, inspired by Formula 1 racing.
+          The robot detects track lanes in real time using computer vision, dynamically adjusts speed
+          through corners, and handles obstacles — all running on-device with no external compute.
         </p>
         <ul>
-          <li>Custom dual-block CNN in TensorFlow/Keras — trained on GTSRB 43-class dataset</li>
-          <li>Early stopping + best-checkpoint callbacks for optimal model selection</li>
-          <li>Compressed and deployed to Raspberry Pi for fully on-device real-time inference</li>
-          <li>CNN sign classification → autonomous motor control pipeline</li>
-          <li>Commissioned and handed over as a functioning client system</li>
-        </ul>
-      `
-    },
-    {
-      heading: "Model Architecture",
-      content: `
-        <p>
-          The dual-block CNN processes 32×32 RGB images from the camera stream. Each block applies
-          two convolutional layers followed by batch normalisation, ReLU activation, and max-pooling
-          for progressive feature extraction. The classifier head uses dropout regularisation to
-          prevent overfitting on the 43-class GTSRB distribution.
-        </p>
-        <ul>
-          <li>Input: 32×32×3 RGB — resized on-device from camera stream</li>
-          <li>Block 1: Conv2D(32) × 2 → BN → ReLU → MaxPool</li>
-          <li>Block 2: Conv2D(64) × 2 → BN → ReLU → MaxPool</li>
-          <li>Head: Flatten → Dense(128) → Dropout(0.4) → Dense(43, softmax)</li>
-          <li>Training: Adam optimiser, early stopping, best-checkpoint saving</li>
+          <li>Real-time lane detection and steering control via OpenCV</li>
+          <li>Adaptive speed: full throttle on straights, braking through corners</li>
+          <li>Obstacle detection and avoidance</li>
+          <li>Fully on-device inference on Raspberry Pi — no GPU required</li>
         </ul>
       `
     },
@@ -217,15 +197,19 @@ window.PROJECTS["picar"] = {
           <li>SunFounder PiCar-X platform</li>
           <li>Raspberry Pi 4B</li>
           <li>Raspberry Pi Camera Module v2</li>
-          <li>TensorFlow / Keras (training) · TFLite (deployment)</li>
           <li>Python · OpenCV · RPi motor control library</li>
-          <li>GTSRB Dataset (43 traffic sign classes)</li>
         </ul>
       `
     },
     {
-      heading: "Demo Video",
-      video: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+      heading: "GitHub",
+      content: `
+        <p>
+          <a href="https://github.com/KyawLinnKhant/picar-x-f1" target="_blank" rel="noopener">
+            github.com/KyawLinnKhant/picar-x-f1
+          </a>
+        </p>
+      `
     }
   ]
 };
@@ -805,44 +789,29 @@ window.PROJECTS["fcb-prediction"] = {
 };
 
 /* ─────────────────────────────────────────────────────────
-   14. Multi-Agent RL TurtleBot
+   14. SLAM TurtleBot — ROS
 ───────────────────────────────────────────────────────── */
-window.PROJECTS["turtlebot3-lidar"] = {
-  title: "Multi-Agent RL TurtleBot",
-  status: "Completed",
-  tags: ["ROS2", "SLAM", "LiDAR", "EKF", "TurtleBot3", "C++", "Nav2"],
-  desc: "ROS2-based autonomous navigation system for TurtleBot3 using LiDAR SLAM and Extended Kalman Filter localisation. Implements full navigation stack including mapping, localisation, path planning, and multi-robot exploration — validated in both simulation and real hardware.",
+window.PROJECTS["slam-turtlebot-ros"] = {
+  title: "SLAM TurtleBot — ROS",
+  status: "In Progress",
+  tags: ["ROS", "SLAM", "TurtleBot3", "LiDAR", "Nav2", "EKF", "C++", "Python"],
+  desc: "ROS-based Simultaneous Localisation and Mapping (SLAM) on TurtleBot3 — autonomous map building with LiDAR, EKF localisation, and goal-directed navigation in unknown environments.",
 
   sections: [
     {
       heading: "Project Overview",
       content: `
         <p>
-          Built from scratch on ROS2, this project implements the full autonomous navigation pipeline
-          for TurtleBot3: custom simulation environment, LiDAR-based SLAM, EKF feature-based
-          localisation, and a multi-robot exploration framework. Closely mirrors real-robot behaviour
-          through a custom sim-to-real workflow.
+          A ROS-based SLAM system for TurtleBot3 enabling autonomous exploration and map building
+          in unknown environments. The robot simultaneously constructs a map and localises itself
+          within it, then uses the built map for autonomous goal-directed navigation.
         </p>
         <ul>
-          <li>Custom ROS2 simulation environment (nusim) replicating real TurtleBot3 dynamics</li>
-          <li>Extended Kalman Filter (EKF) feature-based SLAM — landmark detection and map building</li>
-          <li>Full Nav2 integration: costmaps, path planning, obstacle avoidance</li>
-          <li>Multi-robot SLAM via <code>slam_toolbox</code> — centralised map merging</li>
-          <li>Reinforcement Learning framework (MARL) for multi-agent exploration</li>
-          <li>Validated on real TurtleBot3 hardware and in simulation</li>
-        </ul>
-      `
-    },
-    {
-      heading: "ROS2 Packages",
-      content: `
-        <ul>
-          <li><strong>nuturtle_description</strong> — 3D URDF models for simulation and RViz visualisation</li>
-          <li><strong>turtlelib</strong> — CMake library for differential drive kinematics and SLAM maths</li>
-          <li><strong>nusim</strong> — Custom world simulator: arena, obstacles, sensor simulation</li>
-          <li><strong>nuturtle_control</strong> — Wheel odometry, velocity control, encoder feedback</li>
-          <li><strong>nuslam</strong> — EKF SLAM node: landmark association, filter update, map publishing</li>
-          <li><strong>multisim / multicontrol / multislam</strong> — Multi-robot exploration pipeline</li>
+          <li>SLAM: simultaneous map construction and robot localisation via LiDAR</li>
+          <li>Extended Kalman Filter (EKF) for robust pose estimation</li>
+          <li>Autonomous navigation in unmapped environments using Nav2</li>
+          <li>ROS node architecture for modular mapping, localisation, and path planning</li>
+          <li>Validated in both simulation and on real TurtleBot3 hardware</li>
         </ul>
       `
     },
@@ -850,12 +819,139 @@ window.PROJECTS["turtlebot3-lidar"] = {
       heading: "Tech Stack",
       content: `
         <ul>
-          <li>ROS2 (Humble), Nav2, slam_toolbox</li>
-          <li>C++ (core nodes), Python (utilities)</li>
+          <li>ROS (Noetic / Humble), Nav2, slam_toolbox</li>
+          <li>C++ (core nodes) · Python (utilities)</li>
           <li>LiDAR (RPLiDAR / simulated scan), wheel encoders</li>
-          <li>RViz2 for visualisation</li>
+          <li>RViz for visualisation</li>
           <li>TurtleBot3 Burger (real hardware + Gazebo simulation)</li>
         </ul>
+      `
+    },
+    {
+      heading: "GitHub",
+      content: `
+        <p>
+          <a href="https://github.com/KyawLinnKhant/slam_turtlebot_ros" target="_blank" rel="noopener">
+            github.com/KyawLinnKhant/slam_turtlebot_ros
+          </a>
+        </p>
+      `
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   NEW. Swarm Drones — ROS/CS
+───────────────────────────────────────────────────────── */
+window.PROJECTS["swarm-drones"] = {
+  title: "Swarm Drones — ROS/CS",
+  status: "In Progress",
+  tags: ["ROS2", "Swarm Robotics", "UAV", "Multi-Agent", "Python", "C++"],
+  desc: "Multi-drone swarm coordination system built on ROS2 — distributed formation control, autonomous task allocation, and collision-free navigation across a fleet of UAVs.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          A swarm robotics framework for coordinating multiple drones using ROS2. The system
+          implements distributed task allocation, formation control, and collision-free navigation
+          across a fleet of UAVs — designed for scalable multi-agent aerial operations.
+        </p>
+        <ul>
+          <li>Distributed swarm coordination via ROS2 pub/sub architecture</li>
+          <li>Formation control with dynamic re-configuration</li>
+          <li>Collision-free trajectory planning across multiple agents</li>
+          <li>Scalable to arbitrary swarm sizes</li>
+        </ul>
+      `
+    },
+    {
+      heading: "GitHub",
+      content: `
+        <p>
+          <a href="https://github.com/KyawLinnKhant/Swarm_Drones_ROSCS" target="_blank" rel="noopener">
+            github.com/KyawLinnKhant/Swarm_Drones_ROSCS
+          </a>
+        </p>
+      `
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   NEW. Sim2Real Quadruped
+───────────────────────────────────────────────────────── */
+window.PROJECTS["sim2real-quad"] = {
+  title: "Sim2Real Quadruped",
+  status: "In Progress",
+  tags: ["Sim2Real", "Quadruped", "RL", "Domain Randomisation", "Quadruped Robot", "Python", "Control"],
+  desc: "Sim-to-Real transfer pipeline for quadruped control — RL policy trained in simulation with domain randomisation and deployed on real hardware with minimal performance gap.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          A Sim2Real transfer pipeline for quadruped locomotion control. An RL policy is trained
+          in simulation with domain randomisation to bridge the reality gap, then deployed on
+          real hardware — achieving stable flight and manoeuvre execution with minimal degradation.
+        </p>
+        <ul>
+          <li>RL-based locomotion controller trained in simulation</li>
+          <li>Domain randomisation to close the sim2real gap</li>
+          <li>Policy transfer to real quadruped hardware</li>
+          <li>Stable walking, trotting, and terrain adaptation on real hardware</li>
+        </ul>
+      `
+    },
+    {
+      heading: "GitHub",
+      content: `
+        <p>
+          <a href="https://github.com/KyawLinnKhant/sim2real-quad" target="_blank" rel="noopener">
+            github.com/KyawLinnKhant/sim2real-quad
+          </a>
+        </p>
+      `
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   NEW. IsaacLab SO-ARM100/101
+───────────────────────────────────────────────────────── */
+window.PROJECTS["isaaclab-so-arm"] = {
+  title: "IsaacLab SO-ARM100/101",
+  status: "In Progress",
+  tags: ["IsaacLab", "IsaacSim", "Sim2Real", "Manipulation", "RL", "Robotic Arm", "NVIDIA"],
+  desc: "RL-based dexterous manipulation training for the SO-ARM100/101 robotic arm in NVIDIA IsaacLab — GPU-accelerated policy learning with Sim2Real transfer to physical hardware.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          Training dexterous manipulation policies for the SO-ARM100 and SO-ARM101 robotic arms
+          using NVIDIA IsaacLab. Reinforcement learning policies are developed in GPU-accelerated
+          simulation and transferred to real hardware for physical task execution.
+        </p>
+        <ul>
+          <li>GPU-accelerated RL training in NVIDIA IsaacLab / IsaacSim</li>
+          <li>Dexterous manipulation tasks: pick-and-place, object reorientation</li>
+          <li>Domain randomisation for robust Sim2Real transfer</li>
+          <li>Policy deployment on SO-ARM100 / SO-ARM101 physical hardware</li>
+        </ul>
+      `
+    },
+    {
+      heading: "GitHub",
+      content: `
+        <p>
+          <a href="https://github.com/KyawLinnKhant/IsaacLab_SO-ARM100-101" target="_blank" rel="noopener">
+            github.com/KyawLinnKhant/IsaacLab_SO-ARM100-101
+          </a>
+        </p>
       `
     }
   ]
