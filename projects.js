@@ -169,7 +169,7 @@ window.PROJECTS["smart-waste"] = {
 ───────────────────────────────────────────────────────── */
 window.PROJECTS["picar-x-f1"] = {
   title: "PiCar-X F1 — Autonomous Racing",
-  status: "In Progress",
+  status: "Completed",
   tags: ["Raspberry Pi", "Computer Vision", "OpenCV", "Python", "Autonomous", "Lane Detection", "Edge AI"],
   desc: "F1-inspired autonomous racing on a SunFounder PiCar-X — real-time lane detection, adaptive speed control through corners, and obstacle handling running entirely on-device on Raspberry Pi.",
 
@@ -793,7 +793,7 @@ window.PROJECTS["fcb-prediction"] = {
 ───────────────────────────────────────────────────────── */
 window.PROJECTS["slam-turtlebot-ros"] = {
   title: "SLAM TurtleBot — ROS",
-  status: "In Progress",
+  status: "Completed",
   tags: ["ROS", "SLAM", "TurtleBot3", "LiDAR", "Nav2", "EKF", "C++", "Python"],
   desc: "ROS-based Simultaneous Localisation and Mapping (SLAM) on TurtleBot3 — autonomous map building with LiDAR, EKF localisation, and goal-directed navigation in unknown environments.",
 
@@ -845,7 +845,7 @@ window.PROJECTS["slam-turtlebot-ros"] = {
 ───────────────────────────────────────────────────────── */
 window.PROJECTS["swarm-drones"] = {
   title: "Swarm Drones — ROS/CS",
-  status: "In Progress",
+  status: "Completed",
   tags: ["ROS2", "Swarm Robotics", "UAV", "Multi-Agent", "Python", "C++"],
   desc: "Multi-drone swarm coordination system built on ROS2 — distributed formation control, autonomous task allocation, and collision-free navigation across a fleet of UAVs.",
 
@@ -884,7 +884,7 @@ window.PROJECTS["swarm-drones"] = {
 ───────────────────────────────────────────────────────── */
 window.PROJECTS["sim2real-quad"] = {
   title: "Sim2Real Quadruped",
-  status: "In Progress",
+  status: "Completed",
   tags: ["Sim2Real", "Quadruped", "RL", "Domain Randomisation", "Quadruped Robot", "Python", "Control"],
   desc: "Sim-to-Real transfer pipeline for quadruped control — RL policy trained in simulation with domain randomisation and deployed on real hardware with minimal performance gap.",
 
@@ -923,7 +923,7 @@ window.PROJECTS["sim2real-quad"] = {
 ───────────────────────────────────────────────────────── */
 window.PROJECTS["isaaclab-so-arm"] = {
   title: "IsaacLab SO-ARM100/101",
-  status: "In Progress",
+  status: "Completed",
   tags: ["IsaacLab", "IsaacSim", "Sim2Real", "Manipulation", "RL", "Robotic Arm", "NVIDIA"],
   desc: "RL-based dexterous manipulation training for the SO-ARM100/101 robotic arm in NVIDIA IsaacLab — GPU-accelerated policy learning with Sim2Real transfer to physical hardware.",
 
