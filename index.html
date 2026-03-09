@@ -626,8 +626,18 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
       </div>
       <p class="tagline">Physical AI &amp; Robotics Engineer &nbsp;·&nbsp; Edge Autonomy &nbsp;·&nbsp; Sim2Real</p>
       <div class="cta">
-        <button class="btn primary" id="contact-btn">Contact Me</button>
+        <button class="btn primary" id="contact-btn">
+          <span id="contact-label">Contact Me<span id="contact-colon" style="opacity:0;transition:opacity .2s ease .2s;">:</span></span>
+          <span id="contact-email">klkhant707@gmail.com</span>
+        </button>
       </div>
+      <style>
+        #contact-btn { overflow: hidden; transition: min-width .45s cubic-bezier(.4,0,.2,1); }
+        #contact-email { max-width: 0; opacity: 0; overflow: hidden; white-space: nowrap; display: inline-block; transition: max-width .45s cubic-bezier(.4,0,.2,1), opacity .35s ease, margin-left .45s ease; margin-left: 0; }
+        #contact-btn.revealed { min-width: 300px; }
+        #contact-btn.revealed #contact-label { margin-right: 6px; } #contact-btn.revealed #contact-colon { opacity:1; }
+        #contact-btn.revealed #contact-email { max-width: 240px; opacity: 1; }
+      </style>
     </div>
     <div class="loader-wrap">
       <div class="loader"></div>
@@ -1166,6 +1176,15 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
 
   <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     document.documentElement.style.scrollBehavior = 'smooth';
+
+    // ── Contact Me reveal ──
+    const contactBtn = document.getElementById('contact-btn');
+    if (contactBtn) {
+      contactBtn.addEventListener('click', () => {
+        contactBtn.classList.toggle('revealed');
+      });
+    }
+
     document.getElementById('y').textContent = new Date().getFullYear();
 
     // ── Hamburger ──
