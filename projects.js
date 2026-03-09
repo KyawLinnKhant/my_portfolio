@@ -108,24 +108,40 @@ window.PROJECTS["rl-balance"] = {
 window.PROJECTS["smart-waste"] = {
   title: "Smart Waste Sorting System",
   status: "Completed",
-  cover: "src/waste/cover.jpg",
-  tags: ["Computer Vision", "CNN", "Raspberry Pi", "Continual Learning", "Edge AI"],
-  desc: "Full Physical AI system: self-trained CNN classifies waste in real time and triggers servo-controlled bin lid sorting — 95%+ accuracy at 30 FPS on a single Raspberry Pi with no GPU. Includes a zero-downtime continual learning redeployment pipeline.",
+  cover: "src/waste/sbin.jpg",
+  tags: ["Computer Vision", "PyTorch", "ONNX", "Raspberry Pi", "Edge AI", "Servo Control", "Physical AI"],
+  desc: "Full Physical AI pipeline: a custom PyTorch CNN trained from scratch classifies waste in real time, converted to ONNX for lightweight edge deployment on Raspberry Pi. A servo-controlled round bin with three 120° segments (paper, plastic, metal) spins and tilts to sort each item — zero cloud dependency, no GPU required.",
 
   sections: [
+    {
+      heading: "The Bin",
+      content: `
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+          <figure style="margin:0;">
+            <img src="src/waste/sbin.jpg" alt="Smart Bin top view" loading="lazy" style="width:100%; border-radius:10px; border:1px solid var(--border);">
+            <figcaption style="font-size:12px; color:var(--muted); text-align:center; margin-top:6px;">Round bin with three 120° segments — paper, plastic, metal</figcaption>
+          </figure>
+          <figure style="margin:0;">
+            <img src="src/waste/bin.jpg" alt="Smart Bin hardware" loading="lazy" style="width:100%; border-radius:10px; border:1px solid var(--border);">
+            <figcaption style="font-size:12px; color:var(--muted); text-align:center; margin-top:6px;">Raspberry Pi + servo driver wired beneath the bin lid</figcaption>
+          </figure>
+        </div>
+      `
+    },
     {
       heading: "Project Overview",
       content: `
         <p>
-          This project unifies perception, decision-making, and actuation on a single Raspberry Pi —
-          a complete Physical AI pipeline with no cloud dependency and no GPU.
-          A custom CNN classifies waste type in real time; servo-actuated bin lids then sort
-          the item into the correct compartment automatically.
+          A complete Physical AI system — perception, decision, and actuation — running entirely
+          on a single Raspberry Pi with no cloud dependency and no GPU. A custom CNN trained in
+          PyTorch classifies the waste type; the round bin lid then spins and tilts to drop the
+          item into the correct segment automatically.
         </p>
         <ul>
-          <li>95%+ classification accuracy at 30 FPS on Raspberry Pi (CPU only)</li>
-          <li>Real-time perception → decision → servo actuation loop</li>
-          <li>Continual learning: misclassifications are collected, model retrained and redeployed with zero downtime</li>
+          <li>Custom CNN trained in PyTorch, exported to ONNX for lightweight on-device inference</li>
+          <li>Round bin divided into three equal 120° segments: <strong>Paper</strong>, <strong>Plastic</strong>, <strong>Metal</strong></li>
+          <li>Servo-controlled lid spins to align with the correct segment, then tilts to drop the item</li>
+          <li>Webcam feed → real-time classification → GPIO → servo actuation loop</li>
           <li>Self-contained edge deployment — no internet, no GPU required</li>
         </ul>
       `
@@ -133,33 +149,35 @@ window.PROJECTS["smart-waste"] = {
     {
       heading: "System Architecture",
       content: `
-        <p>
-          The pipeline runs entirely on-device:
-        </p>
         <ul>
-          <li><strong>Perception:</strong> Camera feed → CNN inference (TFLite int8 quantised model)</li>
-          <li><strong>Classification:</strong> Waste categories (plastic, paper, metal, organic, general)</li>
-          <li><strong>Actuation:</strong> GPIO → servo driver → correct bin lid opens</li>
-          <li><strong>Feedback loop:</strong> Misclassified samples flagged → batch retrain → hot-swap model without downtime</li>
+          <li><strong>Perception:</strong> Webcam → PyTorch CNN → ONNX Runtime inference on Raspberry Pi</li>
+          <li><strong>Classification:</strong> Paper / Plastic / Metal — each mapped to a 120° bin segment</li>
+          <li><strong>Actuation:</strong> GPIO → servo driver → lid spins to target segment → lid tilts → item drops</li>
+          <li><strong>Model pipeline:</strong> Train in PyTorch → export ONNX → run via ONNX Runtime (no TensorFlow needed)</li>
         </ul>
       `
+    },
+    {
+      heading: "Demo — Paper Detection",
+      video: "https://youtube.com/shorts/PbAcYaR_O8Q?feature=share",
+      content: `<p>Bin detects crumpled paper and rotates lid to the Paper segment before dropping.</p>`
+    },
+    {
+      heading: "Demo — Plastic Detection",
+      video: "https://youtube.com/shorts/XYQgiUSNB30?feature=share",
+      content: `<p>Bin detects plastic and rotates lid to the Plastic segment before dropping.</p>`
     },
     {
       heading: "Components",
       content: `
         <ul>
           <li>Raspberry Pi 4B (primary compute)</li>
-          <li>Raspberry Pi Camera Module v2</li>
-          <li>SG90 / MG996R servo motors (bin lid actuation)</li>
-          <li>Custom 3D-printed bin housing (FDM)</li>
-          <li>TFLite int8 quantised CNN model</li>
-          <li>Python · OpenCV · TensorFlow Lite · RPi.GPIO</li>
+          <li>USB Webcam</li>
+          <li>Servo motors — lid spin (rotation) + lid tilt (drop mechanism)</li>
+          <li>Custom round bin housing — three 120° compartments (paper, plastic, metal)</li>
+          <li>PyTorch (training) · ONNX Runtime (inference) · OpenCV · RPi.GPIO</li>
         </ul>
       `
-    },
-    {
-      heading: "Demo Video",
-      video: "https://www.youtube.com/embed/dQw4w9WgXcQ"
     }
   ]
 };
@@ -772,22 +790,24 @@ window.PROJECTS["shibuya-traffic-light"] = {
 window.PROJECTS["chameleon-sre"] = {
   title: "Chameleon-SRE",
   status: "In Progress",
-  tags: ["Python", "LangGraph", "Ollama", "Kubernetes", "RAG", "ChromaDB", "Docker", "LLM"],
-  desc: "Autonomous Site Reliability Engineer — a Compound AI System that monitors, diagnoses, and self-heals Kubernetes clusters. Runs 100% locally on Apple Silicon via Ollama with a LangGraph state machine, RAG knowledge base, and direct kubectl access.",
+  cover: "src/chameleon/cover.png",
+  tags: ["Python", "LangGraph", "Ollama", "Kubernetes", "RAG", "ChromaDB", "Docker", "LLM", "Apple Silicon", "LangSmith"],
+  desc: "Autonomous Site Reliability Engineer — a Compound AI System that monitors, diagnoses, and self-heals Kubernetes clusters. Runs 100% locally on Apple Silicon via Ollama with a LangGraph state machine, RAG knowledge base, and direct kubectl access. Zero cloud costs.",
 
   sections: [
     {
       heading: "Project Overview",
       content: `
         <p>
-          Chameleon-SRE operates as a stateful agent using a Think → Act → Observe → Correct reasoning
-          loop, rather than a linear chain. It autonomously detects cluster anomalies, queries a RAG
-          knowledge base for resolution playbooks, and applies fixes — all without human intervention.
+          Chameleon-SRE is a Compound AI System designed to autonomously monitor, diagnose, and
+          repair Kubernetes clusters. Unlike simple chatbots, it operates as a <strong>Stateful Agent</strong>
+          using LangGraph — reasoning in loops (<em>Think → Act → Observe → Correct</em>) rather
+          than linear chains.
         </p>
         <ul>
-          <li><strong>100% Local</strong> — Runs on Apple Silicon via Ollama (zero cloud costs)</li>
+          <li><strong>100% Local</strong> — Runs entirely on Apple Silicon via Ollama (zero cloud costs)</li>
           <li><strong>Self-Healing</strong> — Autonomous error detection and correction loops</li>
-          <li><strong>RAG-Powered</strong> — ChromaDB knowledge base of K8s docs and incident logs</li>
+          <li><strong>RAG-Powered</strong> — ChromaDB knowledge base of K8s docs, error playbooks, and incident logs</li>
           <li><strong>Kubernetes Native</strong> — Direct cluster access via kubectl on Minikube</li>
           <li><strong>Observable</strong> — Full LangSmith tracing for debugging agent decisions</li>
         </ul>
@@ -796,7 +816,29 @@ window.PROJECTS["chameleon-sre"] = {
     {
       heading: "Architecture",
       content: `
-        <ul>
+        <pre style="background:#0a0f1a; padding:18px; border-radius:10px; overflow-x:auto; font-size:0.82em; line-height:1.7; border:1px solid rgba(59,130,246,.15);"><code>┌─────────────────────────────────────────────────────────────┐
+│                    Chameleon-SRE Agent                      │
+├─────────────────────────────────────────────────────────────┤
+│  Cognitive Engine : Llama 3.2 (3B) on Ollama               │
+│  Orchestrator     : LangGraph State Machine                 │
+│  Tools            : kubectl │ RAG Search │ Voice Alerts     │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│              Knowledge Base (ChromaDB)                      │
+│  - Kubernetes Documentation                                 │
+│  - Error Resolution Playbooks                               │
+│  - Historical Incident Logs                                 │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│           Kubernetes Cluster (Minikube)                     │
+│  - Pods, Services, Deployments                              │
+│  - ConfigMaps, Secrets, PVCs                                │
+└─────────────────────────────────────────────────────────────┘</code></pre>
+        <ul style="margin-top:14px;">
           <li><strong>Cognitive Engine</strong> — Llama 3.2 (3B) on Ollama</li>
           <li><strong>Orchestrator</strong> — LangGraph State Machine</li>
           <li><strong>Tools</strong> — kubectl, RAG Search, Voice Alerts</li>
@@ -806,15 +848,64 @@ window.PROJECTS["chameleon-sre"] = {
       `
     },
     {
+      heading: "Agent in Action",
+      content: `
+        <pre style="background:#0a0f1a; padding:18px; border-radius:10px; overflow-x:auto; font-size:0.82em; line-height:1.7; border:1px solid rgba(52,211,153,.15);"><code>🦎 Chameleon-SRE v1.0 | Apple Silicon Optimized
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Device: mps (Apple Metal Performance Shaders)
+Model:  llama3.2 @ localhost:11434
+Knowledge Base: 127 documents loaded
+
+You: Check the status of all pods in the default namespace
+
+Agent: Executing kubectl get pods -n default...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Found 3 pods:
+  • nginx-deployment-abc123   (Running)
+  • redis-master-xyz789       (CrashLoopBackOff) ⚠️
+  • postgres-db-def456        (Running)
+
+Investigating redis-master-xyz789...
+[RAG Search] Querying knowledge base for "CrashLoopBackOff"...
+Found resolution: Missing ConfigMap 'redis-config'
+
+Attempting auto-repair...
+✅ Created ConfigMap 'redis-config'
+✅ Pod redis-master-xyz789 restarted successfully</code></pre>
+      `
+    },
+    {
+      heading: "Project Structure",
+      content: `
+        <pre style="background:#0a0f1a; padding:16px; border-radius:10px; overflow-x:auto; font-size:0.82em; line-height:1.6; border:1px solid rgba(59,130,246,.15);"><code>chameleon-sre/
+├── src/
+│   ├── config.py       # Hardware detection &amp; settings
+│   ├── state.py        # LangGraph state definition
+│   ├── tools.py        # kubectl, RAG, voice tools
+│   ├── agent.py        # Core agent logic
+│   └── main.py         # Entry point
+├── scripts/
+│   ├── ingest_docs.py  # RAG data ingestion
+│   └── test_k8s.py     # Infrastructure tests
+├── k8s/
+│   ├── deployment.yaml
+│   ├── rbac.yaml
+│   └── configmap.yaml
+├── Dockerfile
+├── docker-compose.yaml
+└── requirements.txt</code></pre>
+      `
+    },
+    {
       heading: "Tech Stack",
       content: `
         <ul>
           <li>Python 3.10+, LangGraph, LangChain</li>
-          <li>Ollama (Llama 3.2) — local LLM inference</li>
-          <li>ChromaDB — vector store for RAG</li>
+          <li>Ollama (Llama 3.2) — 100% local LLM inference on Apple Silicon</li>
+          <li>ChromaDB — vector store for RAG knowledge base</li>
           <li>kubectl + Minikube — Kubernetes cluster management</li>
           <li>Docker + docker-compose — containerised deployment</li>
-          <li>LangSmith — agent observability and tracing</li>
+          <li>LangSmith — agent observability and decision tracing</li>
         </ul>
       `
     },
