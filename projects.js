@@ -168,36 +168,155 @@ window.PROJECTS["smart-waste"] = {
    3. PiCar-X F1 — Autonomous Racing
 ───────────────────────────────────────────────────────── */
 window.PROJECTS["picar-x-f1"] = {
-  title: "PiCar-X F1 — Autonomous Racing",
+  title: "KLK Robot Racer — PiCar-X F1",
   status: "Completed",
-  tags: ["Raspberry Pi", "Computer Vision", "OpenCV", "Python", "Autonomous", "Lane Detection", "Edge AI"],
-  desc: "F1-inspired autonomous racing on a SunFounder PiCar-X — real-time lane detection, adaptive speed control through corners, and obstacle handling running entirely on-device on Raspberry Pi.",
+  cover: "src/picar-x-f1/demo/3d-picar-x.JPEG",
+  tags: ["Raspberry Pi", "YOLO", "Computer Vision", "Python", "Node.js", "ROS 2", "C++17", "Edge AI", "Web UI", "Autonomous"],
+  desc: "AI-powered robotics control platform for the Picar-X on Raspberry Pi. Drop any YOLO .pt model into data/ and detection switches live — no restarts, no code changes. Real-time object detection, hot-swappable camera backends, 3D visualisation, obstacle avoidance, and a full web UI with desktop and mobile support.",
 
   sections: [
+    {
+      heading: "Live Control Interface",
+      content: `
+        <figure>
+          <img src="src/picar-x-f1/demo/picar-x-racer-demo.gif" alt="PiCar-X Racer Demo" loading="lazy" style="width:100%; border-radius:8px;">
+          <figcaption>Full web-based control interface with video feed, gauges, and detection panels</figcaption>
+        </figure>
+      `
+    },
     {
       heading: "Project Overview",
       content: `
         <p>
-          An autonomous racing system built on the SunFounder PiCar-X, inspired by Formula 1 racing.
-          The robot detects track lanes in real time using computer vision, dynamically adjusts speed
-          through corners, and handles obstacles — all running on-device with no external compute.
+          KLK Robot Racer is an AI-powered robotics control platform built for the Picar-X hardware
+          on Raspberry Pi. It also supports custom robot builds (Waveshare RPi Motor Driver Board,
+          Servo Driver HAT, UPS Module S3) and runs on any Linux machine for AI/camera experiments
+          without a physical robot.
         </p>
         <ul>
-          <li>Real-time lane detection and steering control via OpenCV</li>
-          <li>Adaptive speed: full throttle on straights, braking through corners</li>
-          <li>Obstacle detection and avoidance</li>
-          <li>Fully on-device inference on Raspberry Pi — no GPU required</li>
+          <li>Smooth, video-game-like control of the Picar-X over a web interface</li>
+          <li><strong>Drop any YOLO <code>.pt</code> model</strong> into <code>data/</code> — detection switches live with no restart</li>
+          <li>Hot-swappable camera backends: GStreamer, V4L2, Picamera2, libcamera — no restarts required</li>
+          <li>Optional Google Coral and Hailo AI accelerator support</li>
+          <li>Live 3D model visualisation reflecting real robot orientation</li>
+          <li>Built-in TTS, music playback, audio effects, photo capture, and calibration tools</li>
+          <li>Desktop and mobile browser support (except iOS Safari)</li>
         </ul>
       `
     },
     {
-      heading: "Components",
+      heading: "⚡ Drop Any YOLO Model — It Just Works",
+      content: `
+        <p>
+          No retraining. No reconfiguration. No server restart. Place any Ultralytics-compatible
+          <code>.pt</code> file in <code>data/</code> (or upload via the UI), select it from the
+          Models dropdown, and live detection starts immediately. Works with YOLOv8, YOLOv9,
+          YOLOv10, YOLO11, custom-trained weights, and pose estimation models.
+        </p>
+        <pre style="background:var(--code-bg,#111); padding:14px; border-radius:8px; overflow-x:auto; font-size:0.85em; line-height:1.6;"><code>data/
+├── yolov8n.pt           ← standard nano model
+├── yolov11s.pt          ← swap in with one click
+├── my_custom_model.pt   ← drop your own trained weights
+└── yolo11n-pose.pt      ← pose estimation, works out of the box</code></pre>
+        <figure style="margin-top:20px;">
+          <img src="src/picar-x-f1/demo/demo-vision-custom.gif" alt="Custom model detection" loading="lazy" style="width:100%; border-radius:8px;">
+          <figcaption>Custom model detection — loaded and running live with no code changes</figcaption>
+        </figure>
+      `
+    },
+    {
+      heading: "Computer Vision & Object Tracking",
+      content: `
+        <div class="cad-grid">
+          <figure>
+            <img src="src/picar-x-f1/demo/computer-vision.gif" alt="Computer Vision" loading="lazy">
+            <figcaption><strong>Real-Time Object Detection</strong><br>YOLO inference with bounding box, aim, mixed, and pose overlay styles</figcaption>
+          </figure>
+          <figure>
+            <img src="src/picar-x-f1/demo/demo-picarx-cat.gif" alt="Cat Tracking Demo" loading="lazy">
+            <figcaption><strong>Custom Model Tracking</strong><br>Live target-following with a custom-trained model</figcaption>
+          </figure>
+        </div>
+      `
+    },
+    {
+      heading: "3D Visualisation",
+      content: `
+        <div class="cad-grid">
+          <figure>
+            <img src="src/picar-x-f1/demo/3d-picar-x.gif" alt="3D Visualization" loading="lazy">
+            <figcaption><strong>Live 3D Model</strong><br>Reflects real-time robot orientation and movement</figcaption>
+          </figure>
+          <figure>
+            <img src="src/picar-x-f1/demo/3D-mode-demo.png" alt="3D Virtual Mode" loading="lazy">
+            <figcaption><strong>3D Virtual Mode</strong><br>Hides video feed; pairs with Auto Measure Distance to show ultrasonic readings</figcaption>
+          </figure>
+        </div>
+      `
+    },
+    {
+      heading: "Settings & Configuration",
+      content: `
+        <div class="cad-grid">
+          <figure>
+            <img src="src/picar-x-f1/demo/robot-hardware-settings.gif" alt="Robot Hardware Settings" loading="lazy">
+            <figcaption><strong>Robot Hardware</strong><br>Servo calibration, motor direction, pin assignments, hardware layout</figcaption>
+          </figure>
+          <figure>
+            <img src="src/picar-x-f1/demo/general-settings.gif" alt="General Settings" loading="lazy">
+            <figcaption><strong>General Interface</strong><br>Gauges, speedometer, 3D view, detection panels, video quality</figcaption>
+          </figure>
+          <figure>
+            <img src="src/picar-x-f1/demo/models-settings.gif" alt="Model Management" loading="lazy">
+            <figcaption><strong>Detection Models</strong><br>Load, swap, and manage YOLO models in real time — no restart required</figcaption>
+          </figure>
+          <figure>
+            <img src="src/picar-x-f1/demo/demo-tts.gif" alt="Text-to-Speech" loading="lazy">
+            <figcaption><strong>Text-to-Speech</strong><br>Language packs and custom phrases for real-time speech output</figcaption>
+          </figure>
+        </div>
+      `
+    },
+    {
+      heading: "Calibration",
+      content: `
+        <figure>
+          <img src="src/picar-x-f1/demo/calibration.gif" alt="Calibration" loading="lazy" style="width:100%; border-radius:8px;">
+          <figcaption>Press <kbd>C</kbd> to enter calibration mode — adjust servo direction, camera tilt, and camera pan with keyboard controls. <kbd>0</kbd> resets all.</figcaption>
+        </figure>
+      `
+    },
+    {
+      heading: "Video Enhancement Modes",
+      content: `
+        <p>Cycle through visual modes with <kbd>e</kbd> (next) and <kbd>E</kbd> (previous):</p>
+        <table style="width:100%; border-collapse:collapse; font-size:0.9em; margin-top:10px;">
+          <thead>
+            <tr style="border-bottom:2px solid var(--border,#333)">
+              <th style="text-align:left; padding:8px 12px;">Mode</th>
+              <th style="text-align:left; padding:8px 12px;">Effect</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border,#222)"><td style="padding:8px 12px;"><strong>None</strong></td><td style="padding:8px 12px;">Standard unprocessed feed</td></tr>
+            <tr style="border-bottom:1px solid var(--border,#222)"><td style="padding:8px 12px;"><strong>RoboCop Vision</strong></td><td style="padding:8px 12px;">Grayscale + edge detection + HUD overlay</td></tr>
+            <tr style="border-bottom:1px solid var(--border,#222)"><td style="padding:8px 12px;"><strong>Predator Vision</strong></td><td style="padding:8px 12px;">Thermal colour map for heat signatures</td></tr>
+            <tr style="border-bottom:1px solid var(--border,#222)"><td style="padding:8px 12px;"><strong>Infrared Vision</strong></td><td style="padding:8px 12px;">Highlights warmer areas of the image</td></tr>
+            <tr><td style="padding:8px 12px;"><strong>Ultrasonic Vision</strong></td><td style="padding:8px 12px;">Monochromatic sonar-style edge detection</td></tr>
+          </tbody>
+        </table>
+      `
+    },
+    {
+      heading: "System Requirements",
       content: `
         <ul>
-          <li>SunFounder PiCar-X platform</li>
-          <li>Raspberry Pi 4B</li>
-          <li>Raspberry Pi Camera Module v2</li>
-          <li>Python · OpenCV · RPi motor control library</li>
+          <li><strong>Python</strong> 3.11+</li>
+          <li><strong>Node.js</strong> 22+</li>
+          <li><strong>OS</strong> — Raspberry Pi OS / Ubuntu / any Linux</li>
+          <li><strong>Hardware</strong> — Raspberry Pi 4 or 5 (also works on any Linux machine without a robot)</li>
+          <li><strong>Camera backends</strong> — V4L2, GStreamer (PyGObject), Picamera2 — hot-swappable at runtime</li>
+          <li><strong>Optional accelerators</strong> — Google Coral, Hailo AI HAT</li>
         </ul>
       `
     },
@@ -732,46 +851,62 @@ window.PROJECTS["chameleon-sre"] = {
 window.PROJECTS["fcb-prediction"] = {
   title: "FC Barcelona Match Prediction — ML",
   status: "Completed",
-  tags: ["Python", "Machine Learning", "Jupyter", "EDA", "La Liga", "Scikit-learn"],
-  desc: "Machine learning pipeline to predict La Liga match outcomes (Win / Draw / Loss) using 6 seasons of data (2019–2025). Covers EDA, feature engineering, and comparison of Logistic Regression, Ensemble methods, and Neural Networks.",
+  cover: "src/fcb/barca.jpeg",
+  tags: ["Python", "Machine Learning", "Jupyter", "EDA", "La Liga", "Scikit-learn", "Neural Networks", "Ensemble Methods"],
+  desc: "Machine learning pipeline to predict La Liga match outcomes (Win / Draw / Loss) using 6 seasons of data (2019–2025). Covers full EDA, feature engineering (form streaks, efficiency ratios), and comparison of Logistic Regression, Ensemble methods, and Neural Networks across 4,318 team-match records.",
 
   sections: [
     {
       heading: "Project Overview",
       content: `
         <p>
-          Explores Spanish La Liga match data from 2019 to 2025 to uncover performance patterns and
-          build predictive models. The study identifies which factors — home advantage, possession,
-          expected goals, form — most influence match results.
+          This project explores Spanish La Liga match data from 2019 to 2025 to uncover performance
+          patterns and build predictive models. The objective is to identify which factors — home
+          advantage, possession, expected goals, form streaks — contribute most to winning, drawing,
+          or losing a match.
         </p>
         <ul>
-          <li>4,318 team-match records across 2,159 unique fixtures from 27 La Liga teams</li>
-          <li>Features: goals (gf/ga), xG/xGA, possession, shots, venue, referee, attendance</li>
-          <li>80/20 train-test split on historical data</li>
-          <li>Algorithms compared: Logistic Regression, Ensemble methods, Neural Networks</li>
+          <li>Develop a full ML pipeline to predict football match results (Win / Draw / Loss)</li>
+          <li>Perform thorough Exploratory Data Analysis (EDA) to identify team statistics and seasonal trends</li>
+          <li>Implement extensive feature engineering — form streaks, efficiency ratios, venue encoding</li>
+          <li>Compare algorithms: Logistic Regression, Ensemble methods, and Neural Networks</li>
         </ul>
       `
     },
     {
-      heading: "Key Findings",
+      heading: "Dataset",
       content: `
+        <p>
+          The dataset was sourced from Kaggle and covers six La Liga seasons (2019/20 to 2024/25).
+        </p>
         <ul>
-          <li><strong>Home Advantage</strong> — 44.6% win rate at home vs 27.9% away</li>
-          <li><strong>Top Teams</strong> — Real Madrid led with 67.6% win rate; Barcelona at 65.7%</li>
-          <li><strong>xG Correlation</strong> — Expected Goals show a strong positive correlation with actual goals</li>
-          <li><strong>Attendance</strong> — Sunday matches averaged the highest attendance (~32,400)</li>
-          <li><strong>Possession</strong> — Winners averaged 51.2% possession vs 48.8% for losers — not the sole driver</li>
+          <li><strong>Records:</strong> 4,318 team-match records (2,159 unique fixtures)</li>
+          <li><strong>Teams:</strong> 27 different La Liga clubs</li>
+          <li><strong>Features:</strong> Goals (gf/ga), Expected Goals (xG/xGA), possession, shots, venue, referee, and attendance</li>
+          <li><strong>Split:</strong> Randomised 80/20 train-test partition on historical data</li>
         </ul>
       `
     },
     {
-      heading: "Methodology",
+      heading: "Key Findings & Insights",
       content: `
         <ul>
-          <li><strong>Data Quality</strong> — Handled 22.6% missing attendance values; removed empty columns</li>
-          <li><strong>EDA</strong> — Temporal trends, win rates by day of week, team efficiency analysis</li>
-          <li><strong>Feature Engineering</strong> — Form streaks, efficiency ratios, venue encoding</li>
-          <li><strong>Modelling</strong> — Randomised 80/20 split; evaluated across multiple classifiers</li>
+          <li><strong>Home Advantage</strong> — Match outcomes are strongly influenced by venue: 44.6% win rate at home vs 27.9% away</li>
+          <li><strong>Top Team Performance</strong> — Real Madrid led with 67.6% win rate; Barcelona recorded 65.7% over the study period</li>
+          <li><strong>xG Correlation</strong> — Expected Goals (xG) show a strong positive relationship with actual goals scored</li>
+          <li><strong>Attendance Trends</strong> — Sunday matches recorded the highest average attendance at approximately 32,400</li>
+          <li><strong>Possession</strong> — Winning teams averaged 51.2% possession vs 48.8% for losing teams — possession alone is not the sole driver of victory</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Analysis Methodology",
+      content: `
+        <ul>
+          <li><strong>Data Quality</strong> — Addressed 22.6% missing values in attendance; removed empty columns (e.g. 'notes')</li>
+          <li><strong>EDA</strong> — Analysed temporal trends, win rates by day of week, and per-team efficiency metrics</li>
+          <li><strong>Feature Engineering</strong> — Engineered form streaks, efficiency ratios, and encoded venue / referee variables</li>
+          <li><strong>Modelling</strong> — Trained and evaluated Logistic Regression, Ensemble methods (Random Forest, Gradient Boosting), and Neural Networks on the 80/20 split</li>
         </ul>
       `
     },
@@ -1153,6 +1288,121 @@ window.PROJECTS["sim2real-quad"] = {
         <p>
           <a href="https://github.com/KyawLinnKhant/sim2real-quad" target="_blank" rel="noopener">
             github.com/KyawLinnKhant/sim2real-quad
+          </a>
+        </p>
+      `
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   IsaacLab SO-ARM100 / SO-ARM101
+───────────────────────────────────────────────────────── */
+window.PROJECTS["isaaclab-so-arm"] = {
+  title: "IsaacLab SO-ARM100 / SO-ARM101",
+  status: "Completed",
+  cover: "src/so_arm/RoboArm_hero.jpg",
+  tags: ["Isaac Lab", "NVIDIA Isaac Sim", "PPO", "RSL-RL", "Reinforcement Learning", "Python", "ONNX", "Sim2Real"],
+  desc: "Reinforcement learning environments for the SO-ARM100 and SO-ARM101 robot arms built on NVIDIA Isaac Lab. Two task types — Reach (end-effector pose tracking) and Lift (pick up a cube) — trained via PPO with RSL-RL and exported as .pt and .onnx for deployment.",
+
+  sections: [
+    {
+      heading: "Demo",
+      content: `
+        <div style="text-align:center; margin-bottom: 16px;">
+          <img src="src/so_arm/RoboArm.gif" alt="SO-ARM RL Demo" loading="lazy"
+               style="width:100%; max-width:900px; border-radius:8px;">
+        </div>
+      `
+    },
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          Custom Isaac Lab RL environments for the open-source SO-ARM100 and SO-ARM101 robot arms.
+          Both task types are implemented for both robot variants, trained with PPO via RSL-RL,
+          and policies are exported as <code>.pt</code> (PyTorch JIT) and <code>.onnx</code> after evaluation.
+        </p>
+        <table style="width:100%; border-collapse:collapse; margin-top:12px; font-size:0.92em;">
+          <thead>
+            <tr style="border-bottom:2px solid var(--border,#333)">
+              <th style="text-align:left; padding:8px 12px;">Task</th>
+              <th style="text-align:center; padding:8px 12px;">SO-ARM100</th>
+              <th style="text-align:center; padding:8px 12px;">SO-ARM101</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border,#222)">
+              <td style="padding:8px 12px;">Reach (end-effector pose tracking)</td>
+              <td style="text-align:center; padding:8px 12px;">✅</td>
+              <td style="text-align:center; padding:8px 12px;">✅</td>
+            </tr>
+            <tr>
+              <td style="padding:8px 12px;">Lift (pick up a cube)</td>
+              <td style="text-align:center; padding:8px 12px;">✅</td>
+              <td style="text-align:center; padding:8px 12px;">✅</td>
+            </tr>
+          </tbody>
+        </table>
+      `
+    },
+    {
+      heading: "Project Structure",
+      content: `
+        <pre style="background:var(--code-bg,#111); padding:16px; border-radius:8px; overflow-x:auto; font-size:0.85em; line-height:1.6;"><code>src/isaac_so_arm101/
+├── robots/
+│   ├── trs_so100/      ← SO-ARM100 articulation config + URDF
+│   └── trs_so101/      ← SO-ARM101 articulation config + URDF
+├── tasks/
+│   ├── reach/          ← Reach task: env, MDP, PPO config
+│   └── lift/           ← Lift task: env, MDP, PPO config
+└── scripts/
+    ├── rsl_rl/         ← train.py, play.py, cli_args.py
+    ├── list_envs.py
+    ├── zero_agent.py
+    └── random_agent.py</code></pre>
+      `
+    },
+    {
+      heading: "Setup & Usage",
+      content: `
+        <p>Install <strong>uv</strong>, clone and sync:</p>
+        <pre style="background:var(--code-bg,#111); padding:14px; border-radius:8px; overflow-x:auto; font-size:0.85em; line-height:1.6;"><code>curl -LsSf https://astral.sh/uv/install.sh | sh
+git clone https://github.com/KyawLinnKhant/IsaacLab_SO-ARM100-101.git
+cd IsaacLab_SO-ARM100-101
+uv sync</code></pre>
+        <p style="margin-top:14px;"><strong>Train:</strong></p>
+        <pre style="background:var(--code-bg,#111); padding:14px; border-radius:8px; overflow-x:auto; font-size:0.85em; line-height:1.6;"><code># Reach task
+uv run train --task SO-ARM100-Reach-v0 --headless
+
+# Lift task
+uv run train --task SO-ARM100-Lift-Cube-v0 --headless</code></pre>
+        <p style="margin-top:14px;"><strong>Evaluate:</strong></p>
+        <pre style="background:var(--code-bg,#111); padding:14px; border-radius:8px; overflow-x:auto; font-size:0.85em; line-height:1.6;"><code># Reach
+uv run play --task SO-ARM100-Reach-Play-v0
+
+# Lift
+uv run play --task SO-ARM100-Lift-Cube-Play-v0</code></pre>
+      `
+    },
+    {
+      heading: "Built With",
+      content: `
+        <ul>
+          <li><strong>Isaac Lab</strong> — simulation and RL framework</li>
+          <li><strong>NVIDIA Isaac Sim</strong> — physics backend</li>
+          <li><strong>RSL-RL</strong> — PPO training library</li>
+          <li><strong>SO-ARM100 / SO-ARM101</strong> — open-source robot hardware platform</li>
+          <li><strong>uv</strong> — fast Python package manager</li>
+        </ul>
+      `
+    },
+    {
+      heading: "GitHub",
+      content: `
+        <p>
+          <a href="https://github.com/KyawLinnKhant/IsaacLab_SO-ARM100-101" target="_blank" rel="noopener">
+            github.com/KyawLinnKhant/IsaacLab_SO-ARM100-101
           </a>
         </p>
       `
