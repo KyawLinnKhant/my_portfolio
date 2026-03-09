@@ -792,38 +792,61 @@ window.PROJECTS["fcb-prediction"] = {
    14. SLAM TurtleBot — ROS
 ───────────────────────────────────────────────────────── */
 window.PROJECTS["slam-turtlebot-ros"] = {
-  title: "SLAM TurtleBot — ROS",
+  title: "ROS 2 EKF SLAM — TurtleBot3",
   status: "Completed",
-  tags: ["ROS", "SLAM", "TurtleBot3", "LiDAR", "Nav2", "EKF", "C++", "Python"],
-  desc: "ROS-based Simultaneous Localisation and Mapping (SLAM) on TurtleBot3 — autonomous map building with LiDAR, EKF localisation, and goal-directed navigation in unknown environments.",
+  cover: "src/slam_turtlebot/ttb.jpg",
+  tags: ["ROS2", "EKF", "SLAM", "TurtleBot3", "LiDAR", "C++"],
+  desc: "EKF SLAM implemented from scratch on a TurtleBot3 Burger using ROS 2. The robot simultaneously builds a map of cylindrical landmarks and localises itself in real time — with ground truth, odometry-only, and EKF estimates visualised side-by-side in RViz.",
 
   sections: [
     {
       heading: "Project Overview",
       content: `
         <p>
-          A ROS-based SLAM system for TurtleBot3 enabling autonomous exploration and map building
-          in unknown environments. The robot simultaneously constructs a map and localises itself
-          within it, then uses the built map for autonomous goal-directed navigation.
+          This project implements the full EKF SLAM pipeline from scratch — no slam_toolbox, no off-the-shelf
+          localisation. Everything from the math primitives to the sensor pipeline was written in C++
+          as a custom ROS 2 package stack.
         </p>
         <ul>
-          <li>SLAM: simultaneous map construction and robot localisation via LiDAR</li>
-          <li>Extended Kalman Filter (EKF) for robust pose estimation</li>
-          <li>Autonomous navigation in unmapped environments using Nav2</li>
-          <li>ROS node architecture for modular mapping, localisation, and path planning</li>
-          <li>Validated in both simulation and on real TurtleBot3 hardware</li>
+          <li>Three pose estimates run simultaneously: ground truth (red), odometry-only dead-reckoning (blue), and EKF SLAM (green) — all visualised live in RViz</li>
+          <li>LiDAR returns clustered and fitted to circles via Taubin circle fitting for landmark detection</li>
+          <li>Data association via Mahalanobis distance; EKF predict/correct loop maintains a real-time landmark map</li>
+          <li>Custom <code>turtlelib</code> C++ library: SE(2) transforms, differential drive kinematics, EKF state estimation</li>
+          <li>Custom simulator (<code>nusim</code>) with configurable sensor noise — validated in sim and on real TurtleBot3 hardware</li>
         </ul>
       `
     },
     {
-      heading: "Tech Stack",
+      heading: "Demo",
+      video: "https://youtu.be/2M8OZtKfG7k",
       content: `
+        <p>
+          Three robots rendered simultaneously in RViz — each representing a different pose estimate.
+          The green EKF robot tracks close to ground truth while the blue odometry robot drifts over time.
+        </p>
+      `
+    },
+    {
+      heading: "Hardware",
+      content: `
+        <img src="src/slam_turtlebot/burger_hardware.jpg"
+          alt="TurtleBot3 Burger full component list"
+          loading="lazy" decoding="async"
+          style="width:100%;border-radius:12px;border:1px solid rgba(255,255,255,.07);margin-top:4px;">
+      `
+    },
+    {
+      heading: "Architecture",
+      content: `
+        <p>
+          The project is structured as five ROS 2 packages, each with a single responsibility:
+        </p>
         <ul>
-          <li>ROS (Noetic / Humble), Nav2, slam_toolbox</li>
-          <li>C++ (core nodes) · Python (utilities)</li>
-          <li>LiDAR (RPLiDAR / simulated scan), wheel encoders</li>
-          <li>RViz for visualisation</li>
-          <li>TurtleBot3 Burger (real hardware + Gazebo simulation)</li>
+          <li><strong>turtlelib</strong> — standalone C++ math library: SE(2), kinematics, EKF, circle fitting</li>
+          <li><strong>nusim</strong> — simulation environment with walled arena, cylindrical obstacles, and configurable sensor noise</li>
+          <li><strong>nuturtle_control</strong> — velocity commands → wheel speeds → dead-reckoning odometry</li>
+          <li><strong>nuslam</strong> — LiDAR clustering, landmark detection, data association, and EKF predict/correct loop</li>
+          <li><strong>nuturtle_description</strong> — URDF/Xacro models supporting multiple coloured robot instances for RViz comparison</li>
         </ul>
       `
     },
@@ -950,6 +973,183 @@ window.PROJECTS["isaaclab-so-arm"] = {
         <p>
           <a href="https://github.com/KyawLinnKhant/IsaacLab_SO-ARM100-101" target="_blank" rel="noopener">
             github.com/KyawLinnKhant/IsaacLab_SO-ARM100-101
+          </a>
+        </p>
+      `
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   NEW. Drone Swarm Cooperative Transport
+───────────────────────────────────────────────────────── */
+window.PROJECTS["drone-swarm"] = {
+  title: "Drone Swarm Cooperative Transport",
+  status: "Completed",
+  cover: "src/drone_swarm/lift.png",
+  tags: ["ROS Noetic", "C++", "CoppeliaSim", "Multi-UAV", "Swarm Robotics", "Eigen3", "Ubuntu"],
+  desc: "A decentralised multi-UAV system where a swarm of quadcopters cooperatively lifts, transports, and lands an unknown payload — with no explicit inter-drone communication. Each drone is an independent agent driven by three layered behaviours: obstacle avoidance, flocking, and scatter.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          This project implements a fully decentralised swarm intelligence approach to cooperative payload transport.
+          A fleet of quadcopters autonomously self-organises around an unknown payload, lifts it, navigates to a
+          destination, and lands — without any drone ever directly communicating with another.
+        </p>
+        <ul>
+          <li>No inter-drone communication — each agent acts solely on local sensor data</li>
+          <li>Three-layer subsumption architecture: obstacle avoidance → flocking → scatter (bacterium)</li>
+          <li>Adapts to arbitrary payload shapes and mass distributions (L-shape, peanut, rectangle)</li>
+          <li>Simulated in CoppeliaSim with a full ROS Noetic control stack in C++</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Subsumption Architecture",
+      content: `
+        <div class="cad-grid">
+          <figure>
+            <img src="src/drone_swarm/archi.png" alt="Subsumption architecture diagram" loading="lazy" decoding="async">
+            <figcaption><strong>Fig. 3 — Per-agent subsumption architecture</strong><br>
+            Four behaviour levels (low-level flight control, environment perception, combined behaviours, collective target tracking)
+            are stacked so higher-priority layers suppress lower ones. The result: each drone independently decides its velocity
+            without a central coordinator.</figcaption>
+          </figure>
+        </div>
+        <p>
+          Sensors feed three concurrent behaviour generators — obstacle avoidance (proximity), flocking (vision-based relative
+          localisation), and bacterium scatter (ultrasonic load sensing). A velocity fusion block blends their outputs before
+          passing a single velocity command to the low-level flight controller.
+        </p>
+      `
+    },
+    {
+      heading: "Proximity Zones",
+      content: `
+        <div class="cad-grid">
+          <figure>
+            <img src="src/drone_swarm/config.png" alt="Proximity zone configuration" loading="lazy" decoding="async">
+            <figcaption><strong>Sensing zones around each drone</strong><br>
+            Near zone (red): triggers obstacle avoidance + bacterium behaviour. Mid/Far zone (green): activates flocking and
+            bacterium gradient-following. The zone radii determine how early a drone reacts to neighbours or the payload.</figcaption>
+          </figure>
+        </div>
+      `
+    },
+    {
+      heading: "Transport Results",
+      content: `
+        <div class="cad-grid">
+          <figure>
+            <img src="src/drone_swarm/transport1.png" alt="Trajectory — peanut shape payload" loading="lazy" decoding="async">
+            <figcaption><strong>(a) Peanut-shape payload</strong> — drones scatter and self-position around the irregular load,
+            then converge into a stable formation for transport.</figcaption>
+          </figure>
+          <figure>
+            <img src="src/drone_swarm/transport2.png" alt="Trajectory — rectangle shape payload" loading="lazy" decoding="async">
+            <figcaption><strong>(b) Rectangle-shape payload</strong> — tighter formation achieved due to the symmetric mass
+            distribution; all six drones track a near-identical flight path to the destination.</figcaption>
+          </figure>
+        </div>
+        <p>
+          The 3-D trajectory plots show the scatter phase (chaotic exploration near the payload) followed by a clean,
+          aligned cruise phase once all drones have latched and lifted. The rectangle case achieves noticeably tighter
+          formation coherence than the asymmetric peanut case — consistent with the load-sensing gradient dynamics.
+        </p>
+      `
+    },
+    {
+      heading: "GitHub",
+      content: `
+        <p>
+          <a href="https://github.com/KyawLinnKhant/Swarm_Drones_ROSCS" target="_blank" rel="noopener">
+            github.com/KyawLinnKhant/Swarm_Drones_ROSCS
+          </a>
+        </p>
+      `
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   NEW. Sim2Real Quadruped
+───────────────────────────────────────────────────────── */
+window.PROJECTS["sim2real-quad"] = {
+  title: "Sim2Real Quadruped",
+  status: "Completed",
+  cover: "src/sim2real_quad/quad_pic.jpg",
+  tags: ["IsaacLab", "ROS2", "PPO", "Sim2Real", "Arduino", "3D Printing", "PyTorch"],
+  desc: "A 3D-printed quadruped built from scratch — chassis, firmware, simulation, and deployment. The walking gait is a PPO policy trained in NVIDIA Isaac Lab and deployed live on hardware via ROS2 and Arduino. No hand-coded motion.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          This project covers the full Sim2Real pipeline for legged locomotion — designing and printing
+          the physical robot, training a walking policy entirely in simulation, then deploying it live
+          on hardware with no additional tuning or motion programming.
+        </p>
+        <ul>
+          <li>12-DOF chassis fully 3D printed — 3 joints per leg (hip, thigh, calf), 165-component URDF</li>
+          <li>PPO policy trained in NVIDIA Isaac Lab using RSL-RL with domain randomisation across joint friction, mass, and terrain</li>
+          <li>Policy exported as PyTorch JIT and run at 20 Hz via a ROS2 inference node — CPU-only, no GPU on deployment</li>
+          <li>Arduino firmware written from scratch to parse serial joint targets and drive 12 servos via PCA9685 I2C</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Demo",
+      video: "https://www.youtube.com/shorts/bfiS8Mw4hU0",
+      content: `
+        <p>
+          The robot walking under live AI inference — trained in ~20 minutes, zero manual gait programming.
+        </p>
+      `
+    },
+    {
+      heading: "Hardware",
+      content: `
+        <div class="cad-grid">
+          <figure>
+            <img src="src/sim2real_quad/quad_pic.jpg" alt="Quadruped robot on workbench" loading="lazy" decoding="async">
+            <figcaption><strong>3D Printed Chassis</strong><br>X-brace legs for rigidity, wiring routed through conduit. STL files and CAD source included in the repo.</figcaption>
+          </figure>
+        </div>
+        <ul style="margin-top:14px">
+          <li>12 × MG996R servos — 3 per leg</li>
+          <li>Arduino UNO R3 + PCA9685 16-ch I2C servo driver</li>
+          <li>External 6V regulated power supply</li>
+          <li>ROS2 inference running on a laptop, commands sent over USB serial</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Simulation & Training",
+      content: `
+        <p>
+          The robot was modelled in Isaac Lab with a full URDF and trained using PPO via RSL-RL.
+          The 72D observation vector covers base velocity, angular rate, gravity vector, velocity commands,
+          joint positions and velocities, previous actions, and foot contact forces — giving the policy
+          enough state to produce stable gaits without explicit motion planning.
+        </p>
+        <ul>
+          <li>~20 minutes on a single GPU — 999 episodes to convergence</li>
+          <li>Action space: 12 joint position targets at 20 Hz</li>
+          <li>Domain randomisation to close the sim-to-real gap without hardware-in-the-loop tuning</li>
+          <li>Exported as <code>.pt</code> (PyTorch JIT) and <code>.onnx</code> for flexible deployment</li>
+        </ul>
+      `
+    },
+    {
+      heading: "GitHub",
+      content: `
+        <p>
+          <a href="https://github.com/KyawLinnKhant/sim2real-quad" target="_blank" rel="noopener">
+            github.com/KyawLinnKhant/sim2real-quad
           </a>
         </p>
       `

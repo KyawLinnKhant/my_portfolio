@@ -626,7 +626,7 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
       </div>
       <p class="tagline">Physical AI &amp; Robotics Engineer &nbsp;·&nbsp; Edge Autonomy &nbsp;·&nbsp; Sim2Real</p>
       <div class="cta">
-        <a class="btn primary" href="mailto:klkhant707@gmail.com">Contact Me</a>
+        <a class="btn primary" href="/cdn-cgi/l/email-protection#dcb7b0b7b4bdb2a8ebeceb9cbbb1bdb5b0f2bfb3b1">Contact Me</a>
         <a class="btn ghost" href="assets/Kyaw_Linn_Khant_Resume.pdf" target="_blank" rel="noopener">Resume ↗</a>
       </div>
     </div>
@@ -859,29 +859,25 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
         </div>
       </a>
 
-      <a class="proj" data-title="Swarm Drones ROS/CS" href="project.html?id=swarm-drones">
-        <div class="thumbwrap"><div class="thumb-placeholder" style="background:linear-gradient(135deg,#0a0a1a,#1a1040);">
-          <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" opacity="0.5">
-            <path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path>
-          </svg>
-        </div></div>
+      <a class="proj" data-title="Drone Swarm Cooperative Transport" href="project.html?id=drone-swarm">
+        <div class="thumbwrap"><img class="thumb" src="src/drone_swarm/lift.png" alt="Drone Swarm"></div>
         <div class="caption">
-          <div class="meta"><div class="title">Swarm Drones — ROS/CS</div>
-          <p class="desc">Multi-drone swarm coordination with ROS2 — distributed formation control, task allocation, and collision-free navigation across a UAV fleet.</p></div>
-          <span class="badge">ROS2</span><span class="badge">Swarm</span><span class="badge">Multi-Agent</span>
+          <div class="meta"><div class="title">Drone Swarm Cooperative Transport</div>
+          <p class="desc">Decentralised multi-UAV swarm that cooperatively lifts and transports an unknown payload — no inter-drone communication, pure emergent behaviour.</p></div>
+          <span class="badge">ROS Noetic</span><span class="badge">C++</span><span class="badge">Swarm</span>
         </div>
       </a>
 
       <a class="proj" data-title="Sim2Real Quadruped" href="project.html?id=sim2real-quad">
-        <div class="thumbwrap"><div class="thumb-placeholder" style="background:linear-gradient(135deg,#0f0a1e,#1e1040);">
+        <div class="thumbwrap"><img class="thumb" src="src/sim2real_quad/quad_pic.jpg" alt="Sim2Real Quadruped" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="thumb-placeholder" style="display:none;background:linear-gradient(135deg,#0f0a1e,#1e1040);">
           <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" opacity="0.5">
             <path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"></path>
           </svg>
         </div></div>
         <div class="caption">
           <div class="meta"><div class="title">Sim2Real Quadruped</div>
-          <p class="desc">RL-trained quadruped locomotion controller with domain randomisation for Sim2Real transfer — stable walking, trotting, and terrain adaptation on real hardware.</p></div>
-          <span class="badge">Sim2Real</span><span class="badge">RL</span><span class="badge">Quadruped</span>
+          <p class="desc">3D-printed 12-joint walking robot trained entirely in NVIDIA Isaac Lab via PPO — policy exported and deployed live on hardware through ROS2 and Arduino.</p></div>
+          <span class="badge">IsaacLab</span><span class="badge">ROS2</span><span class="badge">Sim2Real</span>
         </div>
       </a>
 
@@ -914,17 +910,11 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
 
 
       <a class="proj" data-title="SLAM TurtleBot ROS" href="project.html?id=slam-turtlebot-ros">
-        <div class="thumbwrap"><div class="thumb-placeholder" style="background:linear-gradient(135deg,#071a14,#0f3322);">
-          <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" opacity="0.5">
-            <circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle>
-            <line x1="12" y1="2" x2="12" y2="9"></line><line x1="12" y1="15" x2="12" y2="22"></line>
-            <line x1="2" y1="12" x2="9" y2="12"></line><line x1="15" y1="12" x2="22" y2="12"></line>
-          </svg>
-        </div></div>
+        <div class="thumbwrap"><img class="thumb" src="src/slam_turtlebot/ttb.jpg" alt="TurtleBot3 SLAM"></div>
         <div class="caption">
-          <div class="meta"><div class="title">SLAM TurtleBot — ROS</div>
-          <p class="desc">ROS-based SLAM on TurtleBot — autonomous map building, LiDAR localisation, and goal-directed navigation in unknown environments.</p></div>
-          <span class="badge">ROS</span><span class="badge">SLAM</span><span class="badge">LiDAR</span><span class="badge">C++</span>
+          <div class="meta"><div class="title">ROS 2 EKF SLAM — TurtleBot3</div>
+          <p class="desc">EKF SLAM implemented from scratch — landmark detection, data association, and real-time pose estimation on a TurtleBot3 Burger.</p></div>
+          <span class="badge">ROS2</span><span class="badge">EKF</span><span class="badge">SLAM</span><span class="badge">C++</span>
         </div>
       </a>
       <a class="proj" data-title="Autonomous Microcontroller Vehicle" href="project.html?id=esd">
@@ -1175,7 +1165,7 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
 
   <footer>© <span id="y"></span> Kyaw Linn Khant</footer>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     document.documentElement.style.scrollBehavior = 'smooth';
     document.getElementById('y').textContent = new Date().getFullYear();
 
@@ -1235,11 +1225,4 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
           grid.querySelectorAll('.proj.hidden').forEach(el => el.classList.remove('hidden'));
           btn.textContent = 'See Less ↑';
         } else {
-          cards.forEach((card, i) => { if (i >= INITIAL_VISIBLE) card.classList.add('hidden'); });
-          btn.textContent = 'See More ↓';
-        }
-      });
-    })();
-  </script>
-</body>
-</html>
+          cards.forEach((card, i) => { if (i >= IN
