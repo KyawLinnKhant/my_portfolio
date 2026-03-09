@@ -1010,15 +1010,14 @@ window.PROJECTS["drone-swarm"] = {
     {
       heading: "Subsumption Architecture",
       content: `
-        <div class="cad-grid">
-          <figure>
-            <img src="src/drone_swarm/archi.png" alt="Subsumption architecture diagram" loading="lazy" decoding="async">
-            <figcaption><strong>Fig. 3 — Per-agent subsumption architecture</strong><br>
-            Four behaviour levels (low-level flight control, environment perception, combined behaviours, collective target tracking)
-            are stacked so higher-priority layers suppress lower ones. The result: each drone independently decides its velocity
-            without a central coordinator.</figcaption>
-          </figure>
-        </div>
+        <figure style="margin:0">
+          <img src="src/drone_swarm/archi.png" alt="Subsumption architecture diagram" loading="lazy" decoding="async"
+            style="width:100%;border-radius:10px;border:1px solid rgba(255,255,255,.07)">
+          <figcaption style="font-size:12px;color:#4a6080;text-align:center;margin-top:8px;line-height:1.5">
+            <strong style="color:#c8d8f0">Fig. 3 — Per-agent subsumption architecture</strong><br>
+            Four behaviour levels stacked so higher-priority layers suppress lower ones. Each drone independently decides its velocity without a central coordinator.
+          </figcaption>
+        </figure>
         <p>
           Sensors feed three concurrent behaviour generators — obstacle avoidance (proximity), flocking (vision-based relative
           localisation), and bacterium scatter (ultrasonic load sensing). A velocity fusion block blends their outputs before
@@ -1029,29 +1028,33 @@ window.PROJECTS["drone-swarm"] = {
     {
       heading: "Proximity Zones",
       content: `
-        <div class="cad-grid">
-          <figure>
-            <img src="src/drone_swarm/config.png" alt="Proximity zone configuration" loading="lazy" decoding="async">
-            <figcaption><strong>Sensing zones around each drone</strong><br>
-            Near zone (red): triggers obstacle avoidance + bacterium behaviour. Mid/Far zone (green): activates flocking and
-            bacterium gradient-following. The zone radii determine how early a drone reacts to neighbours or the payload.</figcaption>
-          </figure>
-        </div>
+        <figure style="margin:0">
+          <img src="src/drone_swarm/config.png" alt="Proximity zone configuration" loading="lazy" decoding="async"
+            style="width:100%;border-radius:10px;border:1px solid rgba(255,255,255,.07)">
+          <figcaption style="font-size:12px;color:#4a6080;text-align:center;margin-top:8px;line-height:1.5">
+            <strong style="color:#c8d8f0">Sensing zones around each drone</strong><br>
+            Near zone (red): triggers obstacle avoidance + bacterium behaviour. Mid/Far zone (green): activates flocking and gradient-following.
+          </figcaption>
+        </figure>
       `
     },
     {
       heading: "Transport Results",
       content: `
-        <div class="cad-grid">
-          <figure>
-            <img src="src/drone_swarm/transport1.png" alt="Trajectory — peanut shape payload" loading="lazy" decoding="async">
-            <figcaption><strong>(a) Peanut-shape payload</strong> — drones scatter and self-position around the irregular load,
-            then converge into a stable formation for transport.</figcaption>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+          <figure style="margin:0">
+            <img src="src/drone_swarm/transport1.png" alt="Trajectory — peanut shape payload" loading="lazy" decoding="async"
+              style="width:100%;border-radius:10px;border:1px solid rgba(255,255,255,.07)">
+            <figcaption style="font-size:12px;color:#4a6080;text-align:center;margin-top:8px;line-height:1.5">
+              <strong style="color:#c8d8f0">(a) Peanut-shape payload</strong> — drones scatter and self-position around the irregular load, then converge into a stable formation.
+            </figcaption>
           </figure>
-          <figure>
-            <img src="src/drone_swarm/transport2.png" alt="Trajectory — rectangle shape payload" loading="lazy" decoding="async">
-            <figcaption><strong>(b) Rectangle-shape payload</strong> — tighter formation achieved due to the symmetric mass
-            distribution; all six drones track a near-identical flight path to the destination.</figcaption>
+          <figure style="margin:0">
+            <img src="src/drone_swarm/transport2.png" alt="Trajectory — rectangle shape payload" loading="lazy" decoding="async"
+              style="width:100%;border-radius:10px;border:1px solid rgba(255,255,255,.07)">
+            <figcaption style="font-size:12px;color:#4a6080;text-align:center;margin-top:8px;line-height:1.5">
+              <strong style="color:#c8d8f0">(b) Rectangle-shape payload</strong> — tighter formation from symmetric mass distribution; all six drones track a near-identical path.
+            </figcaption>
           </figure>
         </div>
         <p>
