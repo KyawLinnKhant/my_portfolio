@@ -108,7 +108,7 @@ window.PROJECTS["rl-balance"] = {
 window.PROJECTS["smart-waste"] = {
   title: "Smart Waste Sorting System",
   status: "Completed",
-  cover: "src/waste/sbin.jpg",
+  cover: "src/waste/bin.png",
   tags: ["Computer Vision", "PyTorch", "ONNX", "Raspberry Pi", "Edge AI", "Servo Control", "Physical AI"],
   desc: "Full Physical AI pipeline: a custom PyTorch CNN trained from scratch classifies waste in real time, converted to ONNX for lightweight edge deployment on Raspberry Pi. A servo-controlled round bin with three 120° segments (paper, plastic, metal) spins and tilts to sort each item — zero cloud dependency, no GPU required.",
 
@@ -118,11 +118,11 @@ window.PROJECTS["smart-waste"] = {
       content: `
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
           <figure style="margin:0;">
-            <img src="src/waste/sbin.jpg" alt="Smart Bin top view" loading="lazy" style="width:100%; border-radius:10px; border:1px solid var(--border);">
+            <img src="src/waste/bin.png" alt="Smart Bin top view" loading="lazy" style="width:100%; border-radius:10px; border:1px solid var(--border);">
             <figcaption style="font-size:12px; color:var(--muted); text-align:center; margin-top:6px;">Round bin with three 120° segments — paper, plastic, metal</figcaption>
           </figure>
           <figure style="margin:0;">
-            <img src="src/waste/bin.jpg" alt="Smart Bin hardware" loading="lazy" style="width:100%; border-radius:10px; border:1px solid var(--border);">
+            <img src="src/waste/sbin.jpg" alt="Smart Bin hardware" loading="lazy" style="width:100%; border-radius:10px; border:1px solid var(--border);">
             <figcaption style="font-size:12px; color:var(--muted); text-align:center; margin-top:6px;">Raspberry Pi + servo driver wired beneath the bin lid</figcaption>
           </figure>
         </div>
@@ -189,7 +189,7 @@ window.PROJECTS["picar-x-f1"] = {
   title: "KLK Robot Racer — PiCar-X F1",
   status: "Completed",
   cover: "src/picar-x-f1/3d-picar-x.JPEG",
-  tags: ["Raspberry Pi", "YOLO", "Computer Vision", "Python", "Node.js", "ROS 2", "C++17", "Edge AI", "Web UI", "Autonomous"],
+  tags: ["Raspberry Pi", "YOLO", "Computer Vision", "Python", "Node.js", "ROS 2", "C++17", "Edge AI", "Web UI", "Autonomous", "Digital Twin"],
   desc: "AI-powered robotics control platform for the Picar-X on Raspberry Pi. Drop any YOLO .pt model into data/ and detection switches live — no restarts, no code changes. Real-time object detection, hot-swappable camera backends, 3D visualisation, obstacle avoidance, and a full web UI with desktop and mobile support.",
 
   sections: [
@@ -1212,7 +1212,7 @@ window.PROJECTS["isaaclab-so-arm"] = {
 window.PROJECTS["drone-swarm"] = {
   title: "Drone Swarm Cooperative Transport",
   status: "Completed",
-  cover: "src/drone_swarm/lift.png",
+  cover: "src/drone_swarm/lift_hero.png",
   tags: ["ROS Noetic", "C++", "CoppeliaSim", "Multi-UAV", "Swarm Robotics", "Eigen3", "Ubuntu"],
   desc: "A decentralised multi-UAV system where a swarm of quadcopters cooperatively lifts, transports, and lands an unknown payload — with no explicit inter-drone communication. Each drone is an independent agent driven by three layered behaviours: obstacle avoidance, flocking, and scatter.",
 
