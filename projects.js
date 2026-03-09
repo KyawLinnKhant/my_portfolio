@@ -170,7 +170,7 @@ window.PROJECTS["smart-waste"] = {
 window.PROJECTS["picar-x-f1"] = {
   title: "KLK Robot Racer — PiCar-X F1",
   status: "Completed",
-  cover: "src/picar-x-f1/demo/3d-picar-x.JPEG",
+  cover: "src/picar-x-f1/3d-picar-x.JPEG",
   tags: ["Raspberry Pi", "YOLO", "Computer Vision", "Python", "Node.js", "ROS 2", "C++17", "Edge AI", "Web UI", "Autonomous"],
   desc: "AI-powered robotics control platform for the Picar-X on Raspberry Pi. Drop any YOLO .pt model into data/ and detection switches live — no restarts, no code changes. Real-time object detection, hot-swappable camera backends, 3D visualisation, obstacle avoidance, and a full web UI with desktop and mobile support.",
 
@@ -179,7 +179,7 @@ window.PROJECTS["picar-x-f1"] = {
       heading: "Live Control Interface",
       content: `
         <figure>
-          <img src="src/picar-x-f1/demo/picar-x-racer-demo.gif" alt="PiCar-X Racer Demo" loading="lazy" style="width:100%; border-radius:8px;">
+          <img src="src/picar-x-f1/picar-x-racer-demo.gif" alt="PiCar-X Racer Demo" loading="lazy" style="width:100%; border-radius:8px;">
           <figcaption>Full web-based control interface with video feed, gauges, and detection panels</figcaption>
         </figure>
       `
@@ -219,7 +219,7 @@ window.PROJECTS["picar-x-f1"] = {
 ├── my_custom_model.pt   ← drop your own trained weights
 └── yolo11n-pose.pt      ← pose estimation, works out of the box</code></pre>
         <figure style="margin-top:20px;">
-          <img src="src/picar-x-f1/demo/demo-vision-custom.gif" alt="Custom model detection" loading="lazy" style="width:100%; border-radius:8px;">
+          <img src="src/picar-x-f1/demo-vision-custom.gif" alt="Custom model detection" loading="lazy" style="width:100%; border-radius:8px;">
           <figcaption>Custom model detection — loaded and running live with no code changes</figcaption>
         </figure>
       `
@@ -227,13 +227,13 @@ window.PROJECTS["picar-x-f1"] = {
     {
       heading: "Computer Vision & Object Tracking",
       content: `
-        <div class="cad-grid">
-          <figure>
-            <img src="src/picar-x-f1/demo/computer-vision.gif" alt="Computer Vision" loading="lazy">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+          <figure style="margin:0;">
+            <img src="src/picar-x-f1/computer-vision.gif" alt="Computer Vision" loading="lazy" style="width:100%; border-radius:8px;">
             <figcaption><strong>Real-Time Object Detection</strong><br>YOLO inference with bounding box, aim, mixed, and pose overlay styles</figcaption>
           </figure>
-          <figure>
-            <img src="src/picar-x-f1/demo/demo-picarx-cat.gif" alt="Cat Tracking Demo" loading="lazy">
+          <figure style="margin:0;">
+            <img src="src/picar-x-f1/demo-picarx-cat.gif" alt="Cat Tracking Demo" loading="lazy" style="width:100%; border-radius:8px;">
             <figcaption><strong>Custom Model Tracking</strong><br>Live target-following with a custom-trained model</figcaption>
           </figure>
         </div>
@@ -242,13 +242,13 @@ window.PROJECTS["picar-x-f1"] = {
     {
       heading: "3D Visualisation",
       content: `
-        <div class="cad-grid">
-          <figure>
-            <img src="src/picar-x-f1/demo/3d-picar-x.gif" alt="3D Visualization" loading="lazy">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+          <figure style="margin:0;">
+            <img src="src/picar-x-f1/3d-picar-x.gif" alt="3D Visualization" loading="lazy" style="width:100%; border-radius:8px;">
             <figcaption><strong>Live 3D Model</strong><br>Reflects real-time robot orientation and movement</figcaption>
           </figure>
-          <figure>
-            <img src="src/picar-x-f1/demo/3D-mode-demo.png" alt="3D Virtual Mode" loading="lazy">
+          <figure style="margin:0;">
+            <img src="src/picar-x-f1/3D-mode-demo.png" alt="3D Virtual Mode" loading="lazy" style="width:100%; border-radius:8px;">
             <figcaption><strong>3D Virtual Mode</strong><br>Hides video feed; pairs with Auto Measure Distance to show ultrasonic readings</figcaption>
           </figure>
         </div>
@@ -257,21 +257,21 @@ window.PROJECTS["picar-x-f1"] = {
     {
       heading: "Settings & Configuration",
       content: `
-        <div class="cad-grid">
-          <figure>
-            <img src="src/picar-x-f1/demo/robot-hardware-settings.gif" alt="Robot Hardware Settings" loading="lazy">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+          <figure style="margin:0;">
+            <img src="src/picar-x-f1/robot-hardware-settings.gif" alt="Robot Hardware Settings" loading="lazy" style="width:100%; border-radius:8px;">
             <figcaption><strong>Robot Hardware</strong><br>Servo calibration, motor direction, pin assignments, hardware layout</figcaption>
           </figure>
-          <figure>
-            <img src="src/picar-x-f1/demo/general-settings.gif" alt="General Settings" loading="lazy">
+          <figure style="margin:0;">
+            <img src="src/picar-x-f1/general-settings.gif" alt="General Settings" loading="lazy" style="width:100%; border-radius:8px;">
             <figcaption><strong>General Interface</strong><br>Gauges, speedometer, 3D view, detection panels, video quality</figcaption>
           </figure>
-          <figure>
-            <img src="src/picar-x-f1/demo/models-settings.gif" alt="Model Management" loading="lazy">
+          <figure style="margin:0; margin-top:20px;">
+            <img src="src/picar-x-f1/models-settings.gif" alt="Model Management" loading="lazy" style="width:100%; border-radius:8px;">
             <figcaption><strong>Detection Models</strong><br>Load, swap, and manage YOLO models in real time — no restart required</figcaption>
           </figure>
-          <figure>
-            <img src="src/picar-x-f1/demo/demo-tts.gif" alt="Text-to-Speech" loading="lazy">
+          <figure style="margin:0; margin-top:20px;">
+            <img src="src/picar-x-f1/demo-tts.gif" alt="Text-to-Speech" loading="lazy" style="width:100%; border-radius:8px;">
             <figcaption><strong>Text-to-Speech</strong><br>Language packs and custom phrases for real-time speech output</figcaption>
           </figure>
         </div>
@@ -281,7 +281,7 @@ window.PROJECTS["picar-x-f1"] = {
       heading: "Calibration",
       content: `
         <figure>
-          <img src="src/picar-x-f1/demo/calibration.gif" alt="Calibration" loading="lazy" style="width:100%; border-radius:8px;">
+          <img src="src/picar-x-f1/calibration.gif" alt="Calibration" loading="lazy" style="width:100%; border-radius:8px;">
           <figcaption>Press <kbd>C</kbd> to enter calibration mode — adjust servo direction, camera tilt, and camera pan with keyboard controls. <kbd>0</kbd> resets all.</figcaption>
         </figure>
       `
