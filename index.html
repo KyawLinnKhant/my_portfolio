@@ -12,22 +12,22 @@
 ════════════════════════════════════════════════ */
 
 :root {
-  --bg0:     #060810;
-  --bg1:     #08101e;
-  --bg2:     #0c1628;
-  --surface: rgba(255,255,255,.03);
-  --border:  rgba(255,255,255,.07);
-  --text:    #c8d8f0;
-  --muted:   #4a6080;
-  --blue:    #3b82f6;
-  --blue-lo: rgba(59,130,246,.1);
-  --blue-hi: rgba(59,130,246,.5);
-  --sky:     #7dd3fc;
-  --indigo:  #818cf8;
+  --bg0:     #080d18;
+  --bg1:     #0c1428;
+  --bg2:     #101d38;
+  --surface: rgba(255,255,255,.04);
+  --border:  rgba(74,144,232,.14);
+  --text:    #c8d8f4;
+  --muted:   #4a6090;
+  --blue:    #4a90e8;
+  --blue-lo: rgba(74,144,232,.1);
+  --blue-hi: rgba(74,144,232,.5);
+  --sky:     #7ec8f8;
+  --indigo:  #6aa8f0;
 
   /* skill category palette */
-  --c-lang:   #7dd3fc;
-  --c-ai:     #a78bfa;
+  --c-lang:   #7ec8f8;
+  --c-ai:     #a0c8ff;
   --c-robot:  #34d399;
   --c-embed:  #fb923c;
   --c-sim:    #f472b6;
@@ -43,42 +43,209 @@ body {
   color: var(--text);
   background-color: var(--bg0);
   background-image:
-    radial-gradient(ellipse 800px 600px at 10%  0%,  rgba(59,130,246,.07), transparent),
-    radial-gradient(ellipse 700px 500px at 90% 20%, rgba(125,211,252,.04), transparent),
-    radial-gradient(ellipse 900px 700px at 50% 95%, rgba(129,140,248,.04), transparent);
+    radial-gradient(ellipse 900px 700px at 10%  0%,  rgba(74,144,232,.08), transparent),
+    radial-gradient(ellipse 700px 500px at 90% 15%, rgba(126,200,248,.05), transparent),
+    radial-gradient(ellipse 1000px 800px at 50% 95%, rgba(74,144,232,.06), transparent),
+    radial-gradient(ellipse 600px 400px at 70% 50%, rgba(30,80,180,.04), transparent);
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+}
+
+/* ─── ANIMATED BG ORBS ───────────────────────── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(ellipse 500px 400px at 15% 20%, rgba(74,144,232,.07), transparent),
+    radial-gradient(ellipse 400px 300px at 85% 70%, rgba(126,200,248,.05), transparent);
+  animation: orb-drift 18s ease-in-out infinite alternate;
+}
+@keyframes orb-drift {
+  0%   { transform: translate(0,0) }
+  50%  { transform: translate(30px, -20px) }
+  100% { transform: translate(-20px, 30px) }
+}
+
+/* ─── DOT GRID OVERLAY ───────────────────────── */
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background-image: radial-gradient(circle, rgba(74,144,232,.12) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+  opacity: .35;
 }
 .container { max-width: 1100px; margin: 0 auto; padding: 0 24px }
 
 /* Section spacing */
 section { padding: 0 }
-section[id] { scroll-margin-top: 120px }
+section[id] { scroll-margin-top: 120px; border-top: none; padding: 0 0 36px }
 
-/* Divider line between sections — skip hero */
-section[id] {
-  border-top: 1px solid rgba(59,130,246,.12);
+/* ═══ OS WINDOW CHROME ════════════════════════════════════ */
+.window {
+  background: #0a1628;
+  border: 1px solid rgba(74,144,232,.18);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,.45),
+    0 6px 14px rgba(0,0,0,.4),
+    0 28px 70px rgba(0,0,0,.5),
+    inset 0 1px 0 rgba(255,255,255,.04);
+}
+.window-bar {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 16px;
+  background: linear-gradient(180deg, #162d52 0%, #0f1e3a 100%);
+  border-bottom: 1px solid rgba(74,144,232,.14);
+  min-height: 34px;
+  user-select: none;
+}
+.window-title {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 11px; font-weight: 600; font-style: normal;
+  color: #5a8acc; letter-spacing: .06em;
+  text-transform: lowercase;
+  white-space: nowrap;
+  margin: 0; padding: 0;
+  display: flex; align-items: center; gap: 6px;
+}
+.window-title::before {
+  content: '📁';
+  font-size: 12px;
+  opacity: .7;
+  flex-shrink: 0;
+}
+.window-body { padding: 28px 28px 32px }
+
+/* Sky hero banner */
+.sky-banner {
+  height: 90px;
+  background: linear-gradient(180deg, #0a2060 0%, #1848a8 55%, #3070d8 100%);
+  position: relative; overflow: hidden;
+  border-bottom: 1px solid rgba(74,144,232,.2);
+  flex-shrink: 0;
+}
+.sky-banner::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 130px 58px at 16% 82%, rgba(255,255,255,.26), transparent),
+    radial-gradient(ellipse 90px 42px at 28% 70%, rgba(255,255,255,.2),  transparent),
+    radial-gradient(ellipse 110px 52px at 60% 80%, rgba(255,255,255,.24), transparent),
+    radial-gradient(ellipse 70px  32px at 76% 68%, rgba(255,255,255,.18), transparent),
+    radial-gradient(ellipse 50px  24px at 90% 76%, rgba(255,255,255,.15), transparent);
+  animation: clouds 22s ease-in-out infinite alternate;
+}
+@keyframes clouds { 0% { transform: translateX(0) } 100% { transform: translateX(18px) } }
+
+/* Hero toolbar (address-bar row) */
+.sky-toolbar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 14px;
+  background: #0d1e3a;
+  border-bottom: 1px solid rgba(74,144,232,.12);
+}
+.sky-toolbar-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(74,144,232,.25) }
+.sky-url {
+  flex: 1; background: rgba(74,144,232,.07);
+  border: 1px solid rgba(74,144,232,.14); border-radius: 5px;
+  padding: 3px 10px; font-size: 11px; color: #3a6090; letter-spacing: .04em;
+  font-family: 'Space Grotesk', monospace;
 }
 
-/* h2 title: breathing room below divider */
-section[id] > h2 {
-  padding-top: 60px;
-  margin-bottom: 32px;
+/* h2 inside window bar */
+section[id] > .window > .window-bar > h2 {
+  padding: 0; margin: 0;
+  font-size: 11px; font-weight: 600;
 }
 
-/* Content bottom margin: gap before next divider */
-section[id] > .card,
-section[id] > .skills-grid,
-section[id] > .grid {
-  margin-bottom: 60px;
+/* window replaces the old section > content spacing */
+section[id] > .window { margin-bottom: 0 }
+
+/* ══ 3D EXTRUSION CARDS ══════════════════════════════════ */
+/* Base extrusion color (slightly darker than card face) */
+:root { --extrude: #040c18; --extrude2: rgba(0,0,0,.55); }
+
+/* 3D Proj cards */
+.proj {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.06),
+    0 5px 0 var(--extrude),
+    0 6px 0 var(--extrude2),
+    0 10px 32px rgba(0,0,0,.5);
+  transition: transform .13s ease, box-shadow .13s ease, border-color .15s ease;
+  position: relative;
+}
+.proj:hover {
+  transform: translateY(-7px);
+  border-color: rgba(74,144,232,.5);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 12px 0 var(--extrude),
+    0 13px 0 var(--extrude2),
+    0 20px 50px rgba(74,144,232,.18);
+}
+.proj:active {
+  transform: translateY(3px);
+  box-shadow:
+    inset 0 3px 6px rgba(0,0,0,.3),
+    0 2px 0 var(--extrude),
+    0 3px 0 var(--extrude2),
+    0 4px 12px rgba(0,0,0,.4);
 }
 
-/* Projects section: grid + button together */
-section[id] > #projects-grid {
-  margin-bottom: 24px;
+/* 3D Skill category cards */
+.skill-cat {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.05),
+    0 4px 0 var(--extrude),
+    0 5px 0 var(--extrude2),
+    0 8px 24px rgba(0,0,0,.4);
+  transition: transform .13s ease, box-shadow .13s ease;
 }
-section[id] > .center {
-  margin-bottom: 60px;
+.skill-cat:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.07),
+    0 9px 0 var(--extrude),
+    0 10px 0 var(--extrude2),
+    0 16px 36px rgba(0,0,0,.45);
+}
+.skill-cat:active {
+  transform: translateY(2px);
+  box-shadow:
+    inset 0 2px 4px rgba(0,0,0,.25),
+    0 2px 0 var(--extrude),
+    0 3px 0 var(--extrude2),
+    0 4px 10px rgba(0,0,0,.35);
+}
+
+/* 3D Cert cards */
+.cert-card {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.05),
+    0 4px 0 var(--extrude),
+    0 5px 0 var(--extrude2),
+    0 8px 24px rgba(0,0,0,.4);
+  transition: transform .13s ease, box-shadow .13s ease, border-left-color .15s ease;
+}
+.cert-card:hover {
+  transform: translateY(-5px);
+  border-left-color: var(--sky);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.07),
+    0 9px 0 var(--extrude),
+    0 10px 0 var(--extrude2),
+    0 16px 36px rgba(74,144,232,.14);
+}
+.cert-card:active {
+  transform: translateY(2px);
+  box-shadow:
+    inset 0 2px 4px rgba(0,0,0,.25),
+    0 2px 0 var(--extrude),
+    0 3px 0 var(--extrude2),
+    0 4px 10px rgba(0,0,0,.35);
 }
 
 h2 {
@@ -90,14 +257,14 @@ h2 {
   margin: 0 0 32px;
   color: #e8f0ff;
 }
-h2 .accent { color: var(--blue) }
+h2 .accent { color: var(--sky) }
 
 /* ─── NAV ─────────────────────────────────────── */
 .navwrap {
   position: sticky; top: 0; z-index: 50;
-  background: rgba(6,8,16,.92);
+  background: rgba(8,13,24,.94);
   backdrop-filter: saturate(180%) blur(16px);
-  border-bottom: 1px solid rgba(59,130,246,.1);
+  border-bottom: 1px solid rgba(74,144,232,.15);
 }
 .nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 8px 0 }
 
@@ -110,7 +277,7 @@ h2 .accent { color: var(--blue) }
 
 .links {
   display: flex; align-items: center; gap: 5px;
-  background: #020408;
+  background: #020810;
   padding: 6px; border-radius: 8px;
   height: 94px; overflow: hidden;
 }
@@ -118,36 +285,36 @@ h2 .accent { color: var(--blue) }
 
 .nav-label {
   width: 70px; height: 80px;
-  background: #0c1428;
+  background: #0c1830;
   border-radius: 4px;
   display: flex; flex-direction: column; align-items: center; justify-content: space-between;
   padding: 8px 6px;
-  border-top: 1px solid #162040;
+  border-top: 1px solid #1a3060;
   transition: all .1s linear;
   position: relative; z-index: 2;
   cursor: pointer;
 }
 .nav-label .back-side {
   position: absolute; top: -10px; left: 0;
-  background: #0c1428;
+  background: #0c1830;
   border-radius: 4px 4px 2px 2px;
   width: 100%; height: 14px;
-  box-shadow: inset 0 5px 3px 1px rgba(0,0,0,.6), inset 0 -5px 2px 0 rgba(59,130,246,.12);
+  box-shadow: inset 0 5px 3px 1px rgba(0,0,0,.6), inset 0 -5px 2px 0 rgba(74,144,232,.12);
   transform: perspective(300px) rotateX(50deg);
   z-index: 1; opacity: 0;
   transition: all .1s linear;
 }
 .nav-label .key-text {
-  color: #1e3060; font-size: 10px; font-weight: 700;
+  color: #1e4080; font-size: 10px; font-weight: 700;
   text-transform: uppercase; letter-spacing: .05em;
   text-align: center; line-height: 1.2;
   transition: all .1s linear;
 }
 .nav-label .bottom-line {
   width: 100%; height: 4px; border-radius: 999px;
-  background: #0c1428;
+  background: #0c1830;
   box-shadow: 0 0 3px 0 #000;
-  border-top: 1px solid #162040;
+  border-top: 1px solid #1a3060;
   transition: all .1s linear;
 }
 .nav-label:has(input:checked) .back-side,
@@ -159,20 +326,20 @@ h2 .accent { color: var(--blue) }
   transform: perspective(200px) rotateX(-18deg);
   transform-origin: 50% 40%;
   box-shadow: inset 0 -20px 15px 0 rgba(0,0,0,.6);
-  border-top: 1px solid rgba(59,130,246,.5);
+  border-top: 1px solid rgba(74,144,232,.5);
   margin-top: 6px; border-radius: 0 0 4px 4px;
 }
 .nav-label:has(input:checked) .key-text,
 .nav-label.active             .key-text,
 .nav-label:hover               .key-text {
   color: var(--sky);
-  text-shadow: 0 0 10px rgba(125,211,252,.8), 1px 1px 2px #000;
+  text-shadow: 0 0 10px rgba(126,200,248,.8), 1px 1px 2px #000;
 }
 .nav-label:has(input:checked) .bottom-line,
 .nav-label.active             .bottom-line,
 .nav-label:hover               .bottom-line {
-  background: #04080f;
-  border-top-color: rgba(59,130,246,.3);
+  background: #040c1a;
+  border-top-color: rgba(74,144,232,.3);
 }
 
 .hamburger { display: none; background: none; border: 0; font-size: 22px; color: #fff; cursor: pointer }
@@ -181,8 +348,8 @@ h2 .accent { color: var(--blue) }
   .links {
     display: none; flex-direction: row; flex-wrap: wrap;
     position: absolute; right: 16px; top: 66px;
-    background: #020408; padding: 8px; border-radius: 8px;
-    border: 1px solid rgba(59,130,246,.15);
+    background: #020810; padding: 8px; border-radius: 8px;
+    border: 1px solid rgba(74,144,232,.15);
     height: auto; overflow: visible;
   }
   .links.open { display: flex }
@@ -204,9 +371,23 @@ h2 .accent { color: var(--blue) }
 .pfp {
   width: 90px; height: 90px; border-radius: 50%; flex-shrink: 0;
   object-fit: cover;
-  border: 2px solid rgba(59,130,246,.35);
-  box-shadow: 0 0 40px rgba(59,130,246,.12);
-  background: linear-gradient(135deg, #0c1428, #121e3a);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  box-shadow:
+    0 0 0 2px rgba(74,144,232,.7),
+    0 0 0 5px rgba(74,144,232,.15),
+    0 0 32px rgba(74,144,232,.35),
+    0 0 64px rgba(126,200,248,.15);
+  position: relative;
+  transition: box-shadow .3s ease, transform .3s ease;
+}
+.pfp:hover {
+  transform: scale(1.06);
+  box-shadow:
+    0 0 0 2px rgba(126,200,248,.8),
+    0 0 0 6px rgba(74,144,232,.2),
+    0 0 48px rgba(74,144,232,.5),
+    0 0 80px rgba(126,200,248,.2);
 }
 
 .hero-text h1 {
@@ -219,7 +400,7 @@ h2 .accent { color: var(--blue) }
 }
 .hero-text h1 em {
   font-style: normal;
-  background: linear-gradient(95deg, var(--blue) 0%, var(--sky) 55%, var(--indigo) 100%);
+  background: linear-gradient(100deg, #7ec8f8 0%, #4a90e8 45%, #a0d0ff 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 .tagline {
@@ -229,7 +410,7 @@ h2 .accent { color: var(--blue) }
 .cta { display: flex; gap: 14px; flex-wrap: wrap }
 
 /* Hero keeps its own spacing */
-.hero { padding: 72px 0 48px }
+.hero { padding: 36px 0 28px }
 .loader-wrap { flex-shrink: 0; line-height: 0; margin-right: 32px }
 .loader {
   width: 100px; height: 116px;
@@ -278,7 +459,7 @@ h2 .accent { color: var(--blue) }
   0%   { transform: translateX(10px) }
   100% { transform: translateX(0px) }
 }
-/* ─── BUTTONS — exact Uiverse silver, blue-tinted ─ */
+/* ─── 3D BUTTONS ──────────────────────────────────── */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -288,48 +469,54 @@ h2 .accent { color: var(--blue) }
   min-width: 140px;
   height: 50px;
   padding: 0 26px;
-  background-image: linear-gradient(to top, #b8c8e8 0%, #dce8ff 80%, #eaf0ff 100%);
-  border-radius: 30px;
-  border: 1px solid #6080b0;
-  transition: all 0.2s ease;
-  font-family: 'Space Grotesk', "Source Sans Pro", sans-serif;
+  background-image: linear-gradient(180deg, #e8f0ff 0%, #d0e0f8 50%, #b8ccee 100%);
+  border-radius: 12px;
+  border: 1px solid #5070a0;
+  border-bottom-color: #3a5480;
+  transition: transform .12s ease, box-shadow .12s ease;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 14px;
-  font-weight: 600;
-  color: #2040a0;
-  text-shadow: 0 1px rgba(255,255,255,.8);
+  font-weight: 700;
+  color: #1a3070;
+  text-shadow: 0 1px 0 rgba(255,255,255,.7);
   text-decoration: none;
   letter-spacing: .01em;
+  position: relative;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.8),
+    inset 0 -1px 0 rgba(0,0,0,.1),
+    0 5px 0 #3a4e72,
+    0 6px 0 rgba(0,0,0,.4),
+    0 8px 20px rgba(0,0,0,.3);
 }
 .btn:hover {
+  transform: translateY(-2px);
   box-shadow:
-    0 4px 3px 1px rgba(59,130,246,.25),
-    0 6px 8px rgba(59,130,246,.35),
-    0 -4px 4px rgba(99,160,255,.2),
-    0 -6px 4px rgba(59,130,246,.1),
-    inset 0 0 3px 3px rgba(59,130,246,.2);
+    inset 0 1px 0 rgba(255,255,255,.8),
+    inset 0 -1px 0 rgba(0,0,0,.1),
+    0 7px 0 #3a4e72,
+    0 8px 0 rgba(0,0,0,.4),
+    0 12px 28px rgba(74,144,232,.3);
 }
-.btn:active,
-.btn:focus {
+.btn:active {
+  transform: translateY(4px);
   box-shadow:
-    0 4px 3px 1px rgba(59,130,246,.2),
-    0 6px 8px rgba(59,130,246,.3),
-    0 -4px 4px rgba(99,160,255,.15),
-    0 -6px 4px rgba(59,130,246,.08),
-    inset 0 0 5px 3px rgba(32,64,160,.5),
-    inset 0 0 30px rgba(59,130,246,.25);
+    inset 0 2px 4px rgba(0,0,0,.15),
+    0 1px 0 #3a4e72,
+    0 2px 0 rgba(0,0,0,.3),
+    0 2px 8px rgba(0,0,0,.2);
 }
-/* all variants same look */
 .btn.primary { }
 .btn.ghost   { }
 .btn.neutral { }
 
 /* ─── CARDS ───────────────────────────────────── */
 .card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 26px;
-  box-shadow: 0 24px 60px rgba(0,0,0,.5);
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(74,144,232,.1);
+  border-radius: 10px;
+  padding: 22px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
 }
 .card p + p { margin-top: 16px }
 .card strong { color: #e8f0ff }
@@ -342,11 +529,12 @@ h2 .accent { color: var(--blue) }
   gap: 14px;
 }
 .skill-cat {
-  border-radius: 14px;
+  border-radius: 12px;
   padding: 18px 20px;
   border: 1px solid var(--border);
   border-top-width: 2px;
   background: var(--surface);
+  position: relative;
 }
 .skill-cat-label {
   font-size: 10px; font-weight: 700;
@@ -386,8 +574,8 @@ h2 .accent { color: var(--blue) }
 .cat-spoken .chip { color: #fbbf24; border-color: rgba(251,191,36,.22); background: rgba(251,191,36,.06) }
 .cat-spoken .chip em { font-style: normal; opacity: 0.6; font-size: 10px; margin-left: 4px }
 
-.cat-lang   .chip { color: var(--c-lang);   border-color: rgba(125,211,252,.22);  background: rgba(125,211,252,.06) }
-.cat-ai     .chip { color: var(--c-ai);     border-color: rgba(167,139,250,.22);  background: rgba(167,139,250,.06) }
+.cat-lang   .chip { color: var(--c-lang);   border-color: rgba(126,200,248,.22);  background: rgba(126,200,248,.06) }
+.cat-ai     .chip { color: var(--c-ai);     border-color: rgba(106,168,240,.22);  background: rgba(106,168,240,.06) }
 .cat-robot  .chip { color: var(--c-robot);  border-color: rgba(52,211,153,.22);   background: rgba(52,211,153,.06) }
 .cat-embed  .chip { color: var(--c-embed);  border-color: rgba(251,146,60,.22);   background: rgba(251,146,60,.06) }
 .cat-sim    .chip { color: var(--c-sim);    border-color: rgba(244,114,182,.22);  background: rgba(244,114,182,.06) }
@@ -401,11 +589,9 @@ h2 .accent { color: var(--blue) }
 @media(min-width:980px)  { .grid { grid-template-columns: repeat(3, minmax(0,1fr)) } }
 .proj {
   display: flex; flex-direction: column;
-  background: #08101e; border-radius: 14px; overflow: hidden;
+  background: #091422; border-radius: 10px; overflow: hidden;
   border: 1px solid var(--border); text-decoration: none; color: inherit;
-  transition: border-color .2s, transform .2s;
 }
-.proj:hover { border-color: rgba(59,130,246,.3); transform: translateY(-2px) }
 .thumbwrap { position: relative; height: 0; padding-top: 65%; background: rgba(0,0,0,.3) }
 .thumb { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover }
 .thumb-placeholder {
@@ -416,14 +602,15 @@ h2 .accent { color: var(--blue) }
 .proj .caption { flex: 0 0 auto; padding: 14px 16px; min-height: 100px; border-top: 1px solid var(--border) }
 .meta .title { font-size: 14px; font-weight: 600; color: #c8d8f0; margin-bottom: 4px }
 .proj .desc { font-size: 12px; color: var(--muted); margin-bottom: 8px }
-.badge { font-size: 11px; padding: 3px 8px; border-radius: 5px; background: rgba(59,130,246,.07); border: 1px solid rgba(59,130,246,.2); color: #4a80d0; margin-right: 4px }
+.badge { font-size: 11px; padding: 3px 8px; border-radius: 5px; background: rgba(74,144,232,.08); border: 1px solid rgba(74,144,232,.22); color: #6aa8e8; margin-right: 4px }
 #projects-grid .proj.hidden { display: none }
 .center { text-align: center }
 
 /* ─── MISC ────────────────────────────────────── */
 .profile-link { color: var(--sky); font-weight: 600; text-decoration: none }
 .profile-link:hover { text-decoration: underline }
-footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1px solid rgba(59,130,246,.08); font-size: 14px }
+footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1px solid rgba(74,144,232,.12); font-size: 14px }
+.cert-meta { font-size: 11px; color: var(--muted); margin-top: 4px; }
 
 /* ─── EXPERIENCE ENTRIES ─────────────────────── */
 .exp-header {
@@ -431,7 +618,7 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
 }
 .exp-date {
   font-size: 12px; font-weight: 600; color: var(--blue);
-  background: rgba(59,130,246,.08); border: 1px solid rgba(59,130,246,.2);
+  background: rgba(74,144,232,.08); border: 1px solid rgba(74,144,232,.2);
   padding: 3px 10px; border-radius: 20px; white-space: nowrap; flex-shrink: 0;
 }
 .exp-bullets {
@@ -453,14 +640,15 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
   display: flex; gap: 14px; align-items: flex-start;
   background: var(--surface); border: 1px solid var(--border);
   border-left: 3px solid var(--blue); border-radius: 12px; padding: 16px 18px;
+  position: relative;
 }
 .cert-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
 .cert-icon-badge {
   flex-shrink: 0;
   width: 40px; height: 40px;
   border-radius: 8px;
-  background: rgba(59,130,246,.1);
-  border: 1px solid rgba(59,130,246,.25);
+  background: rgba(74,144,232,.1);
+  border: 1px solid rgba(74,144,232,.25);
   color: var(--sky);
   font-size: 11px; font-weight: 800; letter-spacing: .03em;
   display: flex; align-items: center; justify-content: center;
@@ -484,7 +672,7 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
   border-radius: 14px; padding: 20px 18px; text-align: center;
   transition: border-color .2s, transform .2s;
 }
-.soft-card:hover { border-color: rgba(59,130,246,.3); transform: translateY(-2px); }
+.soft-card:hover { border-color: rgba(74,144,232,.3); transform: translateY(-2px); }
 .soft-icon { font-size: 28px; margin-bottom: 10px; }
 .soft-label { font-size: 14px; font-weight: 700; color: #e8f0ff; margin-bottom: 6px; }
 .soft-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
@@ -497,11 +685,11 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
 .back-btn {
   font-size: 13px; font-weight: 600; color: var(--sky);
   text-decoration: none; padding: 6px 14px;
-  border: 1px solid rgba(125,211,252,.25);
-  border-radius: 20px; background: rgba(125,211,252,.06);
+  border: 1px solid rgba(126,200,248,.25);
+  border-radius: 20px; background: rgba(126,200,248,.06);
   transition: background .2s, border-color .2s;
 }
-.back-btn:hover { background: rgba(125,211,252,.12); border-color: rgba(125,211,252,.45); }
+.back-btn:hover { background: rgba(126,200,248,.12); border-color: rgba(126,200,248,.45); }
 
 .linkpill {
   font-size: 12px; font-weight: 600; color: var(--muted);
@@ -510,7 +698,7 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
   background: var(--surface);
   transition: color .2s, border-color .2s;
 }
-.linkpill:hover { color: var(--sky); border-color: rgba(125,211,252,.35); }
+.linkpill:hover { color: var(--sky); border-color: rgba(126,200,248,.35); }
 
 /* Hero cover image */
 .p-hero {
@@ -539,7 +727,7 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
   font-size: 15px; font-weight: 700;
   color: var(--sky); margin-bottom: 10px;
   padding-bottom: 6px;
-  border-bottom: 1px solid rgba(125,211,252,.15);
+  border-bottom: 1px solid rgba(126,200,248,.15);
 }
 
 /* Rich text content */
@@ -548,7 +736,7 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
 .project-description li { margin-bottom: 5px; line-height: 1.7; color: var(--muted); }
 .project-description strong { color: #e0ecff; }
 .project-description code {
-  background: rgba(59,130,246,.1); border: 1px solid rgba(59,130,246,.2);
+  background: rgba(74,144,232,.1); border: 1px solid rgba(74,144,232,.2);
   border-radius: 4px; padding: 1px 5px; font-size: 12px; color: var(--sky);
 }
 
@@ -618,13 +806,26 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
     </div>
   </header>
 
-  <section class="hero container">
+  <section class="hero-section container" style="padding: 28px 0 36px">
+    <div class="window">
+      <div class="window-bar">
+<span class="window-title">kyawlinnkhant.dev</span>
+      </div>
+      <div class="sky-toolbar">
+        <span class="sky-toolbar-dot"></span>
+        <span class="sky-toolbar-dot"></span>
+        <span class="sky-toolbar-dot"></span>
+        <span class="sky-url">https://kyawlinnkhant.github.io/my_portfolio/</span>
+      </div>
+      <div class="sky-banner"></div>
+      <div class="window-body">
+    <div class="hero">
     <div class="hero-text">
       <div class="name-row">
         <img class="pfp" src="assets/profile.jpg" alt="Kyaw Linn Khant">
         <h1><em>Kyaw Linn Khant</em></h1>
       </div>
-      <p class="tagline">Physical AI &amp; Robotics Engineer &nbsp;·&nbsp; Edge Autonomy &nbsp;·&nbsp; Sim2Real</p>
+      <p class="tagline">Embodied AI &amp; Robotics Engineer &nbsp;·&nbsp; Edge Autonomy &nbsp;·&nbsp; Sim2Real</p>
       <div class="cta">
         <button class="btn primary" id="contact-btn">
           <span id="contact-label">Contact Me<span id="contact-colon" style="opacity:0;transition:opacity .2s ease .2s;">:</span></span>
@@ -642,12 +843,19 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
     <div class="loader-wrap">
       <div class="loader"></div>
     </div>
+    </div><!-- .hero -->
+      </div><!-- .window-body -->
+    </div><!-- .window -->
   </section>
 
   <section id="about" class="container">
-    <h2>About <span class="accent">Me</span></h2>
+    <div class="window">
+      <div class="window-bar">
+<h2 class="window-title">about.md</h2>
+      </div>
+      <div class="window-body">
     <div class="card">
-      <p>I'm <strong>Kyaw Linn Khant</strong> — a Physical AI &amp; Robotics Engineer with a
+      <p>I'm <strong>Kyaw Linn Khant</strong> — an Embodied AI &amp; Robotics Engineer with a
         <em>BEng (Hons) in Robotics and Artificial Intelligence</em> from the
         <a href="https://www.herts.ac.uk/" target="_blank" style="color:var(--blue);font-weight:bold;text-decoration:underline;">University of Hertfordshire</a>.
         I build systems that sit at the intersection of embodied intelligence and real-world deployment — from
@@ -656,17 +864,23 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
       <p>My work spans the full stack: training RL and ML models, deploying them at the edge with TFLite and TensorRT,
         integrating LiDAR SLAM and sensor fusion pipelines in ROS2, and building LLM-powered agentic systems with
         LangChain, LangGraph, and RAG. I care about systems that actually work outside the lab.</p>
-      <p>I've delivered projects for clients across Singapore as a freelance R&amp;D consultant, covering physical AI,
-        robotics prototyping, and embedded systems — working independently from brief to deployment.</p>
+      <p>I've built and shipped end-to-end systems across Singapore — spanning embodied AI,
+        robotics prototyping, and embedded systems — taking projects from concept to working hardware.</p>
       <p>
         <a href="https://github.com/KyawLinnKhant" target="_blank" class="profile-link">GitHub</a> |
         <a href="https://www.linkedin.com/in/kyaw-linn-khant-137200266/" target="_blank" class="profile-link">LinkedIn</a>
       </p>
     </div>
+      </div><!-- .window-body -->
+    </div><!-- .window -->
   </section>
 
   <section id="skills" class="container">
-    <h2>Technical <span class="accent">Skills</span></h2>
+    <div class="window">
+      <div class="window-bar">
+<h2 class="window-title">skills.json</h2>
+      </div>
+      <div class="window-body">
     <div class="skills-grid">
 
       <div class="skill-cat cat-lang">
@@ -810,11 +1024,17 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
       </div>
 
     </div>
+      </div><!-- .window-body -->
+    </div><!-- .window -->
   </section>
 
   <!-- Projects -->
   <section id="projects" class="container">
-    <h2>Projects</h2>
+    <div class="window">
+      <div class="window-bar">
+<h2 class="window-title">projects/</h2>
+      </div>
+      <div class="window-body">
     <div class="grid" id="projects-grid">
 
       <a class="proj" data-title="AI Self-Balancing Robot" href="project.html?id=rl-balance">
@@ -836,7 +1056,7 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
         <div class="caption">
           <div class="meta"><div class="title">Smart Waste Sorting System</div>
           <p class="desc">PyTorch CNN converted to ONNX sorts waste into a servo-controlled round bin — paper, plastic, and metal each get their own 120° segment, fully on-device on Raspberry Pi.</p></div>
-          <span class="badge">PyTorch</span><span class="badge">ONNX</span><span class="badge">Edge AI</span><span class="badge">Physical AI</span>
+          <span class="badge">PyTorch</span><span class="badge">ONNX</span><span class="badge">Edge AI</span><span class="badge">Embodied AI</span>
         </div>
       </a>
 
@@ -1002,22 +1222,28 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
     <div class="center" style="margin-top:28px;">
       <button id="see-more-btn" class="btn neutral">See More ↓</button>
     </div>
+      </div><!-- .window-body -->
+    </div><!-- .window -->
   </section>
 
   <!-- Experience -->
   <section id="experience" class="container">
-    <h2>Experience</h2>
+    <div class="window">
+      <div class="window-bar">
+<h2 class="window-title">experience.log</h2>
+      </div>
+      <div class="window-body">
     <div class="card">
       <div class="exp-entry">
         <div class="exp-header">
           <div>
-            <strong>R&amp;D Physical AI &amp; Robotics Engineer</strong><br>
-            <em>Freelance R&amp;D Consultant (Physical AI &amp; Robotics) — Singapore</em>
+            <strong>R&amp;D Embodied AI &amp; Robotics Engineer</strong><br>
+            <em>Independent R&amp;D — Embodied AI &amp; Robotics · Singapore</em>
           </div>
           <span class="exp-date">Jan 2024 – Present</span>
         </div>
         <ul class="exp-bullets">
-          <li>Scoped, built, and delivered 5+ end-to-end Physical AI systems — vision-guided robotic sorters and autonomous vehicle platforms — owning full lifecycle from requirements through client handover.</li>
+          <li>Scoped, built, and delivered 5+ end-to-end Embodied AI systems — vision-guided robotic sorters and autonomous vehicle platforms — owning the full lifecycle from requirements to working hardware.</li>
           <li>Trained and deployed Foundation models (VLA, SLM, transformer-based) onto robotic hardware, cutting perception-to-action latency to &lt;10 ms on Jetson, Teensy, RPi, and STM32.</li>
           <li>Benchmarked 5 RL algorithms (A2C, TD3, SAC, DDPG, PPO) under domain randomisation; selected PPO for embedded deployment achieving 85% Sim2Real transfer efficiency.</li>
           <li>Built GPU-accelerated RL training pipelines in NVIDIA IsaacLab and MuJoCo for dexterous manipulation (SO-ARM100/101) and quadruped locomotion control, with Sim2Real transfer to physical hardware.</li>
@@ -1041,11 +1267,17 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
         </ul>
       </div>
     </div>
+      </div><!-- .window-body -->
+    </div><!-- .window -->
   </section>
 
   <!-- Education -->
   <section id="education" class="container">
-    <h2>Education</h2>
+    <div class="window">
+      <div class="window-bar">
+<h2 class="window-title">education.txt</h2>
+      </div>
+      <div class="window-body">
     <div class="card">
       <div class="exp-entry">
         <div class="exp-header">
@@ -1072,11 +1304,17 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
         </div>
       </div>
     </div>
+      </div><!-- .window-body -->
+    </div><!-- .window -->
   </section>
 
   <!-- Certifications -->
   <section id="certifications" class="container">
-    <h2>Certifications</h2>
+    <div class="window">
+      <div class="window-bar">
+<h2 class="window-title">certifications/</h2>
+      </div>
+      <div class="window-body">
     <div class="cert-grid">
 
       <div class="cert-card">
@@ -1139,13 +1377,38 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
         </div>
       </div>
 
+      <div class="cert-card">
+        <div class="cert-icon-badge">SDC</div>
+        <div class="cert-body">
+          <div class="cert-title">Self-Driving Cars Specialization</div>
+          <div class="cert-sub">State Estimation · Visual Perception · Vehicle Control · Autonomous Systems</div>
+          <div class="cert-meta">Packt · Apr 2026</div>
+          <a href="https://coursera.org/share/3b024e851e11f0f529ce750f9f65add8" target="_blank" rel="noopener" class="cert-verify">Verify ↗</a>
+        </div>
+      </div>
+
+      <div class="cert-card">
+        <div class="cert-icon-badge">MFG</div>
+        <div class="cert-body">
+          <div class="cert-title">Robotics in High-Tech Manufacturing</div>
+          <div class="cert-sub">Industrial Robotics · Automation · Manufacturing Systems · Robot Programming</div>
+          <div class="cert-meta">Coursera · Apr 2026</div>
+          <a href="https://coursera.org/share/d5487230620eb76ed67ac1f00026889e" target="_blank" rel="noopener" class="cert-verify">Verify ↗</a>
+        </div>
+      </div>
+
     </div>
+      </div><!-- .window-body -->
+    </div><!-- .window -->
   </section>
 
-  <!-- Soft Skills -->
   <!-- Co-Curricular -->
   <section id="co-curricular" class="container">
-    <h2>Co-Curricular</h2>
+    <div class="window">
+      <div class="window-bar">
+<h2 class="window-title">activities.md</h2>
+      </div>
+      <div class="window-body">
     <div class="card">
       <div class="exp-header">
         <div>
@@ -1170,11 +1433,13 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
         <li>Developed active listening, empathy, and crisis-referral skills through formal peer support training.</li>
       </ul>
     </div>
+      </div><!-- .window-body -->
+    </div><!-- .window -->
   </section>
 
   <footer>© <span id="y"></span> Kyaw Linn Khant</footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script>
     document.documentElement.style.scrollBehavior = 'smooth';
 
     // ── Contact Me reveal ──
@@ -1250,5 +1515,34 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
     })();
   </script>
   <script src="contact.js"></script>
+  <script>
+  // Button-bump hover — pure CSS, no JS needed
+
+  // ── Scroll-reveal ───────────────────────────────────────────────────────
+  (function () {
+    const style = document.createElement('style');
+    style.textContent = `
+      .reveal { opacity: 0; transform: translateY(28px); transition: opacity .55s ease, transform .55s ease; }
+      .reveal.visible { opacity: 1; transform: none; }
+    `;
+    document.head.appendChild(style);
+
+    const targets = document.querySelectorAll(
+      '.proj, .skill-cat, .cert-card, .card, .exp-entry'
+    );
+    targets.forEach(el => el.classList.add('reveal'));
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+
+    targets.forEach(el => io.observe(el));
+  })();
+  </script>
 </body>
 </html>

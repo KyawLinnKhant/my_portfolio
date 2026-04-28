@@ -732,5 +732,28 @@ footer { padding: 48px 0; color: var(--muted); text-align: center; border-top: 1
   <footer>© <span id="y"></span> Kyaw Linn Khant</footer>
 
   <script src="projects.js"></script>
+  <script>
+  // ── scroll-reveal on project detail page ──
+  (function () {
+    const style = document.createElement('style');
+    style.textContent = `
+      .reveal { opacity: 0; transform: translateY(24px); transition: opacity .5s ease, transform .5s ease; }
+      .reveal.visible { opacity: 1; transform: none; }
+    `;
+    document.head.appendChild(style);
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.06 });
+    // run after projects.js populates the DOM
+    setTimeout(() => {
+      document.querySelectorAll('.card, .p-section, .cad-grid figure').forEach(el => {
+        el.classList.add('reveal');
+        io.observe(el);
+      });
+    }, 80);
+  })();
+  </script>
 </body>
 </html>
