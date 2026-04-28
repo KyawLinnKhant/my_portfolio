@@ -1,0 +1,1620 @@
+window.PROJECTS = window.PROJECTS || {};
+
+/* ─────────────────────────────────────────────────────────
+   1. AI Self-Balancing Robot
+───────────────────────────────────────────────────────── */
+window.PROJECTS["rl-balance"] = {
+  title: "AI Self-Balancing Robot",
+  status: "Completed",
+  cover: "src/sbr/v1.jpg",
+  tags: ["Sim2Real", "PPO", "MuJoCo", "TFLite", "Teensy 4.1", "Raspberry Pi"],
+  desc: "Reinforcement learning-based self-balancing robot with 85% Sim2Real transfer efficiency. PPO policy trained in MuJoCo, quantised to int8 TFLite, and deployed on a Teensy 4.1 microcontroller achieving <10 ms real-time control — zero GPU required.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          This project benchmarks five RL algorithms (A2C, TD3, SAC, DDPG, PPO) in MuJoCo with
+          domain randomisation to identify the best candidate for embedded microcontroller deployment.
+          PPO was selected for its small model size, training stability, and full microcontroller
+          compatibility — inspired by BDX/Open Duck Mini bipedal locomotion research.
+        </p>
+        <ul>
+          <li>Benchmarked 5 RL algorithms under domain randomisation — eliminated SAC (unsupported Exp op in int8 TFLite) and DDPG (unstable delta wheel speed oscillation)</li>
+          <li>Converted PPO policy: ONNX → onnx2tf → int8 TFLite, validated inference parity on hardware</li>
+          <li>85% Sim2Real transfer via Kalman-filtered IMU + encoder fusion</li>
+          <li>&lt;10 ms real-time control loop on Teensy 4.1 — zero GPU required</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Components",
+      content: `
+        <ul>
+          <li>Teensy 4.1 (primary deployment microcontroller)</li>
+          <li>Raspberry Pi 5 / Raspberry Pi Zero 2W (alternative controller options)</li>
+          <li>Adafruit BNO085 9-DOF IMU (Kalman-filtered)</li>
+          <li>12V 520-geared DC motors (1:30, ~333 rpm)</li>
+          <li>AT8236 2-Channel Motor Driver</li>
+          <li>Geekworm X1201 UPS Shield (RPi5 version)</li>
+          <li>ESP-01S WiFi module (Teensy version)</li>
+          <li>11.1V Li-ion rechargeable battery</li>
+        </ul>
+      `
+    },
+    {
+      heading: "MuJoCo Training",
+      video: "https://www.youtube.com/embed/Rddmhgkn35E",
+      content: `
+        <p>
+          A simplified MuJoCo model captured the robot's core dynamics. PPO training with domain
+          randomisation developed a robust balancing policy by minimising falls and reacting to
+          perturbations. The policy was then converted ONNX → int8 TFLite for microcontroller deployment.
+        </p>
+      `
+    },
+    {
+      heading: "Hardware Versions",
+      content: `
+        <div class="cad-grid">
+          <figure>
+            <img src="src/sbr/v1.jpg" alt="Raspberry Pi version" loading="lazy" decoding="async">
+            <figcaption><strong>Raspberry Pi Version</strong></figcaption>
+          </figure>
+          <figure>
+            <img src="src/sbr/v2.jpg" alt="Pi Zero version" loading="lazy" decoding="async">
+            <figcaption><strong>Pi Zero Version</strong></figcaption>
+          </figure>
+          <figure>
+            <img src="src/sbr/v3.jpg" alt="Teensy version" loading="lazy" decoding="async">
+            <figcaption><strong>Teensy Version</strong></figcaption>
+          </figure>
+        </div>
+      `
+    },
+    {
+      heading: "Custom PCB",
+      content: `
+        <div class="cad-grid">
+          <figure>
+            <img src="src/sbr/pizero.PNG" alt="Pi Zero Custom PCB" loading="lazy" decoding="async">
+            <figcaption><strong>Pi Zero Custom PCB</strong></figcaption>
+          </figure>
+          <figure>
+            <img src="src/sbr/teensy.PNG" alt="Teensy Custom PCB" loading="lazy" decoding="async">
+            <figcaption><strong>Teensy Custom PCB</strong></figcaption>
+          </figure>
+        </div>
+      `
+    },
+    {
+      heading: "Controller (Teensy 4.1 Version)",
+      content: `<img src="src/sbr/remote.jpg" alt="LilyGO T-Display Controller" loading="lazy" decoding="async">`
+    },
+    {
+      heading: "Demo Videos",
+      videos: [
+        "https://www.youtube.com/embed/ZISe_C3mYUs",
+        "https://www.youtube.com/embed/6jLbrzNLcS4"
+      ]
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   2. Smart Waste Sorting System
+───────────────────────────────────────────────────────── */
+window.PROJECTS["smart-waste"] = {
+  title: "Smart Waste Sorting System",
+  status: "Completed",
+  cover: "src/waste/bin.png",
+  tags: ["Computer Vision", "PyTorch", "ONNX", "Raspberry Pi", "Edge AI", "Servo Control", "Physical AI"],
+  desc: "Full Physical AI pipeline: a custom PyTorch CNN trained from scratch classifies waste in real time, converted to ONNX for lightweight edge deployment on Raspberry Pi. A servo-controlled round bin with three 120° segments (paper, plastic, metal) spins and tilts to sort each item — zero cloud dependency, no GPU required.",
+
+  sections: [
+    {
+      heading: "The Bin",
+      content: `
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+          <figure style="margin:0;">
+            <img src="src/waste/bin.png" alt="Smart Bin top view" loading="lazy" style="width:100%; border-radius:10px; border:1px solid var(--border);">
+            <figcaption style="font-size:12px; color:var(--muted); text-align:center; margin-top:6px;">Round bin with three 120° segments — paper, plastic, metal</figcaption>
+          </figure>
+          <figure style="margin:0;">
+            <img src="src/waste/sbin.jpg" alt="Smart Bin hardware" loading="lazy" style="width:100%; border-radius:10px; border:1px solid var(--border);">
+            <figcaption style="font-size:12px; color:var(--muted); text-align:center; margin-top:6px;">Raspberry Pi + servo driver wired beneath the bin lid</figcaption>
+          </figure>
+        </div>
+      `
+    },
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          A complete Physical AI system — perception, decision, and actuation — running entirely
+          on a single Raspberry Pi with no cloud dependency and no GPU. A custom CNN trained in
+          PyTorch classifies the waste type; the round bin lid then spins and tilts to drop the
+          item into the correct segment automatically.
+        </p>
+        <ul>
+          <li>Custom CNN trained in PyTorch, exported to ONNX for lightweight on-device inference</li>
+          <li>Round bin divided into three equal 120° segments: <strong>Paper</strong>, <strong>Plastic</strong>, <strong>Metal</strong></li>
+          <li>Servo-controlled lid spins to align with the correct segment, then tilts to drop the item</li>
+          <li>Webcam feed → real-time classification → GPIO → servo actuation loop</li>
+          <li>Self-contained edge deployment — no internet, no GPU required</li>
+        </ul>
+      `
+    },
+    {
+      heading: "System Architecture",
+      content: `
+        <ul>
+          <li><strong>Perception:</strong> Webcam → PyTorch CNN → ONNX Runtime inference on Raspberry Pi</li>
+          <li><strong>Classification:</strong> Paper / Plastic / Metal — each mapped to a 120° bin segment</li>
+          <li><strong>Actuation:</strong> GPIO → servo driver → lid spins to target segment → lid tilts → item drops</li>
+          <li><strong>Model pipeline:</strong> Train in PyTorch → export ONNX → run via ONNX Runtime (no TensorFlow needed)</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Demo — Paper Detection",
+      video: "https://youtube.com/shorts/PbAcYaR_O8Q?feature=share",
+      content: `<p>Bin detects crumpled paper and rotates lid to the Paper segment before dropping.</p>`
+    },
+    {
+      heading: "Demo — Plastic Detection",
+      video: "https://youtube.com/shorts/XYQgiUSNB30?feature=share",
+      content: `<p>Bin detects plastic and rotates lid to the Plastic segment before dropping.</p>`
+    },
+    {
+      heading: "Components",
+      content: `
+        <ul>
+          <li>Raspberry Pi 4B (primary compute)</li>
+          <li>USB Webcam</li>
+          <li>Servo motors — lid spin (rotation) + lid tilt (drop mechanism)</li>
+          <li>Custom round bin housing — three 120° compartments (paper, plastic, metal)</li>
+          <li>PyTorch (training) · ONNX Runtime (inference) · OpenCV · RPi.GPIO</li>
+        </ul>
+      `
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   3. PiCar-X F1 — Autonomous Racing
+───────────────────────────────────────────────────────── */
+window.PROJECTS["picar-x-f1"] = {
+  title: "KLK Robot Racer — PiCar-X F1",
+  status: "Completed",
+  cover: "src/picar-x-f1/3d-picar-x.JPEG",
+  tags: ["Raspberry Pi", "YOLO", "Computer Vision", "Python", "Node.js", "ROS 2", "C++17", "Edge AI", "Web UI", "Autonomous", "Digital Twin"],
+  desc: "AI-powered robotics control platform for the Picar-X on Raspberry Pi. Drop any YOLO .pt model into data/ and detection switches live — no restarts, no code changes. Real-time object detection, hot-swappable camera backends, 3D visualisation, obstacle avoidance, and a full web UI with desktop and mobile support.",
+
+  sections: [
+    {
+      heading: "Live Control Interface",
+      content: `
+        <figure>
+          <img src="src/picar-x-f1/picar-x-racer-demo.gif" alt="PiCar-X Racer Demo" loading="lazy" style="width:100%; border-radius:8px;">
+          <figcaption>Full web-based control interface with video feed, gauges, and detection panels</figcaption>
+        </figure>
+      `
+    },
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          KLK Robot Racer is an AI-powered robotics control platform built for the Picar-X hardware
+          on Raspberry Pi. It also supports custom robot builds (Waveshare RPi Motor Driver Board,
+          Servo Driver HAT, UPS Module S3) and runs on any Linux machine for AI/camera experiments
+          without a physical robot.
+        </p>
+        <ul>
+          <li>Smooth, video-game-like control of the Picar-X over a web interface</li>
+          <li><strong>Drop any YOLO <code>.pt</code> model</strong> into <code>data/</code> — detection switches live with no restart</li>
+          <li>Hot-swappable camera backends: GStreamer, V4L2, Picamera2, libcamera — no restarts required</li>
+          <li>Optional Google Coral and Hailo AI accelerator support</li>
+          <li>Live 3D model visualisation reflecting real robot orientation</li>
+          <li>Built-in TTS, music playback, audio effects, photo capture, and calibration tools</li>
+          <li>Desktop and mobile browser support (except iOS Safari)</li>
+        </ul>
+      `
+    },
+    {
+      heading: "⚡ Drop Any YOLO Model — It Just Works",
+      content: `
+        <p>
+          No retraining. No reconfiguration. No server restart. Place any Ultralytics-compatible
+          <code>.pt</code> file in <code>data/</code> (or upload via the UI), select it from the
+          Models dropdown, and live detection starts immediately. Works with YOLOv8, YOLOv9,
+          YOLOv10, YOLO11, custom-trained weights, and pose estimation models.
+        </p>
+        <pre style="background:var(--code-bg,#111); padding:14px; border-radius:8px; overflow-x:auto; font-size:0.85em; line-height:1.6;"><code>data/
+├── yolov8n.pt           ← standard nano model
+├── yolov11s.pt          ← swap in with one click
+├── my_custom_model.pt   ← drop your own trained weights
+└── yolo11n-pose.pt      ← pose estimation, works out of the box</code></pre>
+        <figure style="margin-top:20px;">
+          <img src="src/picar-x-f1/demo-vision-custom.gif" alt="Custom model detection" loading="lazy" style="width:100%; border-radius:8px;">
+          <figcaption>Custom model detection — loaded and running live with no code changes</figcaption>
+        </figure>
+      `
+    },
+    {
+      heading: "Computer Vision & Object Tracking",
+      content: `
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+          <figure style="margin:0;">
+            <img src="src/picar-x-f1/computer-vision.gif" alt="Computer Vision" loading="lazy" style="width:100%; border-radius:8px;">
+            <figcaption><strong>Real-Time Object Detection</strong><br>YOLO inference with bounding box, aim, mixed, and pose overlay styles</figcaption>
+          </figure>
+          <figure style="margin:0;">
+            <img src="src/picar-x-f1/demo-picarx-cat.gif" alt="Cat Tracking Demo" loading="lazy" style="width:100%; border-radius:8px;">
+            <figcaption><strong>Custom Model Tracking</strong><br>Live target-following with a custom-trained model</figcaption>
+          </figure>
+        </div>
+      `
+    },
+    {
+      heading: "3D Visualisation",
+      content: `
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+          <figure style="margin:0;">
+            <img src="src/picar-x-f1/3d-picar-x.gif" alt="3D Visualization" loading="lazy" style="width:100%; border-radius:8px;">
+            <figcaption><strong>Live 3D Model</strong><br>Reflects real-time robot orientation and movement</figcaption>
+          </figure>
+          <figure style="margin:0;">
+            <img src="src/picar-x-f1/3D-mode-demo.png" alt="3D Virtual Mode" loading="lazy" style="width:100%; border-radius:8px;">
+            <figcaption><strong>3D Virtual Mode</strong><br>Hides video feed; pairs with Auto Measure Distance to show ultrasonic readings</figcaption>
+          </figure>
+        </div>
+      `
+    },
+    {
+      heading: "Settings & Configuration",
+      content: `
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+          <figure style="margin:0;">
+            <img src="src/picar-x-f1/robot-hardware-settings.gif" alt="Robot Hardware Settings" loading="lazy" style="width:100%; border-radius:8px;">
+            <figcaption><strong>Robot Hardware</strong><br>Servo calibration, motor direction, pin assignments, hardware layout</figcaption>
+          </figure>
+          <figure style="margin:0;">
+            <img src="src/picar-x-f1/general-settings.gif" alt="General Settings" loading="lazy" style="width:100%; border-radius:8px;">
+            <figcaption><strong>General Interface</strong><br>Gauges, speedometer, 3D view, detection panels, video quality</figcaption>
+          </figure>
+          <figure style="margin:0; margin-top:20px;">
+            <img src="src/picar-x-f1/models-settings.gif" alt="Model Management" loading="lazy" style="width:100%; border-radius:8px;">
+            <figcaption><strong>Detection Models</strong><br>Load, swap, and manage YOLO models in real time — no restart required</figcaption>
+          </figure>
+          <figure style="margin:0; margin-top:20px;">
+            <img src="src/picar-x-f1/demo-tts.gif" alt="Text-to-Speech" loading="lazy" style="width:100%; border-radius:8px;">
+            <figcaption><strong>Text-to-Speech</strong><br>Language packs and custom phrases for real-time speech output</figcaption>
+          </figure>
+        </div>
+      `
+    },
+    {
+      heading: "Calibration",
+      content: `
+        <figure>
+          <img src="src/picar-x-f1/calibration.gif" alt="Calibration" loading="lazy" style="width:100%; border-radius:8px;">
+          <figcaption>Press <kbd>C</kbd> to enter calibration mode — adjust servo direction, camera tilt, and camera pan with keyboard controls. <kbd>0</kbd> resets all.</figcaption>
+        </figure>
+      `
+    },
+    {
+      heading: "Video Enhancement Modes",
+      content: `
+        <p>Cycle through visual modes with <kbd>e</kbd> (next) and <kbd>E</kbd> (previous):</p>
+        <table style="width:100%; border-collapse:collapse; font-size:0.9em; margin-top:10px;">
+          <thead>
+            <tr style="border-bottom:2px solid var(--border,#333)">
+              <th style="text-align:left; padding:8px 12px;">Mode</th>
+              <th style="text-align:left; padding:8px 12px;">Effect</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border,#222)"><td style="padding:8px 12px;"><strong>None</strong></td><td style="padding:8px 12px;">Standard unprocessed feed</td></tr>
+            <tr style="border-bottom:1px solid var(--border,#222)"><td style="padding:8px 12px;"><strong>RoboCop Vision</strong></td><td style="padding:8px 12px;">Grayscale + edge detection + HUD overlay</td></tr>
+            <tr style="border-bottom:1px solid var(--border,#222)"><td style="padding:8px 12px;"><strong>Predator Vision</strong></td><td style="padding:8px 12px;">Thermal colour map for heat signatures</td></tr>
+            <tr style="border-bottom:1px solid var(--border,#222)"><td style="padding:8px 12px;"><strong>Infrared Vision</strong></td><td style="padding:8px 12px;">Highlights warmer areas of the image</td></tr>
+            <tr><td style="padding:8px 12px;"><strong>Ultrasonic Vision</strong></td><td style="padding:8px 12px;">Monochromatic sonar-style edge detection</td></tr>
+          </tbody>
+        </table>
+      `
+    },
+    {
+      heading: "System Requirements",
+      content: `
+        <ul>
+          <li><strong>Python</strong> 3.11+</li>
+          <li><strong>Node.js</strong> 22+</li>
+          <li><strong>OS</strong> — Raspberry Pi OS / Ubuntu / any Linux</li>
+          <li><strong>Hardware</strong> — Raspberry Pi 4 or 5 (also works on any Linux machine without a robot)</li>
+          <li><strong>Camera backends</strong> — V4L2, GStreamer (PyGObject), Picamera2 — hot-swappable at runtime</li>
+          <li><strong>Optional accelerators</strong> — Google Coral, Hailo AI HAT</li>
+        </ul>
+      `
+    },
+    {
+      heading: "GitHub",
+      content: `
+        <p>
+          <a href="https://github.com/KyawLinnKhant/picar-x-f1" target="_blank" rel="noopener">
+            github.com/KyawLinnKhant/picar-x-f1
+          </a>
+        </p>
+      `
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   4. Autonomous Microcontroller Vehicle
+───────────────────────────────────────────────────────── */
+window.PROJECTS["esd"] = {
+  title: "Autonomous Microcontroller Vehicle",
+  status: "Completed",
+  cover: "src/esd/car.jpg",
+  tags: ["STM32", "Ultrasonic", "IR Sensors", "Embedded C", "Path Planning"],
+  desc: "Autonomous vehicle built on STM32 Nucleo using fused ultrasonic and IR sensor data for real-time obstacle avoidance and waypoint navigation. PID-stabilised heading with BLE telemetry.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          The autonomous vehicle combines low-level embedded control with on-board sensor fusion to
+          achieve self-navigation. Ultrasonic and IR readings are filtered and fused for stable
+          range estimates; a local planner selects steering commands that maximise clearance while
+          progressing toward the current waypoint.
+        </p>
+        <ul>
+          <li>Real-time obstacle detection and avoidance</li>
+          <li>Waypoint / path-following navigation</li>
+          <li>Sensor fusion (ultrasonic + IR) for reliable distance estimates</li>
+          <li>PID heading control via PWM motor commands</li>
+          <li>BLE telemetry (HM-10) for parameter adjustment</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Components",
+      content: `
+        <ul>
+          <li>STM32 Nucleo-F411RE</li>
+          <li>L298N motor driver</li>
+          <li>3× HC-SR04 ultrasonic sensors</li>
+          <li>3× Sharp GP2Y0A21YK IR distance sensors</li>
+          <li>4× SG90 servos, 2× TT motors + 1 castor wheel</li>
+          <li>BLE 4.0 HM-10 module</li>
+          <li>12V Li-ion rechargeable battery</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Implementation",
+      content: `
+        <p>
+          The STM32 runs the real-time control loop. Sensor readings are filtered and fused to obtain
+          stable range estimates. A simple local planner selects steering commands that maximise
+          clearance while progressing toward the current waypoint. Motor speeds are driven with PWM,
+          with a PID term to keep heading stable during maneuvers.
+        </p>
+        <p>
+          Modes supported: <em>Obstacle Avoidance</em> and <em>Waypoint / Path Following</em>.
+          Telemetry and parameters adjustable over BLE via the HM-10 module.
+        </p>
+      `
+    },
+    {
+      heading: "Robotic Arm",
+      img: "src/esd/arm.jpg"
+    },
+    {
+      heading: "Demo Videos",
+      videos: [
+        "https://www.youtube.com/embed/ghL9OhbhNL4",
+        "https://www.youtube.com/embed/reB1dbGUm5w",
+        "https://www.youtube.com/embed/EworkVR8Dv0"
+      ]
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   5. Naruto Jutsu Detection
+───────────────────────────────────────────────────────── */
+window.PROJECTS["handsign"] = {
+  title: "Naruto Jutsu Detection with Facial Recognition",
+  status: "Completed",
+  cover: "src/naruto/naruto-shippuden-manga-cover.jpg",
+  tags: ["Computer Vision", "MediaPipe", "CNN", "Facial Recognition", "PyQt5"],
+  desc: "Multimodal interface combining Naruto hand-sign detection and facial expression recognition. Actions trigger only when both signals match simultaneously — built with MediaPipe landmarks + pretrained CNN and a live PyQt5 control interface.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          A fusion of hand-sign detection (Naruto-style gestures) and facial expression recognition
+          to trigger actions via a live PyQt5 interface. Actions are only triggered when both hand
+          sign and facial expression match — reducing false positives and enabling inclusive,
+          intuitive multi-modal control.
+        </p>
+        <ul>
+          <li>Recognises Naruto hand signs (Bird, Snake, Shadow Clone, etc.)</li>
+          <li>Detects facial expressions (smile, surprise, neutral)</li>
+          <li>Dual-signal requirement for robust command triggering</li>
+          <li>PyQt5 live interface with video feed and status display</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Hand Seals",
+      img: "src/naruto/Hand.jpg"
+    },
+    {
+      heading: "Implementation",
+      content: `
+        <p>
+          MediaPipe detects 21 hand landmarks per frame; a classifier maps landmark geometry to
+          sign poses. Facial expressions are analysed using a pretrained CNN on FER-2013.
+          When both gesture and expression match pre-defined triggers, the GUI executes an action
+          (zoom, snapshot, custom command).
+        </p>
+      `
+    },
+    {
+      heading: "Demo Video",
+      video: "https://youtu.be/sXeTo-7n7YI"
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   6. Multi-Robot Search and Rescue
+───────────────────────────────────────────────────────── */
+window.PROJECTS["searchrescue"] = {
+  title: "Multi-Robot Search and Rescue Operation",
+  status: "Completed",
+  cover: "src/mrnd/cover.png",
+  tags: ["ROS2", "CoppeliaSim", "Swarm Autonomy", "PyQt5", "Multi-Agent"],
+  desc: "Swarm autonomy system in CoppeliaSim + ROS2: coordinated task allocation across quadcopters, drone-arm platforms, and ground robots for fully autonomous search-and-rescue. PyQt5 ground control interface with real-time mission planning and manual override.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          This system integrates aerial scanning, autonomous ground navigation, and a remote operator
+          interface to support efficient post-disaster response. The quadcopter performs live
+          reconnaissance and marks points of interest; BoomBot plans and drives the fastest route
+          to each site.
+        </p>
+        <ul>
+          <li>Real-time aerial scanning and target marking (GPS + depth + timestamp)</li>
+          <li>Autonomous ground navigation with obstacle avoidance and fast path planning</li>
+          <li>ROS2 node/topic architecture across 5+ robot types</li>
+          <li>Operator oversight via PyQt5 GUI with video, depth feeds, and mission logs</li>
+          <li>Extended to TurtleBot nav, robotic arm control, and differential-drive robots</li>
+        </ul>
+      `
+    },
+    {
+      heading: "GUI Interface (PyQt5)",
+      img: "src/mrnd/gui.png",
+      content: `
+        <p>A custom PyQt5 application serves as the central control hub:</p>
+        <ul>
+          <li>Live quadcopter video feed and depth visualisation</li>
+          <li>GPS coordinate tracking and detection logging</li>
+          <li>Mission management: assign, reorder, clear targets</li>
+          <li>Speed control: manual slider and automatic adaptive mode</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Demo Video",
+      video: "https://www.youtube.com/embed/JOIw4MDWK8o"
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   7. Dobot Magician Pick and Place
+───────────────────────────────────────────────────────── */
+window.PROJECTS["dobot-pickplace"] = {
+  title: "Dobot Magician Pick and Place Simulation",
+  status: "Completed",
+  cover: "src/dobot/dcover.png",
+  tags: ["CoppeliaSim", "Dobot", "Kinematics", "Pick-and-Place"],
+  desc: "Automated pick-and-place pipeline using the Dobot Magician in CoppeliaSim — precise end-effector control, collision-aware path planning, and physics-accurate object interactions.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          The <strong>Dobot Magician</strong> is a compact robotic arm suited for teaching and light
+          industrial tasks. This project builds a full CoppeliaSim scene with a complete pick-and-place
+          routine including:
+        </p>
+        <ul>
+          <li>Precise end-effector control for grasping and placement</li>
+          <li>Collision-aware path planning</li>
+          <li>Physics-accurate object interactions (grasp, carry, release)</li>
+          <li>Workspace visualisation and motion profile analysis</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Simulation Details",
+      content: `
+        <p>
+          <strong>CoppeliaSim</strong> was chosen for its rich API and realistic dynamics. The setup includes
+          an accurate kinematic model of the Dobot Magician, custom Lua scripts for motion control and task
+          sequencing, and scene rendering for debugging and cycle-time verification.
+        </p>
+      `
+    },
+    {
+      heading: "Demo Video",
+      video: "https://www.youtube.com/embed/qM2qZJ-XIbI"
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   8. AlphaMini Bricklaying Robot
+───────────────────────────────────────────────────────── */
+window.PROJECTS["alphamini-bricklaying"] = {
+  title: "AlphaMini Bricklaying Robot",
+  status: "Completed",
+  cover: "src/alphamini/minicover.jpg",
+  tags: ["Robotics", "Voice Control", "Manipulation", "Fusion 360", "CAD"],
+  desc: "Voice-controlled bricklaying robot prototype with precise end-effector positioning and repeatable placement patterns. Multiple CAD iterations optimised for reach, stiffness, and payload.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          This prototype combines speech recognition with accurate robotic manipulation to automate
+          brick placement in structured patterns — reducing manual effort and improving consistency.
+        </p>
+        <ul>
+          <li>Voice command interface for intuitive operator control</li>
+          <li>Precise end-effector positioning for accurate brick placement</li>
+          <li>Pattern execution for consistent courses and spacing</li>
+          <li>Real-time feedback with corrective micro-adjustments</li>
+        </ul>
+      `
+    },
+    {
+      heading: "CAD Design Iterations",
+      content: `
+        <p>
+          Multiple CAD iterations in Fusion 360 to optimise reach, stiffness, and payload capacity:
+        </p>
+        <div class="cad-grid">
+          <figure>
+            <img src="src/alphamini/vone.PNG" alt="CAD v1" loading="lazy" decoding="async">
+            <figcaption>Base and linear guide</figcaption>
+          </figure>
+          <figure>
+            <img src="src/alphamini/vtwo.PNG" alt="CAD v2" loading="lazy" decoding="async">
+            <figcaption>Wrist + gripper assembly</figcaption>
+          </figure>
+          <figure>
+            <img src="src/alphamini/vthree.PNG" alt="CAD v3" loading="lazy" decoding="async">
+            <figcaption>Cable routing and guards</figcaption>
+          </figure>
+          <figure>
+            <img src="src/alphamini/vfour.PNG" alt="CAD v4" loading="lazy" decoding="async">
+            <figcaption>Full assembly and workspace envelope</figcaption>
+          </figure>
+        </div>
+      `
+    },
+    {
+      heading: "Demo Videos",
+      videos: [
+        "https://www.youtube.com/embed/_xXYHWuNsXk",
+        "https://www.youtube.com/embed/HHGH923CYmc"
+      ]
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   9. Wireless Zigbee Communication
+───────────────────────────────────────────────────────── */
+window.PROJECTS["zigbee-communication"] = {
+  title: "Wireless Zigbee Communication",
+  status: "Completed",
+  cover: "src/zb/zbc.jpg",
+  tags: ["IoT", "STM32", "Zigbee", "AES-128", "Embedded C"],
+  desc: "Secure, low-power Zigbee (XBee-S2C) link for real-time control and sensor telemetry between STM32 nodes. AES-128 encrypted communication suitable for distributed robotics and remote embedded control.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          Two <strong>Zigbee (XBee-S2C)</strong> modules paired with <strong>STM32 Nucleo</strong> boards
+          exchange data in real time. Each node interfaces with sensors and actuators, with traffic protected
+          by <strong>AES-128</strong> encryption using Zigbee's built-in security layer.
+        </p>
+        <ul>
+          <li>Real-time bidirectional sensor/actuator telemetry over Zigbee mesh</li>
+          <li>AES-128 hardware encryption via XBee built-in security</li>
+          <li>LDR + potentiometer inputs; SG90 servo actuation output</li>
+          <li>Suitable for distributed robotics, remote sensing, and embedded control</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Components",
+      content: `
+        <ul>
+          <li>2× Zigbee XBee-S2C radios</li>
+          <li>STM32 Nucleo-F411RE + STM32 Nucleo-F401RE</li>
+          <li>Light Dependent Resistor (LDR), Potentiometer</li>
+          <li>SG90 continuous-rotation servo</li>
+          <li>Resistors, jumper wires, breadboard</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Wiring — Transmitter Node",
+      content: `
+        <ul>
+          <li>UART: STM32 <code>TX</code> ⇄ XBee <code>DIN</code>, STM32 <code>RX</code> ⇄ XBee <code>DOUT</code></li>
+          <li>Power: 3.3V per XBee, common GND across both nodes</li>
+        </ul>
+      `,
+      img: "src/zb/t.png"
+    },
+    {
+      heading: "Wiring — Receiver Node",
+      content: `<p>Receiver drives SG90 servo based on incoming setpoints from the transmitter node.</p>`,
+      img: "src/zb/r.png"
+    },
+    {
+      heading: "Demo Video",
+      video: "https://www.youtube.com/embed/2xWlMc2PTuc"
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   10. Sensor and Signal Processing
+───────────────────────────────────────────────────────── */
+window.PROJECTS["sensor-signal-processing"] = {
+  title: "Sensor and Signal Processing",
+  status: "Completed",
+  cover: "src/rssp/pi.jpg",
+  tags: ["Raspberry Pi", "MCP3008", "ADC", "Ultrasonic", "Embedded"],
+  desc: "Raspberry Pi system fusing analog (potentiometer via MCP3008 ADC) and ultrasonic distance readings to command a servo motor in real time. Limit-switch homing, obstacle detection, and LED state indicators.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          A Raspberry Pi reads an analog potentiometer via MCP3008 ADC and an HC-SR04 ultrasonic
+          sensor, then drives an SG90 servo with real-time control logic. A limit switch provides
+          homing and restart capability; LEDs indicate system state throughout.
+        </p>
+        <ul>
+          <li>Homing with limit switch, then manual angle control via potentiometer</li>
+          <li>Obstacle detection within ~15 cm pauses / restricts servo motion</li>
+          <li>LED feedback for status and error conditions</li>
+          <li>Clean re-initialisation on restart</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Components",
+      content: `
+        <ul>
+          <li>Raspberry Pi 4B</li>
+          <li>MCP3008 8-channel 10-bit ADC (SPI)</li>
+          <li>SG90 servo motor</li>
+          <li>HC-SR04 ultrasonic sensor</li>
+          <li>Potentiometer, limit switch</li>
+          <li>LEDs (red/green), resistors, jumper wires, breadboard</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Demo Video",
+      video: "https://www.youtube.com/embed/Ezl3cftk74o"
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   11. Shibuya Traffic Light System
+───────────────────────────────────────────────────────── */
+window.PROJECTS["shibuya-traffic-light"] = {
+  title: "Shibuya Traffic Light System",
+  status: "Completed",
+  cover: "src/de/stl.jpg",
+  tags: ["STM32", "State Machine", "Embedded C", "Real-Time"],
+  desc: "Microcontroller-based simulation of Shibuya Crossing using LEDs and button inputs. Real-time state machine with vehicle and pedestrian phases, debounced inputs, and manual system open/close override.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          A state-driven traffic controller inspired by Shibuya Crossing. The system coordinates
+          vehicle and pedestrian LEDs through explicit phases, with button presses governing
+          transitions and manual overrides.
+        </p>
+        <ul>
+          <li><strong>DEFAULT</strong> — Idle layout (Green/Red); safe reset landing state</li>
+          <li><strong>TRAFFIC_LIGHT_SEQUENCE</strong> — Synchronised vehicle lights; ends with blinking amber</li>
+          <li><strong>BLINK_PG</strong> — Pedestrian crossing (Red → Green); onboard LED indicates crossing window</li>
+          <li><strong>CLOSE</strong> — Powers down all LEDs; halts operation</li>
+          <li><strong>OPEN</strong> — Reactivates system and returns to DEFAULT</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Components",
+      content: `
+        <ul>
+          <li>STM32 Nucleo-F401RE</li>
+          <li>5× Red LEDs, 5× Green LEDs, 4× Yellow LEDs</li>
+          <li>14× current-limiting resistors</li>
+          <li>Push buttons, jumper wires, breadboard</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Demo Video",
+      video: "https://www.youtube.com/embed/o-3O5DQ864w"
+    }
+  ]
+};
+
+
+/* ─────────────────────────────────────────────────────────
+   12. Chameleon-SRE
+───────────────────────────────────────────────────────── */
+window.PROJECTS["chameleon-sre"] = {
+  title: "Chameleon-SRE",
+  status: "In Progress",
+  cover: "src/chameleon/cover.png",
+  tags: ["Python", "LangGraph", "Ollama", "Kubernetes", "RAG", "ChromaDB", "Docker", "LLM", "Apple Silicon", "LangSmith"],
+  desc: "Autonomous Site Reliability Engineer — a Compound AI System that monitors, diagnoses, and self-heals Kubernetes clusters. Runs 100% locally on Apple Silicon via Ollama with a LangGraph state machine, RAG knowledge base, and direct kubectl access. Zero cloud costs.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          Chameleon-SRE is a Compound AI System designed to autonomously monitor, diagnose, and
+          repair Kubernetes clusters. Unlike simple chatbots, it operates as a <strong>Stateful Agent</strong>
+          using LangGraph — reasoning in loops (<em>Think → Act → Observe → Correct</em>) rather
+          than linear chains.
+        </p>
+        <ul>
+          <li><strong>100% Local</strong> — Runs entirely on Apple Silicon via Ollama (zero cloud costs)</li>
+          <li><strong>Self-Healing</strong> — Autonomous error detection and correction loops</li>
+          <li><strong>RAG-Powered</strong> — ChromaDB knowledge base of K8s docs, error playbooks, and incident logs</li>
+          <li><strong>Kubernetes Native</strong> — Direct cluster access via kubectl on Minikube</li>
+          <li><strong>Observable</strong> — Full LangSmith tracing for debugging agent decisions</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Architecture",
+      content: `
+        <pre style="background:#0a0f1a; padding:18px; border-radius:10px; overflow-x:auto; font-size:0.82em; line-height:1.7; border:1px solid rgba(59,130,246,.15);"><code>┌─────────────────────────────────────────────────────────────┐
+│                    Chameleon-SRE Agent                      │
+├─────────────────────────────────────────────────────────────┤
+│  Cognitive Engine : Llama 3.2 (3B) on Ollama               │
+│  Orchestrator     : LangGraph State Machine                 │
+│  Tools            : kubectl │ RAG Search │ Voice Alerts     │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│              Knowledge Base (ChromaDB)                      │
+│  - Kubernetes Documentation                                 │
+│  - Error Resolution Playbooks                               │
+│  - Historical Incident Logs                                 │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│           Kubernetes Cluster (Minikube)                     │
+│  - Pods, Services, Deployments                              │
+│  - ConfigMaps, Secrets, PVCs                                │
+└─────────────────────────────────────────────────────────────┘</code></pre>
+        <ul style="margin-top:14px;">
+          <li><strong>Cognitive Engine</strong> — Llama 3.2 (3B) on Ollama</li>
+          <li><strong>Orchestrator</strong> — LangGraph State Machine</li>
+          <li><strong>Tools</strong> — kubectl, RAG Search, Voice Alerts</li>
+          <li><strong>Knowledge Base</strong> — ChromaDB with K8s docs, error playbooks, incident logs</li>
+          <li><strong>Infrastructure</strong> — Minikube cluster (Pods, Services, Deployments, ConfigMaps)</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Agent in Action",
+      content: `
+        <pre style="background:#0a0f1a; padding:18px; border-radius:10px; overflow-x:auto; font-size:0.82em; line-height:1.7; border:1px solid rgba(52,211,153,.15);"><code>🦎 Chameleon-SRE v1.0 | Apple Silicon Optimized
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Device: mps (Apple Metal Performance Shaders)
+Model:  llama3.2 @ localhost:11434
+Knowledge Base: 127 documents loaded
+
+You: Check the status of all pods in the default namespace
+
+Agent: Executing kubectl get pods -n default...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Found 3 pods:
+  • nginx-deployment-abc123   (Running)
+  • redis-master-xyz789       (CrashLoopBackOff) ⚠️
+  • postgres-db-def456        (Running)
+
+Investigating redis-master-xyz789...
+[RAG Search] Querying knowledge base for "CrashLoopBackOff"...
+Found resolution: Missing ConfigMap 'redis-config'
+
+Attempting auto-repair...
+✅ Created ConfigMap 'redis-config'
+✅ Pod redis-master-xyz789 restarted successfully</code></pre>
+      `
+    },
+    {
+      heading: "Project Structure",
+      content: `
+        <pre style="background:#0a0f1a; padding:16px; border-radius:10px; overflow-x:auto; font-size:0.82em; line-height:1.6; border:1px solid rgba(59,130,246,.15);"><code>chameleon-sre/
+├── src/
+│   ├── config.py       # Hardware detection &amp; settings
+│   ├── state.py        # LangGraph state definition
+│   ├── tools.py        # kubectl, RAG, voice tools
+│   ├── agent.py        # Core agent logic
+│   └── main.py         # Entry point
+├── scripts/
+│   ├── ingest_docs.py  # RAG data ingestion
+│   └── test_k8s.py     # Infrastructure tests
+├── k8s/
+│   ├── deployment.yaml
+│   ├── rbac.yaml
+│   └── configmap.yaml
+├── Dockerfile
+├── docker-compose.yaml
+└── requirements.txt</code></pre>
+      `
+    },
+    {
+      heading: "Tech Stack",
+      content: `
+        <ul>
+          <li>Python 3.10+, LangGraph, LangChain</li>
+          <li>Ollama (Llama 3.2) — 100% local LLM inference on Apple Silicon</li>
+          <li>ChromaDB — vector store for RAG knowledge base</li>
+          <li>kubectl + Minikube — Kubernetes cluster management</li>
+          <li>Docker + docker-compose — containerised deployment</li>
+          <li>LangSmith — agent observability and decision tracing</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Roadmap",
+      content: `
+        <ul>
+          <li>✅ Phase 1 — Core agent with LangGraph</li>
+          <li>✅ Phase 2 — RAG knowledge base</li>
+          <li>✅ Phase 3 — Kubernetes deployment</li>
+          <li>🔄 Phase 4 — Prometheus metrics integration</li>
+          <li>🔄 Phase 5 — Slack / PagerDuty notifications</li>
+          <li>⬜ Phase 6 — Multi-cluster support</li>
+          <li>⬜ Phase 7 — Predictive failure detection</li>
+        </ul>
+      `
+    },
+    {
+      heading: "GitHub",
+      content: `
+        <p>
+          <a href="https://github.com/KyawLinnKhant/Chameleon_SRE" target="_blank" rel="noopener">
+            github.com/KyawLinnKhant/Chameleon_SRE
+          </a>
+        </p>
+      `
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   13. FC Barcelona Matches Prediction — ML
+───────────────────────────────────────────────────────── */
+window.PROJECTS["fcb-prediction"] = {
+  title: "FC Barcelona Match Prediction — ML",
+  status: "Completed",
+  cover: "src/fcb/barca.jpeg",
+  tags: ["Python", "Machine Learning", "Jupyter", "EDA", "La Liga", "Scikit-learn", "Neural Networks", "Ensemble Methods"],
+  desc: "Machine learning pipeline to predict La Liga match outcomes (Win / Draw / Loss) using 6 seasons of data (2019–2025). Covers full EDA, feature engineering (form streaks, efficiency ratios), and comparison of Logistic Regression, Ensemble methods, and Neural Networks across 4,318 team-match records.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          This project explores Spanish La Liga match data from 2019 to 2025 to uncover performance
+          patterns and build predictive models. The objective is to identify which factors — home
+          advantage, possession, expected goals, form streaks — contribute most to winning, drawing,
+          or losing a match.
+        </p>
+        <ul>
+          <li>Develop a full ML pipeline to predict football match results (Win / Draw / Loss)</li>
+          <li>Perform thorough Exploratory Data Analysis (EDA) to identify team statistics and seasonal trends</li>
+          <li>Implement extensive feature engineering — form streaks, efficiency ratios, venue encoding</li>
+          <li>Compare algorithms: Logistic Regression, Ensemble methods, and Neural Networks</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Dataset",
+      content: `
+        <p>
+          The dataset was sourced from Kaggle and covers six La Liga seasons (2019/20 to 2024/25).
+        </p>
+        <ul>
+          <li><strong>Records:</strong> 4,318 team-match records (2,159 unique fixtures)</li>
+          <li><strong>Teams:</strong> 27 different La Liga clubs</li>
+          <li><strong>Features:</strong> Goals (gf/ga), Expected Goals (xG/xGA), possession, shots, venue, referee, and attendance</li>
+          <li><strong>Split:</strong> Randomised 80/20 train-test partition on historical data</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Key Findings & Insights",
+      content: `
+        <ul>
+          <li><strong>Home Advantage</strong> — Match outcomes are strongly influenced by venue: 44.6% win rate at home vs 27.9% away</li>
+          <li><strong>Top Team Performance</strong> — Real Madrid led with 67.6% win rate; Barcelona recorded 65.7% over the study period</li>
+          <li><strong>xG Correlation</strong> — Expected Goals (xG) show a strong positive relationship with actual goals scored</li>
+          <li><strong>Attendance Trends</strong> — Sunday matches recorded the highest average attendance at approximately 32,400</li>
+          <li><strong>Possession</strong> — Winning teams averaged 51.2% possession vs 48.8% for losing teams — possession alone is not the sole driver of victory</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Analysis Methodology",
+      content: `
+        <ul>
+          <li><strong>Data Quality</strong> — Addressed 22.6% missing values in attendance; removed empty columns (e.g. 'notes')</li>
+          <li><strong>EDA</strong> — Analysed temporal trends, win rates by day of week, and per-team efficiency metrics</li>
+          <li><strong>Feature Engineering</strong> — Engineered form streaks, efficiency ratios, and encoded venue / referee variables</li>
+          <li><strong>Modelling</strong> — Trained and evaluated Logistic Regression, Ensemble methods (Random Forest, Gradient Boosting), and Neural Networks on the 80/20 split</li>
+        </ul>
+      `
+    },
+    {
+      heading: "GitHub",
+      content: `
+        <p>
+          <a href="https://github.com/KyawLinnKhant/FC-Barcelona-Matches-Prediction-ML" target="_blank" rel="noopener">
+            github.com/KyawLinnKhant/FC-Barcelona-Matches-Prediction-ML
+          </a>
+        </p>
+      `
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   14. SLAM TurtleBot — ROS
+───────────────────────────────────────────────────────── */
+window.PROJECTS["slam-turtlebot-ros"] = {
+  title: "ROS 2 EKF SLAM — TurtleBot3",
+  status: "Completed",
+  cover: "src/slam_turtlebot/ttb.jpg",
+  tags: ["ROS2", "EKF", "SLAM", "TurtleBot3", "LiDAR", "C++"],
+  desc: "EKF SLAM implemented from scratch on a TurtleBot3 Burger using ROS 2. The robot simultaneously builds a map of cylindrical landmarks and localises itself in real time — with ground truth, odometry-only, and EKF estimates visualised side-by-side in RViz.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          This project implements the full EKF SLAM pipeline from scratch — no slam_toolbox, no off-the-shelf
+          localisation. Everything from the math primitives to the sensor pipeline was written in C++
+          as a custom ROS 2 package stack.
+        </p>
+        <ul>
+          <li>Three pose estimates run simultaneously: ground truth (red), odometry-only dead-reckoning (blue), and EKF SLAM (green) — all visualised live in RViz</li>
+          <li>LiDAR returns clustered and fitted to circles via Taubin circle fitting for landmark detection</li>
+          <li>Data association via Mahalanobis distance; EKF predict/correct loop maintains a real-time landmark map</li>
+          <li>Custom <code>turtlelib</code> C++ library: SE(2) transforms, differential drive kinematics, EKF state estimation</li>
+          <li>Custom simulator (<code>nusim</code>) with configurable sensor noise — validated in sim and on real TurtleBot3 hardware</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Demo",
+      video: "https://youtu.be/2M8OZtKfG7k",
+      content: `
+        <p>
+          Three robots rendered simultaneously in RViz — each representing a different pose estimate.
+          The green EKF robot tracks close to ground truth while the blue odometry robot drifts over time.
+        </p>
+      `
+    },
+    {
+      heading: "Hardware",
+      content: `
+        <img src="src/slam_turtlebot/burger_hardware.jpg"
+          alt="TurtleBot3 Burger full component list"
+          loading="lazy" decoding="async"
+          style="width:100%;border-radius:12px;border:1px solid rgba(255,255,255,.07);margin-top:4px;">
+      `
+    },
+    {
+      heading: "Architecture",
+      content: `
+        <p>
+          The project is structured as five ROS 2 packages, each with a single responsibility:
+        </p>
+        <ul>
+          <li><strong>turtlelib</strong> — standalone C++ math library: SE(2), kinematics, EKF, circle fitting</li>
+          <li><strong>nusim</strong> — simulation environment with walled arena, cylindrical obstacles, and configurable sensor noise</li>
+          <li><strong>nuturtle_control</strong> — velocity commands → wheel speeds → dead-reckoning odometry</li>
+          <li><strong>nuslam</strong> — LiDAR clustering, landmark detection, data association, and EKF predict/correct loop</li>
+          <li><strong>nuturtle_description</strong> — URDF/Xacro models supporting multiple coloured robot instances for RViz comparison</li>
+        </ul>
+      `
+    },
+    {
+      heading: "GitHub",
+      content: `
+        <p>
+          <a href="https://github.com/KyawLinnKhant/slam_turtlebot_ros" target="_blank" rel="noopener">
+            github.com/KyawLinnKhant/slam_turtlebot_ros
+          </a>
+        </p>
+      `
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   NEW. Swarm Drones — ROS/CS
+───────────────────────────────────────────────────────── */
+window.PROJECTS["swarm-drones"] = {
+  title: "Swarm Drones — ROS/CS",
+  status: "Completed",
+  tags: ["ROS2", "Swarm Robotics", "UAV", "Multi-Agent", "Python", "C++"],
+  desc: "Multi-drone swarm coordination system built on ROS2 — distributed formation control, autonomous task allocation, and collision-free navigation across a fleet of UAVs.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          A swarm robotics framework for coordinating multiple drones using ROS2. The system
+          implements distributed task allocation, formation control, and collision-free navigation
+          across a fleet of UAVs — designed for scalable multi-agent aerial operations.
+        </p>
+        <ul>
+          <li>Distributed swarm coordination via ROS2 pub/sub architecture</li>
+          <li>Formation control with dynamic re-configuration</li>
+          <li>Collision-free trajectory planning across multiple agents</li>
+          <li>Scalable to arbitrary swarm sizes</li>
+        </ul>
+      `
+    },
+    {
+      heading: "GitHub",
+      content: `
+        <p>
+          <a href="https://github.com/KyawLinnKhant/Swarm_Drones_ROSCS" target="_blank" rel="noopener">
+            github.com/KyawLinnKhant/Swarm_Drones_ROSCS
+          </a>
+        </p>
+      `
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   NEW. Sim2Real Quadruped
+───────────────────────────────────────────────────────── */
+window.PROJECTS["sim2real-quad"] = {
+  title: "Sim2Real Quadruped",
+  status: "Completed",
+  tags: ["Sim2Real", "Quadruped", "RL", "Domain Randomisation", "Quadruped Robot", "Python", "Control"],
+  desc: "Sim-to-Real transfer pipeline for quadruped control — RL policy trained in simulation with domain randomisation and deployed on real hardware with minimal performance gap.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          A Sim2Real transfer pipeline for quadruped locomotion control. An RL policy is trained
+          in simulation with domain randomisation to bridge the reality gap, then deployed on
+          real hardware — achieving stable flight and manoeuvre execution with minimal degradation.
+        </p>
+        <ul>
+          <li>RL-based locomotion controller trained in simulation</li>
+          <li>Domain randomisation to close the sim2real gap</li>
+          <li>Policy transfer to real quadruped hardware</li>
+          <li>Stable walking, trotting, and terrain adaptation on real hardware</li>
+        </ul>
+      `
+    },
+    {
+      heading: "GitHub",
+      content: `
+        <p>
+          <a href="https://github.com/KyawLinnKhant/sim2real-quad" target="_blank" rel="noopener">
+            github.com/KyawLinnKhant/sim2real-quad
+          </a>
+        </p>
+      `
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   NEW. IsaacLab SO-ARM100/101
+───────────────────────────────────────────────────────── */
+window.PROJECTS["isaaclab-so-arm"] = {
+  title: "IsaacLab SO-ARM100/101",
+  status: "Completed",
+  tags: ["IsaacLab", "IsaacSim", "Sim2Real", "Manipulation", "RL", "Robotic Arm", "NVIDIA"],
+  desc: "RL-based dexterous manipulation training for the SO-ARM100/101 robotic arm in NVIDIA IsaacLab — GPU-accelerated policy learning with Sim2Real transfer to physical hardware.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          Training dexterous manipulation policies for the SO-ARM100 and SO-ARM101 robotic arms
+          using NVIDIA IsaacLab. Reinforcement learning policies are developed in GPU-accelerated
+          simulation and transferred to real hardware for physical task execution.
+        </p>
+        <ul>
+          <li>GPU-accelerated RL training in NVIDIA IsaacLab / IsaacSim</li>
+          <li>Dexterous manipulation tasks: pick-and-place, object reorientation</li>
+          <li>Domain randomisation for robust Sim2Real transfer</li>
+          <li>Policy deployment on SO-ARM100 / SO-ARM101 physical hardware</li>
+        </ul>
+      `
+    },
+    {
+      heading: "GitHub",
+      content: `
+        <p>
+          <a href="https://github.com/KyawLinnKhant/IsaacLab_SO-ARM100-101" target="_blank" rel="noopener">
+            github.com/KyawLinnKhant/IsaacLab_SO-ARM100-101
+          </a>
+        </p>
+      `
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   NEW. Drone Swarm Cooperative Transport
+───────────────────────────────────────────────────────── */
+window.PROJECTS["drone-swarm"] = {
+  title: "Drone Swarm Cooperative Transport",
+  status: "Completed",
+  cover: "src/drone_swarm/lift_hero.png",
+  tags: ["ROS Noetic", "C++", "CoppeliaSim", "Multi-UAV", "Swarm Robotics", "Eigen3", "Ubuntu"],
+  desc: "A decentralised multi-UAV system where a swarm of quadcopters cooperatively lifts, transports, and lands an unknown payload — with no explicit inter-drone communication. Each drone is an independent agent driven by three layered behaviours: obstacle avoidance, flocking, and scatter.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          This project implements a fully decentralised swarm intelligence approach to cooperative payload transport.
+          A fleet of quadcopters autonomously self-organises around an unknown payload, lifts it, navigates to a
+          destination, and lands — without any drone ever directly communicating with another.
+        </p>
+        <ul>
+          <li>No inter-drone communication — each agent acts solely on local sensor data</li>
+          <li>Three-layer subsumption architecture: obstacle avoidance → flocking → scatter (bacterium)</li>
+          <li>Adapts to arbitrary payload shapes and mass distributions (L-shape, peanut, rectangle)</li>
+          <li>Simulated in CoppeliaSim with a full ROS Noetic control stack in C++</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Subsumption Architecture",
+      content: `
+        <figure style="margin:0">
+          <img src="src/drone_swarm/archi.png" alt="Subsumption architecture diagram" loading="lazy" decoding="async"
+            style="width:100%;border-radius:10px;border:1px solid rgba(255,255,255,.07)">
+          <figcaption style="font-size:12px;color:#4a6080;text-align:center;margin-top:8px;line-height:1.5">
+            <strong style="color:#c8d8f0">Fig. 3 — Per-agent subsumption architecture</strong><br>
+            Four behaviour levels stacked so higher-priority layers suppress lower ones. Each drone independently decides its velocity without a central coordinator.
+          </figcaption>
+        </figure>
+        <p>
+          Sensors feed three concurrent behaviour generators — obstacle avoidance (proximity), flocking (vision-based relative
+          localisation), and bacterium scatter (ultrasonic load sensing). A velocity fusion block blends their outputs before
+          passing a single velocity command to the low-level flight controller.
+        </p>
+      `
+    },
+    {
+      heading: "Proximity Zones",
+      content: `
+        <figure style="margin:0">
+          <img src="src/drone_swarm/config.png" alt="Proximity zone configuration" loading="lazy" decoding="async"
+            style="width:100%;border-radius:10px;border:1px solid rgba(255,255,255,.07)">
+          <figcaption style="font-size:12px;color:#4a6080;text-align:center;margin-top:8px;line-height:1.5">
+            <strong style="color:#c8d8f0">Sensing zones around each drone</strong><br>
+            Near zone (red): triggers obstacle avoidance + bacterium behaviour. Mid/Far zone (green): activates flocking and gradient-following.
+          </figcaption>
+        </figure>
+      `
+    },
+    {
+      heading: "Transport Results",
+      content: `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+          <figure style="margin:0">
+            <img src="src/drone_swarm/transport1.png" alt="Trajectory — peanut shape payload" loading="lazy" decoding="async"
+              style="width:100%;border-radius:10px;border:1px solid rgba(255,255,255,.07)">
+            <figcaption style="font-size:12px;color:#4a6080;text-align:center;margin-top:8px;line-height:1.5">
+              <strong style="color:#c8d8f0">(a) Peanut-shape payload</strong> — drones scatter and self-position around the irregular load, then converge into a stable formation.
+            </figcaption>
+          </figure>
+          <figure style="margin:0">
+            <img src="src/drone_swarm/transport2.png" alt="Trajectory — rectangle shape payload" loading="lazy" decoding="async"
+              style="width:100%;border-radius:10px;border:1px solid rgba(255,255,255,.07)">
+            <figcaption style="font-size:12px;color:#4a6080;text-align:center;margin-top:8px;line-height:1.5">
+              <strong style="color:#c8d8f0">(b) Rectangle-shape payload</strong> — tighter formation from symmetric mass distribution; all six drones track a near-identical path.
+            </figcaption>
+          </figure>
+        </div>
+        <p>
+          The 3-D trajectory plots show the scatter phase (chaotic exploration near the payload) followed by a clean,
+          aligned cruise phase once all drones have latched and lifted. The rectangle case achieves noticeably tighter
+          formation coherence than the asymmetric peanut case — consistent with the load-sensing gradient dynamics.
+        </p>
+      `
+    },
+    {
+      heading: "GitHub",
+      content: `
+        <p>
+          <a href="https://github.com/KyawLinnKhant/Swarm_Drones_ROSCS" target="_blank" rel="noopener">
+            github.com/KyawLinnKhant/Swarm_Drones_ROSCS
+          </a>
+        </p>
+      `
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   NEW. Sim2Real Quadruped
+───────────────────────────────────────────────────────── */
+window.PROJECTS["sim2real-quad"] = {
+  title: "Sim2Real Quadruped",
+  status: "Completed",
+  cover: "src/sim2real_quad/quad_pic.jpg",
+  tags: ["IsaacLab", "ROS2", "PPO", "Sim2Real", "Arduino", "3D Printing", "PyTorch"],
+  desc: "A 3D-printed quadruped built from scratch — chassis, firmware, simulation, and deployment. The walking gait is a PPO policy trained in NVIDIA Isaac Lab and deployed live on hardware via ROS2 and Arduino. No hand-coded motion.",
+
+  sections: [
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          This project covers the full Sim2Real pipeline for legged locomotion — designing and printing
+          the physical robot, training a walking policy entirely in simulation, then deploying it live
+          on hardware with no additional tuning or motion programming.
+        </p>
+        <ul>
+          <li>12-DOF chassis fully 3D printed — 3 joints per leg (hip, thigh, calf), 165-component URDF</li>
+          <li>PPO policy trained in NVIDIA Isaac Lab using RSL-RL with domain randomisation across joint friction, mass, and terrain</li>
+          <li>Policy exported as PyTorch JIT and run at 20 Hz via a ROS2 inference node — CPU-only, no GPU on deployment</li>
+          <li>Arduino firmware written from scratch to parse serial joint targets and drive 12 servos via PCA9685 I2C</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Demo",
+      video: "https://www.youtube.com/shorts/bfiS8Mw4hU0",
+      content: `
+        <p>
+          The robot walking under live AI inference — trained in ~20 minutes, zero manual gait programming.
+        </p>
+      `
+    },
+    {
+      heading: "Hardware",
+      content: `
+        <div class="cad-grid">
+          <figure>
+            <img src="src/sim2real_quad/quad_pic.jpg" alt="Quadruped robot on workbench" loading="lazy" decoding="async">
+            <figcaption><strong>3D Printed Chassis</strong><br>X-brace legs for rigidity, wiring routed through conduit. STL files and CAD source included in the repo.</figcaption>
+          </figure>
+        </div>
+        <ul style="margin-top:14px">
+          <li>12 × MG996R servos — 3 per leg</li>
+          <li>Arduino UNO R3 + PCA9685 16-ch I2C servo driver</li>
+          <li>External 6V regulated power supply</li>
+          <li>ROS2 inference running on a laptop, commands sent over USB serial</li>
+        </ul>
+      `
+    },
+    {
+      heading: "Simulation & Training",
+      content: `
+        <p>
+          The robot was modelled in Isaac Lab with a full URDF and trained using PPO via RSL-RL.
+          The 72D observation vector covers base velocity, angular rate, gravity vector, velocity commands,
+          joint positions and velocities, previous actions, and foot contact forces — giving the policy
+          enough state to produce stable gaits without explicit motion planning.
+        </p>
+        <ul>
+          <li>~20 minutes on a single GPU — 999 episodes to convergence</li>
+          <li>Action space: 12 joint position targets at 20 Hz</li>
+          <li>Domain randomisation to close the sim-to-real gap without hardware-in-the-loop tuning</li>
+          <li>Exported as <code>.pt</code> (PyTorch JIT) and <code>.onnx</code> for flexible deployment</li>
+        </ul>
+      `
+    },
+    {
+      heading: "GitHub",
+      content: `
+        <p>
+          <a href="https://github.com/KyawLinnKhant/sim2real-quad" target="_blank" rel="noopener">
+            github.com/KyawLinnKhant/sim2real-quad
+          </a>
+        </p>
+      `
+    }
+  ]
+};
+
+/* ─────────────────────────────────────────────────────────
+   IsaacLab SO-ARM100 / SO-ARM101
+───────────────────────────────────────────────────────── */
+window.PROJECTS["isaaclab-so-arm"] = {
+  title: "IsaacLab SO-ARM100 / SO-ARM101",
+  status: "Completed",
+  cover: "src/so_arm/RoboArm_hero.jpg",
+  tags: ["Isaac Lab", "NVIDIA Isaac Sim", "PPO", "RSL-RL", "Reinforcement Learning", "Python", "ONNX", "Sim2Real"],
+  desc: "Reinforcement learning environments for the SO-ARM100 and SO-ARM101 robot arms built on NVIDIA Isaac Lab. Two task types — Reach (end-effector pose tracking) and Lift (pick up a cube) — trained via PPO with RSL-RL and exported as .pt and .onnx for deployment.",
+
+  sections: [
+    {
+      heading: "Demo",
+      content: `
+        <div style="text-align:center; margin-bottom: 16px;">
+          <img src="src/so_arm/RoboArm.gif" alt="SO-ARM RL Demo" loading="lazy"
+               style="width:100%; max-width:900px; border-radius:8px;">
+        </div>
+      `
+    },
+    {
+      heading: "Project Overview",
+      content: `
+        <p>
+          Custom Isaac Lab RL environments for the open-source SO-ARM100 and SO-ARM101 robot arms.
+          Both task types are implemented for both robot variants, trained with PPO via RSL-RL,
+          and policies are exported as <code>.pt</code> (PyTorch JIT) and <code>.onnx</code> after evaluation.
+        </p>
+        <table style="width:100%; border-collapse:collapse; margin-top:12px; font-size:0.92em;">
+          <thead>
+            <tr style="border-bottom:2px solid var(--border,#333)">
+              <th style="text-align:left; padding:8px 12px;">Task</th>
+              <th style="text-align:center; padding:8px 12px;">SO-ARM100</th>
+              <th style="text-align:center; padding:8px 12px;">SO-ARM101</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border,#222)">
+              <td style="padding:8px 12px;">Reach (end-effector pose tracking)</td>
+              <td style="text-align:center; padding:8px 12px;">✅</td>
+              <td style="text-align:center; padding:8px 12px;">✅</td>
+            </tr>
+            <tr>
+              <td style="padding:8px 12px;">Lift (pick up a cube)</td>
+              <td style="text-align:center; padding:8px 12px;">✅</td>
+              <td style="text-align:center; padding:8px 12px;">✅</td>
+            </tr>
+          </tbody>
+        </table>
+      `
+    },
+    {
+      heading: "Project Structure",
+      content: `
+        <pre style="background:var(--code-bg,#111); padding:16px; border-radius:8px; overflow-x:auto; font-size:0.85em; line-height:1.6;"><code>src/isaac_so_arm101/
+├── robots/
+│   ├── trs_so100/      ← SO-ARM100 articulation config + URDF
+│   └── trs_so101/      ← SO-ARM101 articulation config + URDF
+├── tasks/
+│   ├── reach/          ← Reach task: env, MDP, PPO config
+│   └── lift/           ← Lift task: env, MDP, PPO config
+└── scripts/
+    ├── rsl_rl/         ← train.py, play.py, cli_args.py
+    ├── list_envs.py
+    ├── zero_agent.py
+    └── random_agent.py</code></pre>
+      `
+    },
+    {
+      heading: "Setup & Usage",
+      content: `
+        <p>Install <strong>uv</strong>, clone and sync:</p>
+        <pre style="background:var(--code-bg,#111); padding:14px; border-radius:8px; overflow-x:auto; font-size:0.85em; line-height:1.6;"><code>curl -LsSf https://astral.sh/uv/install.sh | sh
+git clone https://github.com/KyawLinnKhant/IsaacLab_SO-ARM100-101.git
+cd IsaacLab_SO-ARM100-101
+uv sync</code></pre>
+        <p style="margin-top:14px;"><strong>Train:</strong></p>
+        <pre style="background:var(--code-bg,#111); padding:14px; border-radius:8px; overflow-x:auto; font-size:0.85em; line-height:1.6;"><code># Reach task
+uv run train --task SO-ARM100-Reach-v0 --headless
+
+# Lift task
+uv run train --task SO-ARM100-Lift-Cube-v0 --headless</code></pre>
+        <p style="margin-top:14px;"><strong>Evaluate:</strong></p>
+        <pre style="background:var(--code-bg,#111); padding:14px; border-radius:8px; overflow-x:auto; font-size:0.85em; line-height:1.6;"><code># Reach
+uv run play --task SO-ARM100-Reach-Play-v0
+
+# Lift
+uv run play --task SO-ARM100-Lift-Cube-Play-v0</code></pre>
+      `
+    },
+    {
+      heading: "Built With",
+      content: `
+        <ul>
+          <li><strong>Isaac Lab</strong> — simulation and RL framework</li>
+          <li><strong>NVIDIA Isaac Sim</strong> — physics backend</li>
+          <li><strong>RSL-RL</strong> — PPO training library</li>
+          <li><strong>SO-ARM100 / SO-ARM101</strong> — open-source robot hardware platform</li>
+          <li><strong>uv</strong> — fast Python package manager</li>
+        </ul>
+      `
+    },
+    {
+      heading: "GitHub",
+      content: `
+        <p>
+          <a href="https://github.com/KyawLinnKhant/IsaacLab_SO-ARM100-101" target="_blank" rel="noopener">
+            github.com/KyawLinnKhant/IsaacLab_SO-ARM100-101
+          </a>
+        </p>
+      `
+    }
+  ]
+};
+
+/* ═══════════════════════════════════════════════════════════
+   RENDER — reads ?id= from the URL and populates the page
+   project.html?id=rl-balance  →  loads PROJECTS["rl-balance"]
+═══════════════════════════════════════════════════════════ */
+(function () {
+  /* Only run on project.html (page must have #p-title) */
+  if (!document.getElementById('p-title')) return;
+
+  /* ── Set footer year ── */
+  const yEl = document.getElementById('y');
+  if (yEl) yEl.textContent = new Date().getFullYear();
+
+  /* ── YouTube helpers ── */
+  function getYouTubeId(url) {
+    try {
+      const u = new URL(url);
+      if (u.hostname.includes('youtu.be')) return u.pathname.slice(1);
+      const v = u.searchParams.get('v'); if (v) return v;
+      const parts = u.pathname.split('/').filter(Boolean);
+      const iS = parts.indexOf('shorts'); if (iS >= 0 && parts[iS + 1]) return parts[iS + 1];
+      const iE = parts.indexOf('embed');  if (iE >= 0 && parts[iE + 1]) return parts[iE + 1];
+      return null;
+    } catch { return null; }
+  }
+  function makeYT(id) {
+    const d = document.createElement('div');
+    d.className = 'yt-wrap';
+    d.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1"
+      title="YouTube video" allow="accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture"
+      allowfullscreen loading="lazy"></iframe>`;
+    return d;
+  }
+
+  /* ── Read project ID from URL: project.html?id=rl-balance ── */
+  const params = new URLSearchParams(window.location.search);
+  const projectId = params.get('id') || 'rl-balance'; // fallback just in case
+  const p = (window.PROJECTS || {})[projectId];
+
+  if (!p) {
+    document.getElementById('p-title').textContent = 'Project not found';
+    return;
+  }
+
+  /* ── Populate page ── */
+  document.title = (p.title || 'Project') + ' — Kyaw Linn Khant';
+  document.getElementById('p-title').textContent = p.title || 'Project';
+
+  if (p.status) {
+    const st = document.getElementById('p-status');
+    st.textContent = p.status; st.style.display = 'inline-block';
+    const k = p.status.trim().toLowerCase();
+    if (k.includes('complete'))             st.classList.add('complete');
+    else if (k.includes('progress'))        st.classList.add('inprogress');
+    else if (k.includes('draft') || k.includes('wip')) st.classList.add('draft');
+  }
+
+  const tagsEl = document.getElementById('p-tags');
+  (p.tags || []).forEach(t => {
+    const s = document.createElement('span');
+    s.className = 'badge'; s.textContent = t; tagsEl.appendChild(s);
+  });
+
+  if (p.cover || p.img) {
+    const img = document.getElementById('p-img');
+    img.src = p.cover || p.img; img.alt = p.title || ''; img.style.display = 'block';
+  }
+
+  document.getElementById('p-desc').textContent = p.desc || '';
+
+  const wrap = document.getElementById('p-sections');
+  (p.sections || []).forEach(sec => {
+    const d = document.createElement('div');
+    d.className = 'p-section';
+
+    if (sec.heading) {
+      const h = document.createElement('h3'); h.textContent = sec.heading; d.appendChild(h);
+    }
+
+    const vids = sec.video ? [sec.video] : (Array.isArray(sec.videos) ? sec.videos : []);
+
+    const addVid = url => {
+      const vid = getYouTubeId(url);
+      if (vid) {
+        d.appendChild(makeYT(vid));
+      } else {
+        const i = document.createElement('iframe');
+        Object.assign(i, { src: url, width: '100%', height: '400', frameBorder: '0', allowFullscreen: true, loading: 'lazy' });
+        i.style.marginBottom = '16px'; d.appendChild(i);
+      }
+    };
+
+    if (vids.length) {
+      vids.forEach(addVid);
+      if (sec.content) { const c = document.createElement('div'); c.className = 'project-description'; c.innerHTML = sec.content; d.appendChild(c); }
+      if (sec.img)     { const im = document.createElement('img'); im.src = sec.img; im.alt = sec.heading || ''; d.appendChild(im); }
+    } else {
+      if (sec.content) { const c = document.createElement('div'); c.className = 'project-description'; c.innerHTML = sec.content; d.appendChild(c); }
+      if (sec.img)     { const im = document.createElement('img'); im.src = sec.img; im.alt = sec.heading || ''; d.appendChild(im); }
+    }
+
+    wrap.appendChild(d);
+  });
+
+  if (p.media && (p.media.youtube || (p.media.images && p.media.images.length))) {
+    const mediaEl = document.getElementById('p-media');
+    mediaEl.style.display = 'block';
+    const h = document.createElement('h3'); h.textContent = 'Media'; mediaEl.appendChild(h);
+    if (p.media.youtube) { const vid = getYouTubeId(p.media.youtube); if (vid) mediaEl.appendChild(makeYT(vid)); }
+    if (Array.isArray(p.media.images) && p.media.images.length) {
+      const g = document.createElement('div'); g.className = 'gallery';
+      p.media.images.forEach(src => {
+        const im = document.createElement('img'); im.loading = 'lazy'; im.src = src; im.alt = p.title || ''; g.appendChild(im);
+      });
+      mediaEl.appendChild(g);
+    }
+  }
+})();
