@@ -1119,8 +1119,8 @@ window.PROJECTS["swarm-drones"] = {
       heading: "GitHub",
       content: `
         <p>
-          <a href="https://github.com/KyawLinnKhant/Swarm_Drones_ROSCS" target="_blank" rel="noopener">
-            github.com/KyawLinnKhant/Swarm_Drones_ROSCS
+          <a href="https://github.com/KyawLinnKhant/TetraSwarm_Drones_MJC" target="_blank" rel="noopener">
+            github.com/KyawLinnKhant/TetraSwarm_Drones_MJC
           </a>
         </p>
       `
@@ -1210,92 +1210,81 @@ window.PROJECTS["isaaclab-so-arm"] = {
    NEW. Drone Swarm Cooperative Transport
 ───────────────────────────────────────────────────────── */
 window.PROJECTS["drone-swarm"] = {
-  title: "Drone Swarm Cooperative Transport",
+  title: "TetraSwarm — Unknown-Maze Mapping & Cooperative Transport",
   status: "Completed",
-  cover: "src/drone_swarm/lift_hero.png",
-  tags: ["ROS Noetic", "C++", "CoppeliaSim", "Multi-UAV", "Swarm Robotics", "Eigen3", "Ubuntu"],
-  desc: "A decentralised multi-UAV system where a swarm of quadcopters cooperatively lifts, transports, and lands an unknown payload — with no explicit inter-drone communication. Each drone is an independent agent driven by three layered behaviours: obstacle avoidance, flocking, and scatter.",
+  cover: "src/drone_swarm/tetra_hero.png",
+  tags: ["MuJoCo", "Python", "Multi-UAV", "Occupancy Mapping", "Camera + Lidar", "Path Planning", "Swarm Robotics"],
+  desc: "A drone swarm explores an UNKNOWN maze with camera + lidar fusion — wall-following to build a shared occupancy map (~98% in ~80 s) — then cooperatively carries Tetris-shaped payloads to the furthest reachable corner along A* routes through the discovered corridors. Built in MuJoCo — no overhead camera, no prior map.",
 
   sections: [
     {
       heading: "Project Overview",
       content: `
+        <figure style="margin:0 0 6px">
+          <img src="src/drone_swarm/tetra_mission.gif" alt="TetraSwarm mission — map then deliver" loading="lazy" decoding="async"
+            style="width:100%;border-radius:10px;border:1px solid rgba(255,255,255,.07)">
+          <figcaption style="font-size:12px;color:#4a6080;text-align:center;margin-top:8px;line-height:1.5">
+            <strong style="color:#c8d8f0">Left: the maze · Right: the live occupancy map.</strong><br>
+            4 drones map the unknown maze, find the furthest corner, then deliver 5 Tetris blocks there — 0 wall contacts.
+          </figcaption>
+        </figure>
         <p>
-          This project implements a fully decentralised swarm intelligence approach to cooperative payload transport.
-          A fleet of quadcopters autonomously self-organises around an unknown payload, lifts it, navigates to a
-          destination, and lands — without any drone ever directly communicating with another.
+          The swarm knows nothing about the building — no prior map, only onboard sensors. It first MAPS the maze,
+          then uses that discovered map to plan and execute a cooperative delivery, all in one run.
         </p>
         <ul>
-          <li>No inter-drone communication — each agent acts solely on local sensor data</li>
-          <li>Three-layer subsumption architecture: obstacle avoidance → flocking → scatter (bacterium)</li>
-          <li>Adapts to arbitrary payload shapes and mass distributions (L-shape, peanut, rectangle)</li>
-          <li>Simulated in CoppeliaSim with a full ROS Noetic control stack in C++</li>
+          <li>Unknown-environment exploration — camera + lidar fusion, shared occupancy grid</li>
+          <li>Reactive wall-following: 2 drones follow the left wall, 2 the right (full boundary sweep)</li>
+          <li>Picks the geometric far corner from the discovered map, then A* routes through mapped corridors</li>
+          <li>Carries 5 Tetris payloads one-by-one, placed side-by-side — 0 wall contacts</li>
         </ul>
       `
     },
     {
-      heading: "Subsumption Architecture",
+      heading: "Mapping — camera + lidar fusion, wall-following",
       content: `
-        <figure style="margin:0">
-          <img src="src/drone_swarm/archi.png" alt="Subsumption architecture diagram" loading="lazy" decoding="async"
-            style="width:100%;border-radius:10px;border:1px solid rgba(255,255,255,.07)">
-          <figcaption style="font-size:12px;color:#4a6080;text-align:center;margin-top:8px;line-height:1.5">
-            <strong style="color:#c8d8f0">Fig. 3 — Per-agent subsumption architecture</strong><br>
-            Four behaviour levels stacked so higher-priority layers suppress lower ones. Each drone independently decides its velocity without a central coordinator.
-          </figcaption>
-        </figure>
         <p>
-          Sensors feed three concurrent behaviour generators — obstacle avoidance (proximity), flocking (vision-based relative
-          localisation), and bacterium scatter (ultrasonic load sensing). A velocity fusion block blends their outputs before
-          passing a single velocity command to the low-level flight controller.
+          Each drone fuses a forward depth camera (a dense reading of what's directly ahead) with its 360° lidar
+          (the sides + the long-range rays that build the map). The controller only ever turns — it never backs off:
+          <em>front+left blocked → turn right, front+right blocked → turn left</em>, dead-ends pivot out, and a
+          forward-diagonal ray rounds outside corners cleanly. The shared grid fills to ~98% in ~80 s.
         </p>
-      `
-    },
-    {
-      heading: "Proximity Zones",
-      content: `
         <figure style="margin:0">
-          <img src="src/drone_swarm/config.png" alt="Proximity zone configuration" loading="lazy" decoding="async"
+          <img src="src/drone_swarm/tetra_coverage.png" alt="Per-drone coverage of the maze" loading="lazy" decoding="async"
             style="width:100%;border-radius:10px;border:1px solid rgba(255,255,255,.07)">
           <figcaption style="font-size:12px;color:#4a6080;text-align:center;margin-top:8px;line-height:1.5">
-            <strong style="color:#c8d8f0">Sensing zones around each drone</strong><br>
-            Near zone (red): triggers obstacle avoidance + bacterium behaviour. Mid/Far zone (green): activates flocking and gradient-following.
+            <strong style="color:#c8d8f0">Coverage by drone</strong> — 2 left-wall + 2 right-wall followers sweep the whole maze.
           </figcaption>
         </figure>
       `
     },
     {
-      heading: "Transport Results",
+      heading: "Delivery — A* routes on the discovered map",
       content: `
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
           <figure style="margin:0">
-            <img src="src/drone_swarm/transport1.png" alt="Trajectory — peanut shape payload" loading="lazy" decoding="async"
+            <img src="src/drone_swarm/tetra_dock.png" alt="The dock with 5 Tetris blocks" loading="lazy" decoding="async"
               style="width:100%;border-radius:10px;border:1px solid rgba(255,255,255,.07)">
             <figcaption style="font-size:12px;color:#4a6080;text-align:center;margin-top:8px;line-height:1.5">
-              <strong style="color:#c8d8f0">(a) Peanut-shape payload</strong> — drones scatter and self-position around the irregular load, then converge into a stable formation.
+              <strong style="color:#c8d8f0">The dock</strong> — 5 Tetris blocks packed under the swarm.
             </figcaption>
           </figure>
           <figure style="margin:0">
-            <img src="src/drone_swarm/transport2.png" alt="Trajectory — rectangle shape payload" loading="lazy" decoding="async"
+            <img src="src/drone_swarm/tetra_routes.png" alt="A* transport routes on the discovered map" loading="lazy" decoding="async"
               style="width:100%;border-radius:10px;border:1px solid rgba(255,255,255,.07)">
             <figcaption style="font-size:12px;color:#4a6080;text-align:center;margin-top:8px;line-height:1.5">
-              <strong style="color:#c8d8f0">(b) Rectangle-shape payload</strong> — tighter formation from symmetric mass distribution; all six drones track a near-identical path.
+              <strong style="color:#c8d8f0">Delivery routes</strong> — dock → far corner, inside mapped corridors.
             </figcaption>
           </figure>
         </div>
-        <p>
-          The 3-D trajectory plots show the scatter phase (chaotic exploration near the payload) followed by a clean,
-          aligned cruise phase once all drones have latched and lifted. The rectangle case achieves noticeably tighter
-          formation coherence than the asymmetric peanut case — consistent with the load-sensing gradient dynamics.
-        </p>
       `
     },
     {
       heading: "GitHub",
       content: `
         <p>
-          <a href="https://github.com/KyawLinnKhant/Swarm_Drones_ROSCS" target="_blank" rel="noopener">
-            github.com/KyawLinnKhant/Swarm_Drones_ROSCS
+          <a href="https://github.com/KyawLinnKhant/TetraSwarm_Drones_MJC" target="_blank" rel="noopener">
+            github.com/KyawLinnKhant/TetraSwarm_Drones_MJC
           </a>
         </p>
       `
