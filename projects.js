@@ -1127,85 +1127,6 @@ window.PROJECTS["swarm-drones"] = {
     }
   ]
 };
-
-/* ─────────────────────────────────────────────────────────
-   NEW. Sim2Real Quadruped
-───────────────────────────────────────────────────────── */
-window.PROJECTS["sim2real-quad"] = {
-  title: "Sim2Real Quadruped",
-  status: "Completed",
-  tags: ["Sim2Real", "Quadruped", "RL", "Domain Randomisation", "Quadruped Robot", "Python", "Control"],
-  desc: "Sim-to-Real transfer pipeline for quadruped control — RL policy trained in simulation with domain randomisation and deployed on real hardware with minimal performance gap.",
-
-  sections: [
-    {
-      heading: "Project Overview",
-      content: `
-        <p>
-          A Sim2Real transfer pipeline for quadruped locomotion control. An RL policy is trained
-          in simulation with domain randomisation to bridge the reality gap, then deployed on
-          real hardware — achieving stable flight and manoeuvre execution with minimal degradation.
-        </p>
-        <ul>
-          <li>RL-based locomotion controller trained in simulation</li>
-          <li>Domain randomisation to close the sim2real gap</li>
-          <li>Policy transfer to real quadruped hardware</li>
-          <li>Stable walking, trotting, and terrain adaptation on real hardware</li>
-        </ul>
-      `
-    },
-    {
-      heading: "GitHub",
-      content: `
-        <p>
-          <a href="https://github.com/KyawLinnKhant/sim2real-quad" target="_blank" rel="noopener">
-            github.com/KyawLinnKhant/sim2real-quad
-          </a>
-        </p>
-      `
-    }
-  ]
-};
-
-/* ─────────────────────────────────────────────────────────
-   NEW. IsaacLab SO-ARM100/101
-───────────────────────────────────────────────────────── */
-window.PROJECTS["isaaclab-so-arm"] = {
-  title: "IsaacLab SO-ARM100/101",
-  status: "Completed",
-  tags: ["IsaacLab", "IsaacSim", "Sim2Real", "Manipulation", "RL", "Robotic Arm", "NVIDIA"],
-  desc: "RL-based dexterous manipulation training for the SO-ARM100/101 robotic arm in NVIDIA IsaacLab — GPU-accelerated policy learning with Sim2Real transfer to physical hardware.",
-
-  sections: [
-    {
-      heading: "Project Overview",
-      content: `
-        <p>
-          Training dexterous manipulation policies for the SO-ARM100 and SO-ARM101 robotic arms
-          using NVIDIA IsaacLab. Reinforcement learning policies are developed in GPU-accelerated
-          simulation and transferred to real hardware for physical task execution.
-        </p>
-        <ul>
-          <li>GPU-accelerated RL training in NVIDIA IsaacLab / IsaacSim</li>
-          <li>Dexterous manipulation tasks: pick-and-place, object reorientation</li>
-          <li>Domain randomisation for robust Sim2Real transfer</li>
-          <li>Policy deployment on SO-ARM100 / SO-ARM101 physical hardware</li>
-        </ul>
-      `
-    },
-    {
-      heading: "GitHub",
-      content: `
-        <p>
-          <a href="https://github.com/KyawLinnKhant/IsaacLab_SO-ARM100-101" target="_blank" rel="noopener">
-            github.com/KyawLinnKhant/IsaacLab_SO-ARM100-101
-          </a>
-        </p>
-      `
-    }
-  ]
-};
-
 /* ─────────────────────────────────────────────────────────
    NEW. Drone Swarm Cooperative Transport
 ───────────────────────────────────────────────────────── */
@@ -1223,8 +1144,8 @@ window.PROJECTS["drone-swarm"] = {
         <figure style="margin:0 0 6px">
           <img src="src/drone_swarm/tetra_mission.gif" alt="TetraSwarm mission — map then deliver" loading="lazy" decoding="async"
             style="width:100%;border-radius:10px;border:1px solid rgba(255,255,255,.07)">
-          <figcaption style="font-size:12px;color:#4a6080;text-align:center;margin-top:8px;line-height:1.5">
-            <strong style="color:#c8d8f0">Left: the maze · Right: the live occupancy map.</strong><br>
+          <figcaption style="font-size:14px;color:var(--color-muted);text-align:center;margin-top:8px;line-height:1.5">
+            <strong style="color:var(--color-ink)">Left: the maze · Right: the live occupancy map.</strong><br>
             4 drones map the unknown maze, find the furthest corner, then deliver 5 Tetris blocks there — 0 wall contacts.
           </figcaption>
         </figure>
@@ -1252,8 +1173,8 @@ window.PROJECTS["drone-swarm"] = {
         <figure style="margin:0">
           <img src="src/drone_swarm/tetra_coverage.png" alt="Per-drone coverage of the maze" loading="lazy" decoding="async"
             style="width:100%;border-radius:10px;border:1px solid rgba(255,255,255,.07)">
-          <figcaption style="font-size:12px;color:#4a6080;text-align:center;margin-top:8px;line-height:1.5">
-            <strong style="color:#c8d8f0">Coverage by drone</strong> — 2 left-wall + 2 right-wall followers sweep the whole maze.
+          <figcaption style="font-size:14px;color:var(--color-muted);text-align:center;margin-top:8px;line-height:1.5">
+            <strong style="color:var(--color-ink)">Coverage by drone</strong> — 2 left-wall + 2 right-wall followers sweep the whole maze.
           </figcaption>
         </figure>
       `
@@ -1265,15 +1186,15 @@ window.PROJECTS["drone-swarm"] = {
           <figure style="margin:0">
             <img src="src/drone_swarm/tetra_dock.png" alt="The dock with 5 Tetris blocks" loading="lazy" decoding="async"
               style="width:100%;border-radius:10px;border:1px solid rgba(255,255,255,.07)">
-            <figcaption style="font-size:12px;color:#4a6080;text-align:center;margin-top:8px;line-height:1.5">
-              <strong style="color:#c8d8f0">The dock</strong> — 5 Tetris blocks packed under the swarm.
+            <figcaption style="font-size:14px;color:var(--color-muted);text-align:center;margin-top:8px;line-height:1.5">
+              <strong style="color:var(--color-ink)">The dock</strong> — 5 Tetris blocks packed under the swarm.
             </figcaption>
           </figure>
           <figure style="margin:0">
             <img src="src/drone_swarm/tetra_routes.png" alt="A* transport routes on the discovered map" loading="lazy" decoding="async"
               style="width:100%;border-radius:10px;border:1px solid rgba(255,255,255,.07)">
-            <figcaption style="font-size:12px;color:#4a6080;text-align:center;margin-top:8px;line-height:1.5">
-              <strong style="color:#c8d8f0">Delivery routes</strong> — dock → far corner, inside mapped corridors.
+            <figcaption style="font-size:14px;color:var(--color-muted);text-align:center;margin-top:8px;line-height:1.5">
+              <strong style="color:var(--color-ink)">Delivery routes</strong> — dock → far corner, inside mapped corridors.
             </figcaption>
           </figure>
         </div>
